@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>第 11 章：文本逻辑性、事实性与低幻觉：客观打分体系</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item " >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">MLLM 多模理解与生成大模型测评教程（中文）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 1 章：测评总览与能力树</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 2 章：数据、指标与统计：从“可比”到“可信”</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 3 章：评测平台工程化：统一接口、批量运行、可视化与 CI</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 4 章：ASR 测评（语音识别）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 5 章：TTS 测评（语音合成）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 6 章：音频/音乐理解与生成测评 (chapter6.md)</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 7 章：自然图像理解与 OCR（含交通牌、扫码、天气等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 8 章：视频理解（含人流、事件、时序推理、驾驶相关）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 9 章：人头/人脸图像与视频理解（AU、Blendshape、DMS/OMS）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 10 章：GUI 截屏/录屏理解与操作评测（ScreenSuite 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item active" >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 11 章：文本逻辑性、事实性与低幻觉：客观打分体系</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 12 章：RAG 评测：检索与生成的端到端客观评分</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 13 章：文字 + 语音 Role-play 的主观人评（CharacterEval 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="11">第 11 章：文本逻辑性、事实性与低幻觉：客观打分体系</h1>
+<h2 id="111">11.1 开篇段落</h2>
+<p>在多模态大模型（MLLM）的系统中，文本模块是大脑的中枢（Central Hub）。无论模型“看”到了什么（图像/视频）或“听”到了什么（语音），最终的理解、推理和决策输出大多以文本形式呈现。如果文本生成的逻辑性（Logic）崩塌，或者出现事实性幻觉（Hallucination），那么前端感知做得再好，整个系统的可信度也会归零。</p>
+<p>本章致力于解决一个核心难题：<strong>如何不依赖昂贵的人力，客观、自动化且量化地评估模型的“智商”和“诚实度”</strong>。我们将深入探讨从传统的规则匹配（EM）到最前沿的原子断言（Atomic Claim）拆解技术，建立一套基于 LLM-as-a-Judge 的自动化裁判系统。同时，我们会特别关注模型“知道自己不知道”的能力（校准与拒答），这对于高风险的车载场景至关重要。</p>
+<hr />
+<h2 id="112">11.2 逻辑与推理能力的客观评测体系</h2>
+<p>逻辑推理能力不再是玄学，而是可以通过特定任务进行严格量化的硬指标。我们需要考察模型在面对复杂指令、数学问题和因果推断时的思维链路完整性。</p>
+<h3 id="1121">11.2.1 核心推理任务域</h3>
+<p>要全面评估逻辑，需覆盖以下象限：</p>
+<ol>
+<li><strong>硬逻辑与数学 (Reasoning &amp; Math)</strong>：<ul>
+<li><strong>基准</strong>：GSM8K (小学数学), MATH (竞赛数学), BBH (Big Bench Hard).</li>
+<li><strong>特点</strong>：答案唯一，适合自动化评分。不仅测算术，更测将自然语言转化为形式逻辑的能力。</li>
+</ul>
+</li>
+<li><strong>代码作为推理 (Code as Reasoning)</strong>：<ul>
+<li><strong>基准</strong>：HumanEval, MBPP.</li>
+<li><strong>逻辑</strong>：代码是逻辑最严密的语言。能写对代码的模型，通常具备较强的因果推理和规划能力。（详见第14章）</li>
+</ul>
+</li>
+<li><strong>多跳与常识推理 (Multi-hop &amp; Commonsense)</strong>：<ul>
+<li><strong>基准</strong>：HotpotQA (需结合多处信息), CSQA (常识).</li>
+<li><strong>难点</strong>：模型需具备“记忆检索”+“信息拼接”的能力。</li>
+</ul>
+</li>
+<li><strong>指令遵循与格式约束 (Instruction Following)</strong>：<ul>
+<li><strong>基准</strong>：IFEval.</li>
+<li><strong>场景</strong>：要求输出 JSON、不包含特定词汇、字数限制等。这是 Agent 工具调用的基础。</li>
+</ul>
+</li>
+</ol>
+<h3 id="1122-cot">11.2.2 过程监督：CoT 的评估</h3>
+<p>传统的评估只看最终答案（Outcome-based），但现在的评估强调<strong>思维链（Chain of Thought, CoT）</strong>的质量。</p>
+<div class="codehilite"><pre><span></span><code><span class="p">[</span><span class="err">输入</span><span class="p">]</span><span class="w"> </span><span class="s">&quot;小明有5个苹果，吃了2个，妈妈又给了3个，现在有几个？&quot;</span>
+
+<span class="p">[</span><span class="err">路径</span><span class="w"> </span><span class="n">A</span><span class="p">]</span>
+<span class="n">CoT</span><span class="o">:</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="err">。</span><span class="mi">3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="err">。</span>
+<span class="n">Answer</span><span class="o">:</span><span class="w"> </span><span class="mi">6</span>
+<span class="p">(</span><span class="err">评分</span><span class="o">:</span><span class="w"> </span><span class="err">逻辑正确，答案正确</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mf">1.0</span><span class="err">分</span><span class="p">)</span>
+
+<span class="p">[</span><span class="err">路径</span><span class="w"> </span><span class="n">B</span><span class="p">]</span><span class="w"> </span><span class="p">(</span><span class="err">歪打正着</span><span class="p">)</span>
+<span class="n">CoT</span><span class="o">:</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="err">。</span><span class="mi">7</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="err">。</span>
+<span class="n">Answer</span><span class="o">:</span><span class="w"> </span><span class="mi">6</span>
+<span class="p">(</span><span class="err">评分</span><span class="o">:</span><span class="w"> </span><span class="err">逻辑错误，答案正确</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="err">传统</span><span class="n">EM给1</span><span class="mf">.0</span><span class="err">分，逻辑深度测评给</span><span class="mi">0</span><span class="err">分</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li><strong>Rule of Thumb</strong>: 对于高阶测评，建议使用<strong>正则表达式</strong>提取中间步骤的数值或关键词，或者使用强模型（Teacher Model）验证 CoT 的合理性，而不仅仅是匹配最终数字。</li>
+</ul>
+<h3 id="1123-passk">11.2.3 鲁棒性指标：Pass@k</h3>
+<p>单次回答正确可能是运气。在逻辑测评中，推荐汇报 <code>Pass@k</code>：</p>
+<ul>
+<li><strong>定义</strong>：对同一个问题生成 $n$ 个回答，从中采样 $k$ 个，只要其中有一个正确就算通过，计算其期望概率。</li>
+<li><strong>意义</strong>：高 <code>Pass@1</code> 代表模型逻辑稳定；高 <code>Pass@100</code> 但低 <code>Pass@1</code> 代表模型有潜力但极不稳定。</li>
+</ul>
+<hr />
+<h2 id="113-hallucination">11.3 事实性与低幻觉（Hallucination）深度解析</h2>
+<p>幻觉是 MLLM 落地最大的阻碍。在客观评测中，我们必须将“感觉不对”转化为“数值多高”。</p>
+<h3 id="1131">11.3.1 幻觉的分类学</h3>
+<ol>
+<li><strong>内在幻觉 (Intrinsic Hallucination)</strong>：模型生成的输出与提供的上下文（Context）冲突。<ul>
+<li><em>例子</em>：RAG 检索出的文档说是“周二”，模型回答“周三”。</li>
+</ul>
+</li>
+<li><strong>外在幻觉 (Extrinsic Hallucination)</strong>：模型生成的输出违背了世界知识，或者在当前上下文中无法验证。<ul>
+<li><em>例子</em>：模型自信地编造了一个不存在的历史事件。</li>
+</ul>
+</li>
+</ol>
+<h3 id="1132-atomic-claim">11.3.2 黄金标准：基于原子断言 (Atomic Claim) 的评测</h3>
+<p>传统的 N-gram 指标（BLEU/ROUGE）对于幻觉检测几乎无效，因为它们只关注词汇重叠，不关注真值。现代标准流程是 <strong>FactScore</strong> 类方法：</p>
+<p><strong>流程步骤</strong>：</p>
+<ol>
+<li><strong>断言拆解 (Claim Extraction)</strong>：利用 GPT-4 或微调模型，将长回复拆解为不可再分的原子事实陈述。</li>
+<li><strong>独立校验 (Verification)</strong>：对每个原子断言进行真值判断。<ul>
+<li>对于 RAG：检索原文是否包含支持证据。</li>
+<li>对于世界知识：调用搜索引擎或维基百科 API。</li>
+</ul>
+</li>
+<li><strong>计算幻觉率</strong>：
+    $$ \text{Hallucination Rate} = \frac{\text{不支持的断言数}}{\text{总断言数}} $$</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="o">[</span><span class="n">模型生成</span><span class="o">]</span><span class="w"> </span><span class="ss">&quot;特斯拉Model 3是一款由福特汽车生产的电动轿车，续航1000公里。&quot;</span>
+
+<span class="n">Step</span><span class="w"> </span><span class="mi">1</span><span class="err">:</span><span class="w"> </span><span class="n">拆解</span>
+
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Claim</span><span class="w"> </span><span class="nl">A</span><span class="p">:</span><span class="w"> </span><span class="n">Model</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">是电动轿车</span><span class="err">。</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Claim</span><span class="w"> </span><span class="nl">B</span><span class="p">:</span><span class="w"> </span><span class="n">Model</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">由福特生产</span><span class="err">。</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Claim</span><span class="w"> </span><span class="nl">C</span><span class="p">:</span><span class="w"> </span><span class="n">Model</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">续航1000公里</span><span class="err">。</span>
+
+<span class="n">Step</span><span class="w"> </span><span class="mi">2</span><span class="err">:</span><span class="w"> </span><span class="n">校验</span><span class="w"> </span><span class="p">(</span><span class="n">检索知识库</span><span class="p">)</span>
+
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Claim</span><span class="w"> </span><span class="nl">A</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">TRUE</span><span class="o">]</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Claim</span><span class="w"> </span><span class="nl">B</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">FALSE</span><span class="o">]</span><span class="w"> </span><span class="p">(</span><span class="nl">Fact</span><span class="p">:</span><span class="w"> </span><span class="n">Tesla</span><span class="p">)</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Claim</span><span class="w"> </span><span class="nl">C</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">FALSE</span><span class="o">]</span><span class="w"> </span><span class="p">(</span><span class="nl">Fact</span><span class="p">:</span><span class="w"> </span><span class="o">~</span><span class="mi">600</span><span class="n">km</span><span class="p">)</span>
+
+<span class="n">Step</span><span class="w"> </span><span class="mi">3</span><span class="err">:</span><span class="w"> </span><span class="n">得分</span>
+
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">事实准确率</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">33.3</span><span class="o">%</span>
+</code></pre></div>
+
+<hr />
+<h2 id="114-llm-as-a-judge">11.4 客观打分体系：LLM-as-a-Judge 工程化</h2>
+<p>由于人工评估（Human Eval）太慢太贵，使用大模型（通常是 GPT-4o 或 Claude-3.5-Sonnet 级别）作为裁判（Judge）已是行业标准。但 Judge 本身也会犯错，需要工程手段约束。</p>
+<h3 id="1141">11.4.1 两种主流打分模式</h3>
+<ol>
+<li><strong>Pointwise Scoring (单点打分)</strong>：<ul>
+<li><em>Prompt</em>: "请给这个回答打分（1-5分），重点关注是否有事实错误。"</li>
+<li><em>问题</em>: Judge 往往手松，分数集中在 4-5 分，区分度低（Ceiling Effect）。</li>
+</ul>
+</li>
+<li><strong>Pairwise Comparison (成对比较/竞技场模式)</strong>：<ul>
+<li><em>Prompt</em>: "给定问题和两个回答（A和B），请判断哪个更好或平局。"</li>
+<li><em>优势</em>: 逼迫 Judge 做出选择，构建 Elo 排行榜。</li>
+<li><em>对策</em>: 必须处理 <strong>Tie（平局）</strong> 的情况，否则排名会失真。</li>
+</ul>
+</li>
+</ol>
+<h3 id="1142-judge-de-biasing">11.4.2 Judge 的偏见与去偏 (De-biasing)</h3>
+<ul>
+<li><strong>位置偏差 (Position Bias)</strong>：Judge 倾向于认为第一个出现的答案更好。<ul>
+<li><em>解决方案</em>: <strong>Swap &amp; Judge</strong>。如果是 Pairwise，必须跑两次：(A, B) 和 (B, A)。只有当两次判定结果逻辑一致（例如第一次选 A，第二次选 B，即始终选择了同一个内容）时，才算有效胜出。</li>
+</ul>
+</li>
+<li><strong>长度偏差 (Verbosity Bias)</strong>：Judge 倾向于认为写得长的更好，即使是废话。<ul>
+<li><em>解决方案</em>: 在 System Prompt 中明确惩罚冗余，或者使用参考答案（Reference-guided）进行语义相似度约束。</li>
+</ul>
+</li>
+<li><strong>自我偏好 (Self-Preference)</strong>：GPT-4 倾向于给 GPT-4 生成的风格打高分。<ul>
+<li><em>解决方案</em>: 使用多样化的 Judge 模型或者微调专用的 Judge 小模型（如基于 Llama-3-70B 微调的 Judge）。</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="115-refusal-calibration">11.5 不确定性与拒答 (Refusal &amp; Calibration)</h2>
+<p>一个高可信的模型，核心特征不是“全知全能”，而是“知之为知之”。</p>
+<h3 id="1151">11.5.1 拒答边界评测</h3>
+<p>构造三类数据集进行混合测试：</p>
+<ol>
+<li><strong>正常问题集</strong>：模型应回答。</li>
+<li><strong>不可回答集 (Unanswerable)</strong>：包含虚假前提（如“林黛玉倒拔垂杨柳的情节在哪一回？”）或时效性盲区。模型应反驳或拒答。</li>
+<li><strong>安全拒答集</strong>：涉及违规内容。模型必须拒答。</li>
+</ol>
+<p><strong>关键指标</strong>：</p>
+<ul>
+<li><strong>Rejection Recall</strong>: 应该拒答的问题中，成功拒答的比例。</li>
+<li><strong>Response Precision</strong>: 模型选择回答的问题中，确实能回答正确的比例。</li>
+</ul>
+<h3 id="1152-calibration">11.5.2 置信度校准 (Calibration)</h3>
+<p>我们希望模型的 Token 级概率（Logprobs）能代表真实的可信度。</p>
+<ul>
+<li><strong>ECE (Expected Calibration Error)</strong>：衡量置信度与准确率的对齐程度。</li>
+<li><strong>工程应用</strong>：在车机端，如果模型生成的平均置信度 &lt; 0.6，系统不应直接读出答案，而应话术降级为“我不太确定，建议您查阅手册”。</li>
+</ul>
+<hr />
+<h2 id="116">11.6 长文本与中文语境专项</h2>
+<h3 id="1161-needle-in-a-haystack-niah">11.6.1 大海捞针 (Needle In A Haystack, NIAH)</h3>
+<p>模型在处理长上下文（如几十页的用户手册）时，容易出现“迷失中间 (Lost in the Middle)”现象。</p>
+<ul>
+<li><strong>标准版</strong>：在 10k/32k/128k 文本的不同深度插入一句话，看能否召回。</li>
+<li><strong>进阶版 (Multi-needle)</strong>：插入多个相关联的事实，要求模型综合推理。例如插入“A在B房间”和“B房间在C楼”，问“A在哪栋楼”。</li>
+</ul>
+<h3 id="1162">11.6.2 中文逻辑的特殊性</h3>
+<ul>
+<li><strong>双重否定与反问</strong>：中文口语中“难道不...吗？”的逻辑极易被模型搞反。</li>
+<li><strong>数值单位换算</strong>：万、亿与 K、M、B 的转换，是中文数值推理的高频错误点。</li>
+</ul>
+<hr />
+<h2 id="117">11.7 本章小结</h2>
+<ol>
+<li><strong>从结果到过程</strong>：逻辑评测不仅要看答案对不对 (EM)，更要看思维链 (CoT) 是否合乎逻辑。</li>
+<li><strong>原子化打分</strong>：事实性评测必须拆解为原子断言 (Atomic Claims) 并在知识库中校验，FactScore 是当前最客观的方法。</li>
+<li><strong>Judge 工程</strong>：LLM-as-a-Judge 需要去偏处理（Swap, Reference-guided），不可盲目信任。</li>
+<li><strong>校准即安全</strong>：在落地应用中，模型的置信度校准 (Calibration) 和拒答策略比单纯的准确率更关键，它是防止误导用户的最后防线。</li>
+</ol>
+<hr />
+<h2 id="118">11.8 练习题</h2>
+<details>
+<summary><strong>练习 1：基础 - 幻觉类型识别 (点击展开)</strong></summary>
+<p><strong>题目</strong>：用户提供了一份文档，文档中说“本车轮胎建议胎压为 2.5 bar”。
+模型回答 A：“根据文档，建议胎压为 2.8 bar。”
+模型回答 B：“本车轮胎由米其林制造。”（文档中未提及）
+请判断 A 和 B 分别属于哪种幻觉？</p>
+<p><strong>Hint</strong>：区分“与原文冲突”和“原文未提及”。</p>
+<p><strong>答案</strong>：
+A 是 <strong>内在幻觉 (Intrinsic Hallucination)</strong> 或 忠实度缺失 (Unfaithfulness)。直接违背了 Context。
+B 是 <strong>外在幻觉 (Extrinsic Hallucination)</strong>。虽然可能是真的（世界知识），但在当前 RAG 任务中属于无中生有。</p>
+</details>
+<details>
+<summary><strong>练习 2：进阶 - ECE 计算 (点击展开)</strong></summary>
+<p><strong>题目</strong>：将模型输出按置信度分为两个桶（Bin）。
+Bin 1（置信度 0.5-0.7）：平均置信度 0.6，包含 100 个样本，实测准确率 0.4。
+Bin 2（置信度 0.7-1.0）：平均置信度 0.9，包含 100 个样本，实测准确率 0.9。
+请粗略计算该模型的 ECE（加权平均误差）。</p>
+<p><strong>Hint</strong>：$ECE = \sum \frac{N_{bin}}{N_{total}} |Acc_{bin} - Conf_{bin}|$</p>
+<p><strong>答案</strong>：
+Bin 1 误差：|0.4 - 0.6| = 0.2
+Bin 2 误差：|0.9 - 0.9| = 0.0
+权重均为 100/200 = 0.5。
+ECE = 0.5 * 0.2 + 0.5 * 0.0 = <strong>0.1</strong>。
+(这说明模型在低置信度区间过度自信)。</p>
+</details>
+<details>
+<summary><strong>练习 3：挑战 - 逻辑评测设计 (点击展开)</strong></summary>
+<p><strong>题目</strong>：你需要评测车载助手处理“多意图冲突”的逻辑能力。例如用户说“打开车窗，把空调开到最大”。请设计一个自动化评测方案。</p>
+<p><strong>Hint</strong>：这不仅仅是意图分类，还涉及物理常识（开窗散冷气）和优选策略。</p>
+<p><strong>答案</strong>：</p>
+<ol>
+<li><strong>数据集构建</strong>：构造 50 个包含冲突指令的样本（开窗+开空调、省电模式+激烈驾驶等）。</li>
+<li><strong>Oracle 定义</strong>：为每个样本定义“最佳策略”（如：确认用户意图，或执行开空调并建议关窗）。</li>
+<li><strong>Prompt Engineering (Judge)</strong>：编写 System Prompt，告知 Judge 车辆的能耗逻辑和舒适性逻辑。</li>
+<li><strong>评分标准</strong>：<ul>
+<li><strong>安全性 (Pass/Fail)</strong>：是否执行了危险操作。</li>
+<li><strong>逻辑自洽性 (1-5分)</strong>：是否识别出冲突并给出解释。</li>
+<li><strong>指令覆盖率 (0-100%)</strong>：合理的指令是否被执行。</li>
+</ul>
+</li>
+</ol>
+</details>
+<details>
+<summary><strong>练习 4：工程 - Judge 的位置偏差 (点击展开)</strong></summary>
+<p><strong>题目</strong>：在一次 Pairwise 评测中，模型 A 和 模型 B 实际上能力完全相同（输出一模一样的文字）。但是评测报告显示 模型 A 的胜率是 90%。请问发生了什么？如何用低成本验证你的猜想？</p>
+<p><strong>Hint</strong>：如果 A 总是作为第一个选项输入给 Judge...</p>
+<p><strong>答案</strong>：
+发生了严重的 <strong>位置偏差 (Position Bias)</strong>。Judge 倾向于选择 "Option 1"。
+<strong>低成本验证</strong>：将 A 和 B 的输入顺序对调，再次运行。如果结果变成了“模型 B 胜率 90%”，则证实了偏差。
+<strong>修正</strong>：强制判定平局，或者改进 Prompt 要求 Judge 先分析再打分。</p>
+</details>
+<hr />
+<h2 id="119-gotchas">11.9 常见陷阱与错误 (Gotchas)</h2>
+<ol>
+<li>
+<p><strong>数据泄露 (Data Contamination) 的伪高分</strong>：</p>
+<ul>
+<li><em>陷阱</em>：模型在 GSM8K 上得分 90%，但稍微改动数字（如把 "5个苹果" 改成 "7个苹果"）就做错。这是因为训练数据中包含了测试题。</li>
+<li><em>调试</em>：使用 <strong>Dynamic Evaluation</strong>。在评测时动态生成数值或实体名称，或者使用最新的真实新闻构建临时测试集。</li>
+</ul>
+</li>
+<li>
+<p><strong>Format Over Logic (格式掩盖逻辑)</strong>：</p>
+<ul>
+<li><em>陷阱</em>：在 Agent 评测中，只要模型输出了正确的 JSON 格式，解析器就不报错，导致评测通过。但 JSON 里的内容可能是错误的（例如 <code>{"action": "turn_left"}</code> 但应该是 <code>turn_right</code>）。</li>
+<li><em>调试</em>：评测脚本必须包含 <strong>Semantic Assertion</strong>（语义断言），不仅校验 <code>json.loads()</code> 成功，还要校验字段值的正确性。</li>
+</ul>
+</li>
+<li>
+<p><strong>Judge 的“好好先生”效应</strong>：</p>
+<ul>
+<li><em>陷阱</em>：使用了未针对 Judge 任务微调的模型（如普通的 Llama-2-Chat），它倾向于给出“两个都很好，各有千秋”的平局结论，导致评测失去区分度。</li>
+<li><em>调试</em>：在 Prompt 中强制要求区分高下，或者引入 <strong>Rubric（评分细则）</strong>，明确规定什么情况必须扣分。</li>
+</ul>
+</li>
+<li>
+<p><strong>过度依赖 Temperature=0</strong>：</p>
+<ul>
+<li><em>陷阱</em>：为了结果可复现，评测时全程使用 Temp=0。这掩盖了模型在多次生成中的<strong>逻辑抖动</strong>。</li>
+<li><em>调试</em>：对于逻辑类任务，建议进行 <strong>Self-Consistency</strong> 测试（Temp=0.7, 采样 N 次，看答案的众数）。如果众数占比低，说明模型逻辑极不稳定，即使做对了也是蒙的。</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="1110">11.10 车舱落地：驾舱一体中的逻辑与可靠性</h2>
+<p>在车内，逻辑错误不仅仅是体验问题，可能是法律责任或生命安全问题。</p>
+<h3 id="11101-rag">11.10.1 高风险场景：车主手册 RAG</h3>
+<ul>
+<li><strong>任务</strong>：用户问“仪表盘上这个像茶壶的红灯是什么意思？还能开吗？”</li>
+<li><strong>评测红线</strong>：<ul>
+<li><strong>幻觉零容忍</strong>：必须精准召回“机油压力报警”章节。如果召回失败，必须回答“未找到相关信息，请靠边停车查阅纸质手册”，严禁瞎编。</li>
+<li><strong>安全兜底</strong>：Judge 必须检查回复中是否包含“立即停车”、“联系服务站”等关键词，若建议“低速行驶观察”则判为 <strong>Fatal Error</strong>。</li>
+</ul>
+</li>
+</ul>
+<h3 id="11102-copilot-vs-driver">11.10.2 逻辑一致性：Copilot vs Driver</h3>
+<ul>
+<li><strong>场景</strong>：用户指令“帮我导航去机场，顺便把车窗全打开”。</li>
+<li><strong>环境逻辑</strong>：此时车速 100km/h，或者检测到正在下雨。</li>
+<li><strong>评测重点</strong>：模型不仅要听懂指令，还要结合环境状态（Vehicle Signals）进行逻辑仲裁。<ul>
+<li><em>正确逻辑</em>：“已为您规划去机场的路线。但检测到当前车速较快/正在下雨，出于安全/舒适考虑，暂不建议全开车窗，是否只开一条缝？”</li>
+<li><em>评分项</em>：<strong>Context-Aware Safety Check（环境感知安全校验）</strong>。</li>
+</ul>
+</li>
+</ul>
+<h3 id="11103">11.10.3 离线与云端的逻辑割裂</h3>
+<ul>
+<li><strong>痛点</strong>：车辆进入隧道或地库，网络中断，大模型切换为端侧小模型。</li>
+<li><strong>评测设计</strong>：建立 <strong>Logic Gap Benchmark</strong>。同一套逻辑题，分别跑云端和端侧。<ul>
+<li>如果端侧逻辑分数显著低于云端，必须设计<strong>逻辑降级锁</strong>：端侧模型仅允许处理媒体、空调等低风险指令，对于复杂的维修建议或长逻辑推理，直接报“网络不佳，无法处理此类复杂问题”，防止端侧强行推理导致幻觉。</li>
+</ul>
+</li>
+</ul>
+<h3 id="11104">11.10.4 记忆与逻辑的冲突</h3>
+<ul>
+<li><strong>场景</strong>：昨天用户说“我讨厌听摇滚”，今天用户说“放点Linkin Park”。</li>
+<li><strong>逻辑评测</strong>：测试模型处理 <strong>Context Update（上下文更新）</strong> 的能力。<ul>
+<li>模型不应死板遵守旧记忆，而应识别出“最新指令优先级高于长期偏好”。</li>
+<li>客观指标：<strong>Preference Overwrite Rate（偏好覆盖率）</strong>。</li>
+</ul>
+</li>
+</ul>
+            </article>
+            
+            <nav class="page-nav"><a href="chapter10.html" class="nav-link prev">← 第 10 章：GUI 截屏/录屏理解与操作评测（ScreenSuite 等）</a><a href="chapter12.html" class="nav-link next">第 12 章：RAG 评测：检索与生成的端到端客观评分 →</a></nav>
+        </main>
+    </div>
+</body>
+</html>

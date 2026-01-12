@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>第 2 章：数据、指标与统计：从“可比”到“可信”</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item " >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">MLLM 多模理解与生成大模型测评教程（中文）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 1 章：测评总览与能力树</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item active" >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 2 章：数据、指标与统计：从“可比”到“可信”</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 3 章：评测平台工程化：统一接口、批量运行、可视化与 CI</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 4 章：ASR 测评（语音识别）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 5 章：TTS 测评（语音合成）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 6 章：音频/音乐理解与生成测评 (chapter6.md)</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 7 章：自然图像理解与 OCR（含交通牌、扫码、天气等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 8 章：视频理解（含人流、事件、时序推理、驾驶相关）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 9 章：人头/人脸图像与视频理解（AU、Blendshape、DMS/OMS）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 10 章：GUI 截屏/录屏理解与操作评测（ScreenSuite 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 11 章：文本逻辑性、事实性与低幻觉：客观打分体系</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 12 章：RAG 评测：检索与生成的端到端客观评分</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 13 章：文字 + 语音 Role-play 的主观人评（CharacterEval 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="2">第 2 章：数据、指标与统计：从“可比”到“可信”</h1>
+<h2 id="21">2.1 开篇与目标</h2>
+<p>在 MLLM（多模态大语言模型）的开发周期中，测评（Evaluation）往往被视为“期末考试”。然而，在工业界，尤其是涉及行车安全的驾舱一体场景中，测评更像是“体检仪”和“导航图”。如果数据存在偏差，或者尺子（指标）本身是歪的，模型的所有优化都可能是在南辕北辙。</p>
+<p>许多团队面临的典型问题是：</p>
+<ul>
+<li><strong>“体感”偏差</strong>：开发人员觉得“效果不错”，但上线后用户投诉“听不懂人话”。</li>
+<li><strong>刷榜陷阱</strong>：在公开榜单上分数很高，但在特定业务场景（如车内噪音环境）下一塌糊涂。</li>
+<li><strong>指标失灵</strong>：生成文本通顺流畅（BLEU 分数高），但核心事实（如导航 POI）全是编造的。</li>
+</ul>
+<p>本章的目标是将测评从一种“感觉不错”（Vibes-based）的玄学，转变为<strong>“数据闭环、指标多维、统计显著”</strong>（Data-driven, Multi-dimensional, Statistically Significant）的工程科学。</p>
+<p><strong>学习目标</strong>：</p>
+<ol>
+<li><strong>构建数据防线</strong>：掌握数据防泄漏（Decontamination）与难例挖掘（Hard Mining）的系统方法。</li>
+<li><strong>精通多模态指标</strong>：深入理解 ASR、TTS、CV、NLP 各模态的“北极星指标”与“卫兵指标”。</li>
+<li><strong>统计显著性分析</strong>：学会使用 Bootstrap 和置信区间，拒绝被 0.5% 的随机波动欺骗。</li>
+<li><strong>掌握 LLM-as-a-Judge</strong>：了解如何训练、校准和使用大模型作为裁判。</li>
+<li><strong>车舱场景落地</strong>：建立针对驾舱环境的“硬门槛”与“影子模式”测评体系。</li>
+</ol>
+<hr />
+<h2 id="22">2.2 数据集选型与管理：地基的牢固度</h2>
+<h3 id="221-the-gold-rule">2.2.1 数据集选型原则 (The "GOLD" Rule)</h3>
+<p>选择或构建测评数据集时，请严格遵循 <strong>GOLD</strong> 原则：</p>
+<ul>
+<li><strong>G</strong>round Truth Quality (真值质量)：<ul>
+<li><strong>人工 &gt; 合成</strong>：尽管合成数据（如用 GPT-4 生成数据）很流行，但作为测评集的“金标准”，必须经过人工校验（Human-verified）。</li>
+<li><strong>多轮清洗</strong>：真值不是绝对正确的，需建立纠错机制。</li>
+</ul>
+</li>
+<li><strong>O</strong>ut-of-Distribution (分布外 - OOD)：<ul>
+<li>测试集必须包含训练集中未见过的场景。如果训练全是高清图，测试必须包含夜间/模糊图。</li>
+<li><em>Rule of Thumb</em>：测试集应当比训练集“更难、更脏、更真实”。</li>
+</ul>
+</li>
+<li><strong>L</strong>icense &amp; Privacy (合规)：<ul>
+<li>确保测评集可商用。</li>
+<li><strong>隐私红线</strong>：车内数据包含人脸、家庭住址语音等，入库测评前必须完成脱敏（见 2.8 节）。</li>
+</ul>
+</li>
+<li><strong>D</strong>ifficulty Gradient (难度梯度)：<ul>
+<li><strong>L1 (Sanity)</strong>：简单的指令跟随（“打开空调”）。</li>
+<li><strong>L2 (Common)</strong>：带参数的意图（“把空调调到24度并打开内循环”）。</li>
+<li><strong>L3 (Corner Case)</strong>：语义歧义、多模态冲突、高噪声（“别听他的，我不冷，还是关了吧” + 背景有人说话）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="222-the-decontamination-pipeline">2.2.2 数据泄漏防护体系 (The Decontamination Pipeline)</h3>
+<p>LLM 具有极强的记忆能力。一旦测试集混入了训练数据，测评就变成了“默写”。</p>
+<p><strong>常见的泄漏层级：</strong></p>
+<ol>
+<li><strong>Exact Match</strong>：字符串完全一致。</li>
+<li><strong>Near-Duplicate</strong>：同义词替换、图片裁剪/缩放/压缩。</li>
+<li><strong>Contamination via Prompt</strong>：测试集的 Prompt 模板被写入了微调数据，导致模型学会了格式而非逻辑。</li>
+<li><strong>Entity Leakage</strong>：虽然句子不同，但特定的冷门实体（如某个偏僻的充电站名）在训练集中大量出现，掩盖了模型的泛化能力。</li>
+</ol>
+<p><strong>多模态去重流水线设计 (ASCII)</strong>：</p>
+<div class="codehilite"><pre><span></span><code>[海量预训练/SFT数据]               [候选测试集]
+        |                              |
+        v                              v
++-----------------------+      +-----------------------+
+| 文本: MinHash/LSH     |      | 文本: N-gram 特征     |
+| 图像: Perceptual Hash |      | 图像: pHash/CLIP Embed|
+| 音频: Audio Fingerprint|     | 音频: MFCC 特征        |
++-----------------------+      +-----------------------+
+        |                              |
+        +-------------+----------------+
+                      |
+                      v
+            [向量相似度检索引擎 (Faiss/Milvus)]
+                      |
+            +---------+---------+
+            | 相似度 &gt; 阈值?    |
+            +---------+---------+
+            | Yes     | No      |
+            v         v
+       [疑似泄漏]   [安全入库]
+            |
+      [人工/GPT-4 仲裁]
+</code></pre></div>
+
+<h3 id="223-dynamic-difficulty-bucketing">2.2.3 动态难度分桶 (Dynamic Difficulty Bucketing)</h3>
+<p><strong>Rule of Thumb</strong>：永远不要只汇报一个平均分（Average Score）。平均分掩盖了模型在特定场景下的无能。
+测评报告必须包含按 Metadata 分桶的切片分析：</p>
+<p>| 分桶维度 | 示例 (Tags) | 作用 |</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">分桶维度</th>
+<th style="text-align: left;">示例 (Tags)</th>
+<th style="text-align: left;">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>模态噪声</strong></td>
+<td style="text-align: left;"><code>clean</code>, <code>highway_noise</code>, <code>music_background</code>, <code>rainy_visual</code>, <code>low_light</code></td>
+<td style="text-align: left;">评估鲁棒性</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>指令复杂度</strong></td>
+<td style="text-align: left;"><code>single_turn</code>, <code>multi_turn</code>, <code>implicit_intent</code> (隐含意图)</td>
+<td style="text-align: left;">评估推理深度</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>领域/技能</strong></td>
+<td style="text-align: left;"><code>navigation</code>, <code>entertainment</code>, <code>car_control</code>, <code>chitchat</code>, <code>reasoning</code></td>
+<td style="text-align: left;">评估技能短板</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>语言/口音</strong></td>
+<td style="text-align: left;"><code>mandarin</code>, <code>english</code>, <code>sichuan_dialect</code>, <code>cantonese</code>, <code>mixed</code> (中英混)</td>
+<td style="text-align: left;">评估泛化性</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="23">2.3 指标体系设计：多模态的度量衡</h2>
+<p>不同模态需要不同的“尺子”。以下是针对 MLLM 和车载场景的详细指标矩阵。</p>
+<h3 id="231-asr-tts">2.3.1 语音识别 (ASR) 与 语音合成 (TTS)</h3>
+<p><strong>ASR 指标</strong>：</p>
+<ul>
+<li><strong>WER / CER (Word/Character Error Rate)</strong>：通用标准。中文看 CER，英文看 WER。<ul>
+<li><em>Gotcha</em>：必须进行 <strong>ITN (Inverse Text Normalization)</strong> 归一化。模型输出 "二十四度" 而真值是 "24度"，不应算错。</li>
+</ul>
+</li>
+<li><strong>Entity-CER (关键实体错误率)</strong>：在车载场景，"导航去<strong>天安门</strong>" 识别成 "导航去<strong>天安然</strong>" 是致命错误，而 "帮我" 识别成 "替我" 是可接受的。需对 POI、人名、歌名加权计算。</li>
+<li><strong>Wake-up Metrics</strong>: <strong>FAR</strong> (False Accept Rate, 误唤醒率) vs <strong>FRR</strong> (False Reject Rate, 拒识率)。</li>
+</ul>
+<p><strong>TTS 指标</strong>：</p>
+<ul>
+<li><strong>MCD (Mel Cepstral Distortion)</strong>：客观声学距离（越低越好），但与听感相关性变弱。</li>
+<li><strong>MOS (Mean Opinion Score)</strong>：主观人评金标准（1-5分）。</li>
+<li><strong>SMOS (Similarity MOS)</strong>：在声音克隆（如复刻家人声音）场景，评估与参考音频的相似度。</li>
+<li><strong>Bad Case Rate (破音/瑕疵率)</strong>：针对电流声、吞字、机械音的专项检测（通常用 ASR 回转或信号处理算法检测）。</li>
+</ul>
+<h3 id="232-vision-image-video">2.3.2 视觉理解 (Vision: Image &amp; Video)</h3>
+<p>MLLM 的视觉指标不同于传统的 Detection/Segmentation：</p>
+<ul>
+<li><strong>Vision-Language Alignment</strong>:<ul>
+<li><strong>Hallucination Rate (幻觉率)</strong>：图片里没有“红灯”，模型说“前面红灯”。这是车舱大忌。</li>
+<li><strong>POPE (Polling-based Object Probing Evaluation)</strong>：通过构造“图里有没有X？”的问题来自动化测试幻觉。</li>
+</ul>
+</li>
+<li><strong>Grounding Accuracy</strong>:<ul>
+<li><strong>mIoU / Point Accuracy</strong>：如果模型说“点击那个咖啡店”，输出的坐标框是否准确覆盖目标？</li>
+</ul>
+</li>
+<li><strong>OCR Specifics (Signboard/Menu)</strong>:<ul>
+<li><strong>1-NED (Normalized Edit Distance)</strong>：用于评估路牌、菜单文字识别的准确度。</li>
+<li><strong>Key Information Extraction (KIE) F1</strong>：不仅要认出字，还要知道这是“价格”还是“距离”。</li>
+</ul>
+</li>
+</ul>
+<h3 id="233-rag-text-reasoning">2.3.3 文本、逻辑与 RAG (Text &amp; Reasoning)</h3>
+<ul>
+<li><strong>RAG 黄金三角 (Ragas 理念)</strong>：<ol>
+<li><strong>Context Recall (召回率)</strong>：检索到的文档是否包含答案？</li>
+<li><strong>Faithfulness (忠实度)</strong>：生成的答案是否完全基于检索文档（无外部幻觉）？</li>
+<li><strong>Answer Relevance (相关性)</strong>：答案是否回答了用户的问题？</li>
+</ol>
+</li>
+<li><strong>逻辑推理</strong>:<ul>
+<li><strong>Pass@k</strong>：对于代码生成或数学题，生成 k 次由于一次对即算对（衡量上限）。</li>
+<li><strong>Reasoning Trace Validity</strong>：使用 Judge 模型判断 CoT (Chain of Thought) 的推理步骤是否逻辑自洽。</li>
+</ul>
+</li>
+</ul>
+<h3 id="234-agent-gui">2.3.4 Agent 与 GUI 操作</h3>
+<ul>
+<li><strong>Success Rate (SR)</strong>：任务最终是否完成（如“设置导航到家”）。</li>
+<li><strong>Steps to Success (STS)</strong>：完成任务所需步数。越少越好。</li>
+<li><strong>Invalid Action Rate</strong>：模型输出了不存在的按钮、不可点击的坐标或错误的 API 参数的比例。</li>
+</ul>
+<hr />
+<h2 id="24">2.4 统计显著性：拒绝随机波动</h2>
+<p>如果你发布一个新版本，准确率从 75.2% 提升到 75.5%，这是进步吗？如果不做统计检验，这可能只是噪声。</p>
+<h3 id="241-bootstrap-the-gold-standard-for-ci">2.4.1 Bootstrap 重采样法 (The "Gold Standard" for CI)</h3>
+<p>对于深度学习模型，我们不知道误差分布是否符合正态分布，因此使用 Bootstrap 是最通用的方法。</p>
+<p><strong>操作步骤</strong>：</p>
+<ol>
+<li><strong>采样</strong>：从测试结果集合（如 1000 个样本的预测结果）中，<em>有放回地</em> 随机抽取 N 个样本。</li>
+<li><strong>计算</strong>：计算这 N 个样本的指标（如 Accuracy）。</li>
+<li><strong>循环</strong>：重复上述步骤 K 次（如 K=10000），得到 10000 个 Accuracy 分数。</li>
+<li><strong>区间</strong>：将这 10000 个分数排序，取第 2.5% 和第 97.5% 分位点，构成 <strong>95% 置信区间 (Confidence Interval, CI)</strong>。</li>
+</ol>
+<p><strong>判定法则</strong>：</p>
+<ul>
+<li>如果模型 A 的 CI 是 <code>[74.8, 75.6]</code>，模型 B 的 CI 是 <code>[75.1, 75.9]</code>。区间重叠严重 -&gt; <strong>差异不显著</strong>（No Significant Difference）。</li>
+<li>如果模型 A <code>[74.0, 74.8]</code>，模型 B <code>[75.2, 76.0]</code>。区间不重叠 -&gt; <strong>提升显著</strong>（Significantly Better）。</li>
+</ul>
+<h3 id="242-error-taxonomy">2.4.2 错误分析分类学 (Error Taxonomy)</h3>
+<p>统计不仅是看总分，更要对错误进行归因。建议在评测报告中维护一个 <strong>Error Heatmap</strong>：</p>
+<p>| 错误类型 | 定义 | 示例 | 修复优先级 |</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">错误类型</th>
+<th style="text-align: left;">定义</th>
+<th style="text-align: left;">示例</th>
+<th style="text-align: left;">修复优先级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Refusal / Safe-trigger</strong></td>
+<td style="text-align: left;">错误地触发了安全拦截</td>
+<td style="text-align: left;">问“如何切西瓜”被拒答“危险动作”</td>
+<td style="text-align: left;">高 (影响体验)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Hallucination</strong></td>
+<td style="text-align: left;">事实性错误/编造</td>
+<td style="text-align: left;">编造不存在的车辆功能</td>
+<td style="text-align: left;">极高 (欺诈风险)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Instruction Following</strong></td>
+<td style="text-align: left;">未遵循格式/约束</td>
+<td style="text-align: left;">要求输出 JSON 输出了 Markdown</td>
+<td style="text-align: left;">中</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Multimodal Mismatch</strong></td>
+<td style="text-align: left;">图文不符</td>
+<td style="text-align: left;">没看见图里的障碍物</td>
+<td style="text-align: left;">极高 (安全风险)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Reasoning Error</strong></td>
+<td style="text-align: left;">逻辑推导错误</td>
+<td style="text-align: left;">算错了停车费</td>
+<td style="text-align: left;">中</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="25">2.5 测评平台工程化：及时与全面</h2>
+<p>为了平衡成本（Cost）、速度（Latency）和准确度（Accuracy），建议建立三级测评金字塔。</p>
+<h3 id="251-l1-smoke-test-sanity-check">2.5.1 L1: 冒烟测试 (Smoke Test / Sanity Check)</h3>
+<ul>
+<li><strong>触发时机</strong>：每次代码提交 (PR Merge) 或模型 Checkpoint 保存时。</li>
+<li><strong>数据集</strong>：&lt; 50 个极具代表性的“探针样本”（包含 10 个正例，10 个必过的反例，10 个多模态简单例）。</li>
+<li><strong>目标</strong>：确保模型没“崩”（格式正确、不输出乱码、基本指令能听懂）。</li>
+<li><strong>耗时</strong>：&lt; 5 分钟。</li>
+</ul>
+<h3 id="252-l2-nightly-regression">2.5.2 L2: 每日回归 (Nightly Regression)</h3>
+<ul>
+<li><strong>触发时机</strong>：每晚定时运行（针对当日最新的最佳 Checkpoint）。</li>
+<li><strong>数据集</strong>：~1000 - 2000 样本。覆盖核心垂类（导航、音乐、车控、闲聊）和昨日修复的 Bug Case。</li>
+<li><strong>目标</strong>：绘制性能趋势图（Trendline），监控性能回退（Regression）。</li>
+<li><strong>告警</strong>：如果有指标下跌超过阈值（如 &gt;1%），自动发送邮件给 On-call 工程师。</li>
+</ul>
+<h3 id="253-l3-release-evaluation">2.5.3 L3: 版本全量评测 (Release Evaluation)</h3>
+<ul>
+<li><strong>触发时机</strong>：发版前 (Release Candidate)、季度里程碑。</li>
+<li><strong>数据集</strong>：全量数据集（OpenCompass 完整榜单 + 数万条私有车载长尾数据 + 影子模式回放数据）。</li>
+<li><strong>目标</strong>：生成最终的 <strong>Model Card</strong>，决定是否准许 OTA 推送。</li>
+<li><strong>方法</strong>：通常包含大规模的人工评测（Human Eval）和真车路测。</li>
+</ul>
+<hr />
+<h2 id="26-llm-as-a-judge">2.6 LLM-as-a-Judge：用模型测模型</h2>
+<p>在缺乏人工标注资源时，使用超大模型（如 GPT-4, Claude-3-Opus）作为裁判是行业标准做法。</p>
+<h3 id="261-judge">2.6.1 Judge 的三大偏见与校准</h3>
+<ol>
+<li><strong>Position Bias (位置偏见)</strong>：Judge 倾向于认为选项 A (或第一个出现的答案) 更好。<ul>
+<li><em>对策</em>：<strong>Swap Augmentation</strong>。交换答案顺序跑两次，只有两次都判同一个赢才算赢，否则算平局 (Tie)。</li>
+</ul>
+</li>
+<li><strong>Verbosity Bias (话痨偏见)</strong>：Judge 倾向于给写得长、排版花哨的答案高分，即使内容空洞。<ul>
+<li><em>对策</em>：在 Prompt 中明确惩罚冗余，或者在计算分数时引入长度惩罚因子。</li>
+</ul>
+</li>
+<li><strong>Self-Preference Bias (自我偏好)</strong>：模型倾向于给“自己家族”的模型打高分。<ul>
+<li><em>对策</em>：使用不同家族的模型组成 <strong>Judge Panel (裁判团)</strong> 投票，或定期计算 Judge 与人类标注的一致性 (Cohen's Kappa)。</li>
+</ul>
+</li>
+</ol>
+<h3 id="262-pointwise-vs-pairwise">2.6.2 评分模式：Pointwise vs. Pairwise</h3>
+<ul>
+<li><strong>Pointwise (单点打分)</strong>：给一个答案打 1-10 分。<ul>
+<li><em>缺点</em>：模型很难把握“7分”和“8分”的绝对标准，方差大。</li>
+</ul>
+</li>
+<li><strong>Pairwise (成对比较)</strong>：给定两个模型的答案 A 和 B，问 Judge “哪个更好？”<ul>
+<li><em>优点</em>：更稳定，符合人类直觉（Elo Rating 系统基础）。</li>
+<li><em>推荐</em>：在构建 Leaderboard 时首选 Pairwise。</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="27">2.7 车舱落地：驾舱一体专用测评</h2>
+<p>车内环境特殊，涉及实时性、隐私和多任务并发。</p>
+<h3 id="271-shadow-mode">2.7.1 影子模式 (Shadow Mode) 与数据回放</h3>
+<p>真实的车主数据是最宝贵的，但涉及隐私无法直接上传。</p>
+<ul>
+<li><strong>Record</strong>: 在车端对 ASR 文本、CAN 总线状态、UI 操作进行脱敏记录。</li>
+<li><strong>Replay</strong>: 构建 <strong>Simulator (仿真器)</strong>。将记录下来的“上下文”（如车速 100km/h，正在播放音乐，雨刮器开启）重新注入给待测模型。</li>
+<li><strong>Eval</strong>: 对比待测模型的输出（Action）与车主当时的真实操作（Ground Truth Action）。如果车主当时采纳了建议，则为正例；如果车主打断了播报，则为负例。</li>
+</ul>
+<h3 id="272-hard-gates">2.7.2 硬门槛指标 (Hard Gates)</h3>
+<p>对于车载模型，以下指标具有<strong>“一票否决权”</strong>：</p>
+<ol>
+<li><strong>TTFT (Time To First Token)</strong>: 首字延迟。<ul>
+<li><em>标准</em>：端侧应 &lt; 300ms，云侧应 &lt; 800ms。驾驶时让用户等 2 秒是不可接受的。</li>
+</ul>
+</li>
+<li><strong>CPU/Memory Footprint</strong>:<ul>
+<li><em>标准</em>：模型运行期间，不得导致 IVI (In-Vehicle Infotainment) 界面帧率低于 30fps，不得触发 OOM (Out of Memory)。</li>
+</ul>
+</li>
+<li><strong>Safety Refusal Rate (安全拒答率)</strong>:<ul>
+<li><em>场景</em>：用户问“怎么把刹车线剪断”。</li>
+<li><em>标准</em>：必须 100% 拦截。</li>
+</ul>
+</li>
+</ol>
+<h3 id="273-consistency">2.7.3 端云一致性 (Consistency)</h3>
+<p>车机常在“在线（云端大模型）”和“离线（端侧小模型）”之间切换。</p>
+<ul>
+<li><strong>测评方法</strong>：构建一个包含 500 个常用指令的测试集。</li>
+<li><strong>指标</strong>：计算 <code>Similarity(Output_Cloud, Output_Edge)</code>。</li>
+<li><strong>目标</strong>：虽然端侧回复可以简短，但<strong>核心意图</strong>和<strong>执行动作</strong>必须与云端一致。</li>
+</ul>
+<hr />
+<h2 id="28">2.8 本章小结</h2>
+<ol>
+<li><strong>数据决定上限</strong>：遵循 GOLD 原则，建立严格的去污染流水线。</li>
+<li><strong>模态决定尺子</strong>：ASR 看 ITN 后的 CER，RAG 看忠实度，车控看成功率。</li>
+<li><strong>统计决定可信</strong>：不做 Bootstrap 的提升都是耍流氓。</li>
+<li><strong>工程决定效率</strong>：冒烟 -&gt; 回归 -&gt; 全量，分级测试保障敏捷迭代。</li>
+<li><strong>车舱决定生死</strong>：时延、资源占用、安全拦截是比准确率更重要的硬门槛。</li>
+</ol>
+<hr />
+<h2 id="29">2.9 练习题</h2>
+<h3 id="_1">基础题</h3>
+<ol>
+<li><strong>概念辨析</strong>：解释 WER 计算公式 <code>(I+D+S)/N</code> 中 I, D, S 分别代表什么？如果一句话标准答案是“打开空调”，模型识别为“帮我把空调打开”，WER 是多少？这合理吗？如果不合理，应引入什么评估手段？</li>
+<li><strong>数据去重</strong>：在做图像理解测评时，为什么简单的 MD5 校验无法发现数据泄漏？请列举至少两种有效的图像去重算法。</li>
+<li><strong>指标计算</strong>：模型 A 在测试集上的准确率是 80%，模型 B 是 81%。测试集只有 100 个样本。请凭直觉判断，模型 B 是否显著强于模型 A？（提示：思考标准差）。</li>
+</ol>
+<h3 id="_2">挑战题</h3>
+<ol start="4">
+<li><strong>场景设计</strong>：你要评测一个“多模态儿童看护助手”（车载后排 OMS）。它需要识别儿童是否哭闹、是否遗留。请设计一个测评方案，包含：数据如何采集（考虑伦理）、核心指标是什么、如何平衡误报（False Alarm）带来的用户骚扰？</li>
+<li><strong>Judge 校准</strong>：你发现 GPT-4 作为 Judge 时，总是倾向于给包含“抱歉，我不能...”的安全拒答回复打低分，即使该问题确实有危险。如何通过 Prompt Engineering 或 Few-shot 示例修正这个偏见？</li>
+<li><strong>端到端思考</strong>：用户说“我觉得有点冷”。传统评测看 Intent Classification 是否分类为 <code>ADJUST_TEMP</code>。但在大模型时代，模型可能会反问“要把温度调高一点吗？”或者直接执行。请设计一种能够兼容“直接执行”和“澄清追问”两种正确行为的评测 Metrics。</li>
+</ol>
+<details>
+<summary>点击展开：练习题提示 (Hints)</summary>
+<ul>
+<li><strong>题 1 提示</strong>：I=Insertion, D=Deletion, S=Substitution。WER 会很高，因为字面上完全不同。需要引入 Sem-WER (Semantic WER) 或基于意图槽位的评估 (Slot F1)。</li>
+<li><strong>题 2 提示</strong>：图片可能经过了压缩、裁剪、调色。MD5 会变。需要 pHash (感知哈希) 或 CLIP Embedding Cosine Similarity。</li>
+<li><strong>题 3 提示</strong>：100 个样本，误差范围大概在 $\sqrt{p(1-p)/n}$ 约等于 4-5%。所以 1% 的差距极大概率是噪声。需要更多数据或 Bootstrap 验证。</li>
+<li><strong>题 4 提示</strong>：数据可用演员摆拍或合成。核心指标是 Recall（必须检出遗留），但 Precision 可以稍低。平衡策略：分级告警（低置信度只亮灯不鸣笛）。</li>
+<li><strong>题 5 提示</strong>：在 System Prompt 中定义“安全第一”的原则，并在 Few-shot 中提供一个“高分拒答”的样例，告诉 Judge 好的拒答是有价值的。</li>
+<li><strong>题 6 提示</strong>：使用“对话状态跟踪 (DST)”或“任务完成率”作为指标。只要最终达成了“温度升高”这个状态，中间是直接执行还是多轮对话都可以算 Success。可以引入“交互步数”作为辅助指标（越少越好）。</li>
+</ul>
+</details>
+<hr />
+<h2 id="210-gotchas">2.10 常见陷阱与错误 (Gotchas)</h2>
+<ul>
+<li><strong>陷阱 1：Text Normalization (文本归一化) 的缺失</strong><ul>
+<li><em>现象</em>：ASR 准确率极低，发现是因为真值是 "100km"，模型输出 "一百公里"。</li>
+<li><em>调试</em>：在评测脚本中加入强力的规则正则（ITN），统一数字、标点、单位、大小写。</li>
+</ul>
+</li>
+<li><strong>陷阱 2：测试集“太干净”</strong><ul>
+<li><em>现象</em>：实验室里准确率 99%，上车后只有 60%。</li>
+<li><em>原因</em>：测试集是在录音棚录的，没有风噪、胎噪和多人说话。</li>
+<li><em>调试</em>：必须进行 <strong>Data Augmentation (数据增强)</strong>，在干净语音上叠加不同信噪比 (SNR) 的车内噪音。</li>
+</ul>
+</li>
+<li><strong>陷阱 3：过度依赖 LLM Judge</strong><ul>
+<li><em>现象</em>：GPT-4 说好，人说不好。</li>
+<li><em>原因</em>：LLM Judge 对“语气”、“阴阳怪气”或“特定的车载暗语”理解不到位。</li>
+<li><em>调试</em>：保持 5%-10% 的样本进行人工抽检（Human-in-the-loop），持续校准 Judge 的 Prompt。</li>
+</ul>
+</li>
+<li><strong>陷阱 4：忽略了“空集”召回</strong><ul>
+<li><em>现象</em>：在物体检测/OCR 任务中，如果图里什么都没有，模型也应该输出“无”。很多指标计算库会忽略这些样本。</li>
+<li><em>调试</em>：确保指标代码正确处理了 TP=0, FP=0, FN=0, TN=1 的情况，不要出现除以零异常。</li>
+</ul>
+</li>
+</ul>
+            </article>
+            
+            <nav class="page-nav"><a href="chapter1.html" class="nav-link prev">← 第 1 章：测评总览与能力树</a><a href="chapter3.html" class="nav-link next">第 3 章：评测平台工程化：统一接口、批量运行、可视化与 CI →</a></nav>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>MLLM 多模理解与生成大模型测评教程（中文）</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item active" >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">MLLM 多模理解与生成大模型测评教程（中文）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 1 章：测评总览与能力树</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 2 章：数据、指标与统计：从“可比”到“可信”</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 3 章：评测平台工程化：统一接口、批量运行、可视化与 CI</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 4 章：ASR 测评（语音识别）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 5 章：TTS 测评（语音合成）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 6 章：音频/音乐理解与生成测评 (chapter6.md)</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 7 章：自然图像理解与 OCR（含交通牌、扫码、天气等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 8 章：视频理解（含人流、事件、时序推理、驾驶相关）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 9 章：人头/人脸图像与视频理解（AU、Blendshape、DMS/OMS）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 10 章：GUI 截屏/录屏理解与操作评测（ScreenSuite 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 11 章：文本逻辑性、事实性与低幻觉：客观打分体系</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 12 章：RAG 评测：检索与生成的端到端客观评分</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 13 章：文字 + 语音 Role-play 的主观人评（CharacterEval 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="mllm">MLLM 多模理解与生成大模型测评教程（中文）</h1>
+<blockquote>
+<p>仓库文件组织：<code>index.md</code> + <code>chapter1.md</code> … <code>chapter16.md</code><br />
+覆盖模态：图像 / 视频 / 语音 / 音乐 / 文字（输入与输出）<br />
+测评类型：客观自动化打分 + 主观人评 + 端到端系统评测 + 持续回归（CI）<br />
+<strong>约定：每一章最后都包含「车舱落地：驾舱一体」专门小节</strong>（对话 + RAG/云端fallback + 记忆 + DMS/OMS + 前后排语音 I/O + 中控屏 HTML/UI 控制 + 地图/POI API + …）</p>
+</blockquote>
+<hr />
+<h2 id="_1">目录</h2>
+<ul>
+<li><a href="chapter1.html">第 1 章：测评总览与能力树</a></li>
+<li><a href="chapter2.html">第 2 章：数据、指标与统计：从“可比”到“可信”</a></li>
+<li><a href="chapter3.html">第 3 章：评测平台工程化：统一接口、批量运行、可视化与 CI</a></li>
+<li><a href="chapter4.html">第 4 章：ASR 测评（语音识别）</a></li>
+<li><a href="chapter5.html">第 5 章：TTS 测评（语音合成）</a></li>
+<li><a href="chapter6.html">第 6 章：音频/音乐理解与生成测评</a></li>
+<li><a href="chapter7.html">第 7 章：自然图像理解与 OCR（含交通牌、扫码、天气等）</a></li>
+<li><a href="chapter8.html">第 8 章：视频理解（含人流、事件、时序推理、驾驶相关）</a></li>
+<li><a href="chapter9.html">第 9 章：人头/人脸图像与视频理解（AU、Blendshape、DMS/OMS）</a></li>
+<li><a href="chapter10.html">第 10 章：GUI 截屏/录屏理解与操作评测（ScreenSuite 等）</a></li>
+<li><a href="chapter11.html">第 11 章：文本逻辑性、事实性与低幻觉：客观打分体系</a></li>
+<li><a href="chapter12.html">第 12 章：RAG 评测：检索与生成的端到端客观评分</a></li>
+<li><a href="chapter13.html">第 13 章：文字 + 语音 Role-play 的主观人评（CharacterEval 等）</a></li>
+<li><a href="chapter14.html">第 14 章：代码生成能力评测（作为逻辑性与 Agent 能力 Proxy）</a></li>
+<li><a href="chapter15.html">第 15 章：Agent 能力评测（ReAct、工具调用、长任务、记忆）</a></li>
+<li><a href="chapter16.html">第 16 章：GUI→代码 + 端到端驾舱一体基准（系统集成/回归/反查）</a></li>
+</ul>
+<hr />
+<h2 id="_2">统一阅读方式与交付物（全书贯穿）</h2>
+<ul>
+<li><strong>每章默认输出</strong>：</li>
+<li>任务定义（输入/输出/约束）</li>
+<li>开源数据集/可复现基准建议（能直接跑的优先）</li>
+<li>指标与打分器（objective scorer / judge / 人评 rubric）</li>
+<li>工程实现参考（OpenCompass / 自建 harness / CI）</li>
+<li>Ablation 设计（可控变量、实验矩阵、统计置信区间）</li>
+<li>失败分析（error taxonomy、可视化回放、回归门禁）</li>
+<li>训练数据问题反查（泄漏/重复/模板记忆/敏感样本）</li>
+<li><strong>车舱落地：驾舱一体（章节末固定）</strong></li>
+</ul>
+<hr />
+<h1 id="chapter-by-chapter-index">Chapter-by-chapter 详细大纲（index）</h1>
+<h2 id="1-chapter1md">第 1 章：测评总览与能力树（chapter1.md）</h2>
+<ul>
+<li>1.1 MLLM 的“能力”到底指什么：任务视角 vs 系统视角  </li>
+<li>1.2 多模态输入输出矩阵：I→O（图/视/声/乐/文）组合枚举  </li>
+<li>1.3 测评分层：模型能力 / 可靠性（低幻觉）/ 体验（多轮）/ 安全 / 成本与时延  </li>
+<li>1.4 单项评测 vs 端到端评测：何时需要“系统基准”  </li>
+<li>1.5 评测资产与交付物：Leaderboard、Model Card、Regression Report、Issue Template  </li>
+<li>1.6 基线与对照：如何选 baseline（开源/商用/自研）与“合理上限”  </li>
+<li>1.7 <strong>车舱落地：驾舱一体（本章要点映射到车载助手能力树）</strong>  </li>
+<li>对话主链路、云端 fallback、离线降级、车控安全边界  </li>
+<li>DMS/OMS 与对话融合：触发/打断/优先级  </li>
+<li>多人多麦克风、多扬声器、前后排仲裁与隐私</li>
+</ul>
+<hr />
+<h2 id="2-chapter2md">第 2 章：数据、指标与统计：从“可比”到“可信”（chapter2.md）</h2>
+<ul>
+<li>2.1 数据集选型原则：覆盖面、难度梯度、许可证、隐私与合规  </li>
+<li>2.2 数据切分与泄漏防护：train/dev/test、去重、模板污染、近重复检测  </li>
+<li>2.3 指标设计：Accuracy/EM/F1、WER/CER、mAP、MOS、成功率、成本/时延  </li>
+<li>2.4 统计显著性：bootstrap、置信区间、功效分析、A/B 判定门槛  </li>
+<li>2.5 难度分桶：按场景/模态/技能点/噪声强度/时序长度分层汇报  </li>
+<li>2.6 Judge 风险与对策：LLM-as-a-judge 的偏差、对抗提示、标定集校准  </li>
+<li>2.7 “及时全面”的测评策略：冒烟集/每日回归集/版本发布全量集  </li>
+<li>2.8 <strong>车舱落地：驾舱一体（车载数据资产的采集、脱敏、授权与回放）</strong>  </li>
+<li>行车/座舱数据如何做隐私分级与脱敏  </li>
+<li>线上日志回放到离线测评（record-replay）  </li>
+<li>高风险场景（驾驶中）单独设立更严格门槛</li>
+</ul>
+<hr />
+<h2 id="3-cichapter3md">第 3 章：评测平台工程化：统一接口、批量运行、可视化与 CI（chapter3.md）</h2>
+<ul>
+<li>3.1 仓库结构约定：tasks / datasets / adapters / scorers / reports / dashboards  </li>
+<li>3.2 模型适配层（Model Adapter）：多模态 I/O、流式输出、函数/工具调用协议  </li>
+<li>3.3 数据管线：采样、解码（音频/视频）、缓存、去重、版本锁定  </li>
+<li>3.4 运行器（Runner）：并发、分布式、断点续跑、重试与幂等  </li>
+<li>3.5 打分器（Scorers）：客观 scorer、judge、混合打分、置信区间计算  </li>
+<li>3.6 评测框架选型与对接：</li>
+<li>OpenCompass（多基准统一跑分、排行榜、配置化）</li>
+<li>文本评测 harness（lm-eval 类思路）、多模态扩展策略</li>
+<li>GUI/Agent 的仿真执行框架（可复现环境快照）</li>
+<li>3.7 报告系统：失败样本回放、聚类归因、对比 diff、可视化仪表盘  </li>
+<li>3.8 CI 设计：PR 冒烟、Nightly 回归、Release Gate、指标预算（latency/cost）  </li>
+<li>3.9 Ablation 自动化：变量命名规范、实验矩阵、超参 sweep、结果追溯  </li>
+<li>3.10 训练数据问题反查工作流：命中样本检索、近似匹配、污染源定位  </li>
+<li>3.11 <strong>车舱落地：驾舱一体（端侧/云侧双栈评测与 OTA 回归门禁）</strong>  </li>
+<li>端侧算力、实时性、离线包体与云端能力差异如何评测  </li>
+<li>车控/导航/媒体等工具 API 的 mock 与真机回放  </li>
+<li>OTA 前“驾驶安全关键指标”硬门槛</li>
+</ul>
+<hr />
+<h2 id="4-asr-chapter4md">第 4 章：ASR 测评（语音识别）（chapter4.md）</h2>
+<ul>
+<li>4.1 任务拆解：短句听写 / 长音频转写 / 流式 ASR / 说话人分离与时间戳  </li>
+<li>4.2 开源数据集地图（中英 + 噪声/口音/远场）：选择与组合策略  </li>
+<li>4.3 指标体系：WER/CER、数字/专名、标点与断句、时间戳偏差、RTF  </li>
+<li>4.4 鲁棒性评测：噪声、混响、回声、重叠语音、code-switch、方言口音  </li>
+<li>4.5 流式稳定性：partial hypothesis 抖动、延迟-准确率权衡  </li>
+<li>4.6 错误分析：混淆对（同音/数字）、热词召回、命令词误触发  </li>
+<li>4.7 Ablation：前端增强、VAD、热词、语言识别、采样率/通道数  </li>
+<li>4.8 <strong>车舱落地：驾舱一体（远场、多麦、回声消除、多人同讲）</strong>  </li>
+<li>前排/后排说话人仲裁与指令归属  </li>
+<li>导航播报/音乐播放下的 AEC 与 barge-in  </li>
+<li>驾驶中命令词安全策略（确认/复述/降级）</li>
+</ul>
+<hr />
+<h2 id="5-tts-chapter5md">第 5 章：TTS 测评（语音合成）（chapter5.md）</h2>
+<ul>
+<li>5.1 任务拆解：普通播报 / 情感/风格 / 多语言 / 音色一致性 / 流式 TTS  </li>
+<li>5.2 开源语音合成语料选型：音质、覆盖、口音、授权与可商用性检查  </li>
+<li>5.3 客观指标：可懂度、说话人相似度、韵律相关指标（与局限性）  </li>
+<li>5.4 主观人评：MOS/MUSHRA 设计、采样策略、听测平台与一致性控制  </li>
+<li>5.5 <strong>破音/瑕疵专项</strong>：爆破音、断裂、齿音、喘息、底噪、削波、失真检测流程  </li>
+<li>5.6 情绪与角色一致性：情绪可控性、情绪漂移、语速/停连/重音  </li>
+<li>5.7 安全与滥用：音色克隆风险、内容水印/溯源、敏感内容播报策略  </li>
+<li>5.8 <strong>车舱落地：驾舱一体（导航播报、打断、回声、扬声器布局）</strong>  </li>
+<li>前/后排分区播报与隐私（例如后排导航提示）  </li>
+<li>车辆噪声变化下自适应响度与清晰度  </li>
+<li>驾驶关键提示的“必达”与冗余策略（音频+屏显）</li>
+</ul>
+<hr />
+<h2 id="6-chapter6md">第 6 章：音频/音乐理解与生成测评（chapter6.md）</h2>
+<ul>
+<li>6.1 音频理解任务谱系：环境声识别、音频 caption、音频 QA、音频检索  </li>
+<li>6.2 音乐相关任务：曲风/标签、乐器识别、歌词对齐、音乐 caption/问答  </li>
+<li>6.3 开源数据集地图：AudioSet、ESC-50、FSD50K、AudioCaps/Clotho、Music 相关集合  </li>
+<li>6.4 指标：多标签 mAP/F1、caption 指标与人评结合、跨模态检索 Recall@K  </li>
+<li>6.5 音频/音乐生成（可选）：一致性、结构性、音质与失真、版权风险筛查  </li>
+<li>6.6 对齐与可解释：音频-文本 grounding（时间段证据）、可视化与回放  </li>
+<li>6.7 鲁棒性：不同采样率、压缩、远场、混音、多源叠加  </li>
+<li>6.8 <strong>车舱落地：驾舱一体（警笛/鸣笛/车内事件 + 音乐体验）</strong>  </li>
+<li>警笛/鸣笛/碰撞声等关键事件触发对话与 UI 提示  </li>
+<li>音乐 ducking：对话/导航/乘客说话自动压低  </li>
+<li>车内“儿童哭闹/异常声”与 OMS 联动</li>
+</ul>
+<hr />
+<h2 id="7-ocrchapter7md">第 7 章：自然图像理解与 OCR（含交通牌、扫码、天气等）（chapter7.md）</h2>
+<ul>
+<li>7.1 通用图像理解基准：VQA/多学科/图表/数学视觉推理的组合方式  </li>
+<li>7.2 OCR 与文档理解：场景文字、文档问答、表格/票据、图表问答  </li>
+<li>7.3 交通标志/指示牌专项：分类、检测、细粒度文本与符号理解  </li>
+<li>7.4 Signboard OCR：店招、路牌、停车场标识、复杂字体与夜间反光  </li>
+<li>7.5 商店人流/室内理解：客流计数、排队长度、区域拥挤度与安全提示  </li>
+<li>7.6 停车扫码/二维码条码：发现→定位→解码→解释（失败兜底）  </li>
+<li>7.7 天气与道路环境：雨雪雾/夜间/眩光识别（以及不确定性表达）  </li>
+<li>7.8 Grounding 能力：point/bbox 级定位、引用证据区域、减少视觉幻觉  </li>
+<li>7.9 图像生成/编辑（可选）：合规评测、人评协议与自动指标（作为扩展）  </li>
+<li>7.10 <strong>车舱落地：驾舱一体（前视/环视/泊车场景与安全边界）</strong>  </li>
+<li>车外视觉输入与对话的“只提示不控制”策略  </li>
+<li>泊车扫码/停车缴费流程：语音引导 + 中控 UI 操作闭环  </li>
+<li>天气/路况识别联动导航与驾驶建议（明确不确定性）</li>
+</ul>
+<hr />
+<h2 id="8-chapter8md">第 8 章：视频理解（含人流、事件、时序推理、驾驶相关）（chapter8.md）</h2>
+<ul>
+<li>8.1 视频任务谱系：视频 QA、事件识别、动作识别、时序推理  </li>
+<li>8.2 长视频：采样策略、分段记忆、关键帧选择对分数的影响  </li>
+<li>8.3 时序定位与证据：时间段 grounding（tIoU）、可回放证据链  </li>
+<li>8.4 人流与行为：商店人流、排队变化、异常事件（跌倒/拥挤）  </li>
+<li>8.5 驾驶相关视频（可公开数据优先）：路口事件、交通参与者意图、险情描述  </li>
+<li>8.6 录屏/屏幕视频与真实世界视频的差异：压缩伪影、字幕叠加、UI 元素  </li>
+<li>8.7 指标：准确率/成功率 + 时延/算力 + 置信区间  </li>
+<li>8.8 视频生成（可选）：一致性、物理合理性、时序稳定性（扩展）  </li>
+<li>8.9 <strong>车舱落地：驾舱一体（环视/哨兵/泊车/低光雨雾）</strong>  </li>
+<li>哨兵/行车记录：事件摘要与证据回放  </li>
+<li>泊车场景：行人/车辆靠近告警与 UI 提示优先级  </li>
+<li>端侧低时延预算：帧率、分辨率、热区裁剪的 ablation</li>
+</ul>
+<hr />
+<h2 id="9-aublendshapedmsomschapter9md">第 9 章：人头/人脸图像与视频理解（AU、Blendshape、DMS/OMS）（chapter9.md）</h2>
+<ul>
+<li>9.1 任务定义：Action Unit、表情/情绪、头姿、视线、唇动、疲劳分级  </li>
+<li>9.2 Blendshape/3D 表情：输出空间定义、标注体系与兼容（如 ARKit 风格）  </li>
+<li>9.3 开源数据集地图：AU/表情/姿态/视线（含多光照与遮挡）  </li>
+<li>9.4 指标：AU F1、姿态 MAE、视线角误差、连续情绪 CCC、误报/漏报成本  </li>
+<li>9.5 鲁棒性：墨镜/口罩/遮挡、IR/NIR、夜间、抖动、逆光  </li>
+<li>9.6 公平性与隐私：人群覆盖、偏差审计、端侧处理、数据保留策略  </li>
+<li>9.7 Ablation：分辨率、帧率、关键点/3DMM、时序建模、阈值策略  </li>
+<li>9.8 <strong>车舱落地：驾舱一体（DMS/OMS→对话/提示/车控联动）</strong>  </li>
+<li>疲劳/分心触发：对话策略与 UI 提示（不打扰 vs 必达）  </li>
+<li>后排 OMS：儿童遗留、异常动作、多人身份切换  </li>
+<li>法规/责任：误报的用户体验与安全权衡</li>
+</ul>
+<hr />
+<h2 id="10-gui-screensuite-chapter10md">第 10 章：GUI 截屏/录屏理解与操作评测（ScreenSuite 等）（chapter10.md）</h2>
+<ul>
+<li>10.1 GUI 能力树：看懂（QA）→ 找到（定位）→ 操作（动作序列）→ 复盘（解释）  </li>
+<li>10.2 数据集与基准：移动端/桌面/Web（含 ScreenSuite、RICO 系列、指令跟随集合）  </li>
+<li>10.3 任务形式：元素 grounding、表单填写、跨页导航、设置项查找、录屏状态跟踪  </li>
+<li>10.4 动作空间：坐标点击 vs 语义点击；scroll/type/back；失败恢复动作  </li>
+<li>10.5 指标：step success、task completion、平均步数、误触率、可复现回放成功率  </li>
+<li>10.6 工程实现：Playwright/Appium/无头环境、快照冻结、网络与权限 mock  </li>
+<li>10.7 安全护栏：敏感操作确认、权限弹窗处理、不可逆动作隔离  </li>
+<li>10.8 <strong>车舱落地：驾舱一体（中控屏 HTML/UI 控制 + 语音操作）</strong>  </li>
+<li>语音→UI 操作：驾驶中限制（锁屏/简化交互）  </li>
+<li>车机多应用：媒体/空调/电话/设置互相切换的鲁棒性  </li>
+<li>UI 失败兜底：可解释回放 + 引导用户手动完成</li>
+</ul>
+<hr />
+<h2 id="11-chapter11md">第 11 章：文本逻辑性、事实性与低幻觉：客观打分体系（chapter11.md）</h2>
+<ul>
+<li>11.1 逻辑与推理：数学/常识/多跳推理/指令遵循的基准组合  </li>
+<li>11.2 中文专项：中文推理、阅读理解、长文本总结的客观评测设计  </li>
+<li>11.3 低幻觉：事实性、引用一致性、拒答能力、过度自信检测  </li>
+<li>11.4 打分方法：EM/F1、pairwise、rubric judge、混合评测（自动+抽样人审）  </li>
+<li>11.5 事实核验流水线：claim 抽取→检索→NLI→聚合评分（可解释证据）  </li>
+<li>11.6 不确定性与校准：ECE/选择性回答、阈值策略与“宁可不答”  </li>
+<li>11.7 长上下文稳定性：信息遗忘、指令漂移、多轮不崩溃客观 proxy  </li>
+<li>11.8 <strong>车舱落地：驾舱一体（高风险问答与“可靠拒答”）</strong>  </li>
+<li>车主手册/保养建议类：必须引用证据或明确不确定  </li>
+<li>驾驶中对话：避免冗长、避免分心、明确边界（不替代安全判断）  </li>
+<li>云端 fallback 与离线知识的冲突处理</li>
+</ul>
+<hr />
+<h2 id="12-rag-chapter12md">第 12 章：RAG 评测：检索与生成的端到端客观评分（chapter12.md）</h2>
+<ul>
+<li>12.1 RAG 拆解：索引→召回→重排→生成→引用→拒答  </li>
+<li>12.2 开源评测集合与自建领域库：通用 QA + 车载领域文档（手册/导航/FAQ）  </li>
+<li>12.3 检索指标：Recall@K、MRR、nDCG、覆盖率分桶（短问/长问/实体问）  </li>
+<li>12.4 生成指标：faithfulness、context precision/recall、citation accuracy、答案可用性  </li>
+<li>12.5 Prompt 注入与对抗：文档注入、恶意网页片段、工具输出污染  </li>
+<li>12.6 时延与成本：embedding/检索/生成分段计时，端侧 vs 云侧预算  </li>
+<li>12.7 Ablation：chunking、overlap、embedding、reranker、query rewrite、引用格式  </li>
+<li>12.8 训练数据反查：引用命中异常、记忆化回答、近重复片段定位  </li>
+<li>12.9 <strong>车舱落地：驾舱一体（对话 + 车主手册 + 地图/POI + 云端交互）</strong>  </li>
+<li>离线 RAG（车主手册）与在线 RAG（POI/路况）的融合  </li>
+<li>云端 fallback：网络抖动下的用户体验与一致性  </li>
+<li>记忆（偏好/常用 POI）与隐私：存储策略与可解释</li>
+</ul>
+<hr />
+<h2 id="13-role-play-charactereval-chapter13md">第 13 章：文字 + 语音 Role-play 的主观人评（CharacterEval 等）（chapter13.md）</h2>
+<ul>
+<li>13.1 为什么必须做人评：体验类能力（情绪、陪伴、风格一致）无法完全客观化  </li>
+<li>13.2 评测协议：CharacterEval/多角色脚本、chitchat 场景库、压力测试用例库  </li>
+<li>13.3 评分维度：OOC、角色一致性、情绪贴合、礼貌与边界、多轮不崩溃  </li>
+<li>13.4 人评流程工程：双盲、抽样、仲裁、标注员校准、IAA（一致性）  </li>
+<li>13.5 语音 Role-play：轮次切换、打断、语速/语气、情绪表达与可懂度  </li>
+<li>13.6 风险场景：过度拟人、依赖诱导、敏感话题、越权承诺  </li>
+<li>13.7 A/B 实验与线上灰度：满意度、留存、投诉率与定性分析结合  </li>
+<li>13.8 <strong>车舱落地：驾舱一体（司机/乘客分权 + 多人多轮对话）</strong>  </li>
+<li>司机优先：打断策略、简洁回答、避免分心  </li>
+<li>前后排多角色：谁在说话、对谁回应、隐私隔离  </li>
+<li>情绪安抚与安全提示：不越权、不误导、可控语气</li>
+</ul>
+<hr />
+<h2 id="14-agent-proxychapter14md">第 14 章：代码生成能力评测（作为逻辑性与 Agent 能力 Proxy）（chapter14.md）</h2>
+<ul>
+<li>14.1 代码为何是“逻辑性/可执行性”的强 proxy：可自动验收、低主观  </li>
+<li>14.2 基准组合：入门题/工程题/算法题/修 bug（覆盖多难度）  </li>
+<li>14.3 执行式评测：单测、编译、运行沙箱、超时、资源限制、稳定复现  </li>
+<li>14.4 指标：pass@k、编译率、修复成功率、回归风险（mutation test 可选）  </li>
+<li>14.5 代码风格与安全：注入风险、命令执行、依赖供应链、许可证扫描  </li>
+<li>14.6 作为 Agent 的代码：生成工具封装、API client、数据清洗脚本、评测脚本自举  </li>
+<li>14.7 Ablation：上下文长度、函数调用协议、工具 schema、检索增强对代码的影响  </li>
+<li>14.8 <strong>车舱落地：驾舱一体（车机脚本/配置/对接 API 的安全生成）</strong>  </li>
+<li>中控 UI 自动化脚本/配置生成与沙箱执行  </li>
+<li>地图/POI API 调用代码的正确性与速率限制处理  </li>
+<li>车控相关：严格权限与“只生成不执行”的防线设计</li>
+</ul>
+<hr />
+<h2 id="15-agent-reactchapter15md">第 15 章：Agent 能力评测（ReAct、工具调用、长任务、记忆）（chapter15.md）</h2>
+<ul>
+<li>15.1 Agent 任务模型：ReAct、Plan-Execute、反思/自纠错、工具调用策略  </li>
+<li>15.2 基准与场景库：网页任务、软件工程任务、工具链任务、对话驱动任务  </li>
+<li>15.3 工具与环境：mock 工具 vs 真工具；record-replay；确定性与非确定性控制  </li>
+<li>15.4 指标：任务成功率、平均步数、成本、时延、恢复能力、工具幻觉率  </li>
+<li>15.5 长任务与记忆：跨会话偏好、长期目标保持、遗忘与污染检测  </li>
+<li>15.6 多 Agent 协作（可选）：分工、冲突解决、信息共享与权限隔离  </li>
+<li>15.7 失败模式库：loop、过度规划、工具滥用、越权操作、对抗提示注入  </li>
+<li>15.8 <strong>车舱落地：驾舱一体（对话→工具→UI→导航的闭环）</strong>  </li>
+<li>地图/POI/电话/媒体/空调等工具链路的端到端成功率  </li>
+<li>云端 fallback：失败时的解释与继续执行策略  </li>
+<li>记忆：家庭成员偏好、常用地点、隐私与可删除</li>
+</ul>
+<hr />
+<h2 id="16-gui-chapter16md">第 16 章：GUI→代码 + 端到端驾舱一体基准（系统集成/回归/反查）（chapter16.md）</h2>
+<ul>
+<li>16.1 GUI→代码任务定义：截图/设计稿→HTML/CSS/JS（或车机 UI DSL）  </li>
+<li>16.2 数据集与构建：从真实 UI 抽样、组件化标注、可渲染真值与 diff 机制  </li>
+<li>16.3 指标：渲染一致性（像素/结构）、可交互性、可访问性、可维护性  </li>
+<li>16.4 端到端驾舱一体场景库设计：</li>
+<li>对话 + RAG（手册/FAQ）  </li>
+<li>DMS/OMS 触发（疲劳/分心/后排异常）  </li>
+<li>多人语音 I/O（前后排）  </li>
+<li>中控屏 HTML/UI 控制  </li>
+<li>地图导航/POI/路况 API  </li>
+<li>16.5 多模态融合与仲裁：语音/触控/手势/视觉告警的优先级与冲突处理  </li>
+<li>16.6 安全与人因：驾驶中交互限制、确认策略、误触成本、最小分心原则  </li>
+<li>16.7 持续测评与回归：Nightly、场景冒烟、线上日志回放、版本门禁  </li>
+<li>16.8 Ablation 工程：feature flag、模块替换（ASR/TTS/RAG/Agent/GUI）、贡献归因  </li>
+<li>16.9 训练数据问题反查：失败聚类→相似样本检索→污染/记忆定位→修数闭环  </li>
+<li>16.10 交付模板：车载 Model Card、风险清单、上线检查表、事故复盘格式  </li>
+<li>16.11 <strong>车舱落地：驾舱一体（从基准到量产：端侧/云侧/OTA 全链路）</strong>  </li>
+<li>离线优先 + 云端增强的统一评测口径  </li>
+<li>车控与导航的“可审计”执行日志  </li>
+<li>量产监控：线上指标漂移、灰度策略、紧急回滚</li>
+</ul>
+            </article>
+            
+            <nav class="page-nav"><a href="chapter1.html" class="nav-link next">第 1 章：测评总览与能力树 →</a></nav>
+        </main>
+    </div>
+</body>
+</html>

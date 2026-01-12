@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>第 8 章：视频理解（含人流、事件、时序推理、驾驶相关）</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item " >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">MLLM 多模理解与生成大模型测评教程（中文）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 1 章：测评总览与能力树</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 2 章：数据、指标与统计：从“可比”到“可信”</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 3 章：评测平台工程化：统一接口、批量运行、可视化与 CI</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 4 章：ASR 测评（语音识别）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 5 章：TTS 测评（语音合成）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 6 章：音频/音乐理解与生成测评 (chapter6.md)</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 7 章：自然图像理解与 OCR（含交通牌、扫码、天气等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item active" >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 8 章：视频理解（含人流、事件、时序推理、驾驶相关）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 9 章：人头/人脸图像与视频理解（AU、Blendshape、DMS/OMS）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 10 章：GUI 截屏/录屏理解与操作评测（ScreenSuite 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 11 章：文本逻辑性、事实性与低幻觉：客观打分体系</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 12 章：RAG 评测：检索与生成的端到端客观评分</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 13 章：文字 + 语音 Role-play 的主观人评（CharacterEval 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="8">第 8 章：视频理解（含人流、事件、时序推理、驾驶相关）</h1>
+<h2 id="81">8.1 开篇：时间维度的引入——从“看图说话”到“观察思考”</h2>
+<p>在第 7 章中，我们解决了模型对静态切片的理解能力。然而，现实世界是连续流动的。视频理解不仅仅是图像理解的简单堆叠（Video $\neq$ Image $\times N$），它引入了 MLLM 评测中最具挑战性的维度：<strong>时间动态性（Temporal Dynamics）</strong>与<strong>因果逻辑（Causal Logic）</strong>。</p>
+<p>本章将构建一套全面的视频理解测评体系，旨在回答以下核心问题：</p>
+<ol>
+<li><strong>时序感知</strong>：模型是真正看懂了动作的发生顺序，还是仅仅通过单帧画面在“猜”？</li>
+<li><strong>长程记忆</strong>：在长视频（分钟级以上）中，模型能否记住早期的细节并在后期进行关联？</li>
+<li><strong>高风险决策</strong>：在驾驶场景下，模型能否准确识别稍纵即逝的险情（Corner Case）并给出合理解释？</li>
+</ol>
+<p>我们将从通用的短视频描述，深入到安防监控（人流、异常事件），最终聚焦于车载环境下的自动驾驶（AD）与座舱感知场景。</p>
+<h2 id="82">8.2 视频理解能力金字塔</h2>
+<p>视频任务的难度是分层的，测评也应遵循此梯度：</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">+-----------------------------------------------------------------------+</span>
+<span class="c">| Level 4: 预测与决策 (Prediction &amp; Decision) </span><span class="k">[</span><span class="c">自动驾驶核心</span><span class="k">]</span><span class="c">            |</span>
+<span class="c">| 任务：轨迹预测、险情预判、驾驶规划解释                                |</span>
+<span class="c">| 示例：&quot;右侧行人有冲出来的趋势，建议立即减速。&quot;                        |</span>
+<span class="nb">+-----------------------------------------------------------------------+</span>
+<span class="c">| Level 3: 因果推理 (Causal Reasoning)                                  |</span>
+<span class="c">| 任务：解释动作原因、推断未展示的后果                                  |</span>
+<span class="c">| 示例：&quot;为什么这辆车突然变道？因为前方有施工障碍物。&quot;                  |</span>
+<span class="nb">+-----------------------------------------------------------------------+</span>
+<span class="c">| Level 2: 时序定位与计数 (Temporal Grounding &amp; Counting)               |</span>
+<span class="c">| 任务：动作起止时间戳检测、特定动作计数                                |</span>
+<span class="c">| 示例：&quot;第15秒到20秒在切菜&quot;、&quot;视频中一共经过了3辆红色卡车&quot;             |</span>
+<span class="nb">+-----------------------------------------------------------------------+</span>
+<span class="c">| Level 1: 全局感知与分类 (Global Perception)                           |</span>
+<span class="c">| 任务：视频分类、通用描述 (Captioning)                                 |</span>
+<span class="c">| 示例：&quot;这是一个关于烹饪的视频&quot;、&quot;有人在打篮球&quot;                        |</span>
+<span class="nb">+-----------------------------------------------------------------------+</span>
+<span class="c">| Level 0: 静态帧识别 (Frame</span><span class="nb">-</span><span class="c">level Recognition)                         |</span>
+<span class="c">| 任务：OCR、物体检测 (复用第7章能力)                                   |</span>
+<span class="c">| 示例：&quot;路牌上写着什么&quot;、&quot;画面里有几个人&quot;                              |</span>
+<span class="nb">+-----------------------------------------------------------------------+</span>
+</code></pre></div>
+
+<h2 id="83">8.3 数据集与测评基准选型</h2>
+<p>为了实现“及时全面”的测评，我们需要组合不同类型的公开数据集，并针对车载场景构建私有集。</p>
+<h3 id="831">8.3.1 开源基准地图</h3>
+<p>| 类别 | 数据集名称 | 特性与用途 | 推荐指数 |</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">类别</th>
+<th style="text-align: left;">数据集名称</th>
+<th style="text-align: left;">特性与用途</th>
+<th style="text-align: left;">推荐指数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>综合能力 (SOTA)</strong></td>
+<td style="text-align: left;"><strong>MVBench</strong></td>
+<td style="text-align: left;">包含20个子任务（时序、空间、粗/细粒度），全自动评分。</td>
+<td style="text-align: left;">⭐⭐⭐⭐⭐ (必测)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>通用问答</strong></td>
+<td style="text-align: left;"><strong>VideoChatGPT Bench</strong></td>
+<td style="text-align: left;">开放式问答，关注正确性、细节、上下文。需 LLM 打分。</td>
+<td style="text-align: left;">⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>驾驶/交通</strong></td>
+<td style="text-align: left;"><strong>DriveLM / NuScenes-QA</strong></td>
+<td style="text-align: left;"><strong>车载核心</strong>。基于真实驾驶数据的感知+推理+规划问答。</td>
+<td style="text-align: left;">⭐⭐⭐⭐⭐ (必测)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>长视频理解</strong></td>
+<td style="text-align: left;"><strong>EgoSchema / MovieChat</strong></td>
+<td style="text-align: left;">长达几分钟至小时的视频，考察长时记忆（Long-term Memory）。</td>
+<td style="text-align: left;">⭐⭐⭐</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>幻觉检测</strong></td>
+<td style="text-align: left;"><strong>VideoHallucer</strong></td>
+<td style="text-align: left;">专门诱导模型产生不存在的物体或动作。</td>
+<td style="text-align: left;">⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>异常检测</strong></td>
+<td style="text-align: left;"><strong>UCSD Ped / Traffic-QA</strong></td>
+<td style="text-align: left;">包含人行道骑车、逆行等异常事件。适合安防/哨兵模式。</td>
+<td style="text-align: left;">⭐⭐⭐</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>动作计数</strong></td>
+<td style="text-align: left;">RepCount</td>
+<td style="text-align: left;">专门测试重复性动作（如跳绳、切菜）的计数能力。</td>
+<td style="text-align: left;">⭐⭐</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Rule of Thumb</strong>: 开始评测时，<strong>MVBench</strong> 是目前性价比最高的“冒烟测试”工具；进入垂直领域优化时，必须基于 <strong>DriveLM</strong> 构建针对性的回归集。</p>
+</blockquote>
+<h2 id="84">8.4 关键测评技术与指标设计</h2>
+<h3 id="841-mvbench">8.4.1 客观题指标（MVBench 模式）</h3>
+<p>对于多项选择题，使用 <strong>Accuracy (Acc)</strong>。但为了深入分析，需计算<strong>按任务分类的 Acc</strong>：</p>
+<ul>
+<li>$Acc_{Action}$: 动作识别准确率</li>
+<li>$Acc_{Object}$: 物体存在性准确率</li>
+<li>$Acc_{Order}$: 时序顺序判断准确率（如：先拿杯子还是先倒水？）</li>
+</ul>
+<h3 id="842-judge">8.4.2 生成题指标与 Judge 设计</h3>
+<p>对于开放式描述（Captioning）或问答（QA），传统的 BLEU/ROUGE 指标与人类感知相关性极低。
+<strong>标准做法：LLM-as-a-Judge</strong>。</p>
+<ul>
+<li><strong>Prompt 模板设计</strong>：</li>
+</ul>
+<div class="codehilite"><pre><span></span><code>你是一个公正的视频分析专家。
+问题：{question}
+标准答案：{ground_truth}
+模型回答：{prediction}
+请从以下维度打分 (1-5)：
+
+1. 正确性 (Correctness)：是否包含关键信息？
+2. 幻觉 (Hallucination)：是否编造了不存在的物体？(如有，直接0分)
+3. 时序逻辑 (Temporal Logic)：动作顺序描述是否正确？
+输出格式：{&quot;score&quot;: 4, &quot;reason&quot;: &quot;...&quot;}
+</code></pre></div>
+
+<ul>
+<li><strong>Judge 模型选择</strong>：GPT-4o 或专门微调过的 Video-Critic 模型。</li>
+</ul>
+<h3 id="843-temporal-grounding">8.4.3 时序定位指标 (Temporal Grounding)</h3>
+<p>针对“找出某个动作发生的时间段”任务：</p>
+<ul>
+<li><strong>mIoU (mean Intersection over Union)</strong>：预测时间段 $P$ 与真值 $G$ 的交集除以并集。<ul>
+<li>公式：$\text{IoU} = \frac{\text{intersection}(P, G)}{\text{union}(P, G)}$</li>
+</ul>
+</li>
+<li><strong>Recall@1, IoU=0.5</strong>：Top-1 预测中，IoU &gt; 0.5 的比例。</li>
+</ul>
+<h3 id="844">8.4.4 驾驶专用指标</h3>
+<p>在驾驶场景（DriveLM）中，除文本相似度外，还需评估：</p>
+<ul>
+<li><strong>规划一致性 (Planning Consistency)</strong>：模型生成的驾驶建议（减速/左转）是否与真值（CAN Bus 信号）一致。</li>
+<li><strong>关键对象召回 (Critical Object Recall)</strong>：对红绿灯、横穿行人的提及率。<strong>这是安全红线指标。</strong></li>
+</ul>
+<h2 id="85">8.5 自动化测评工程实现</h2>
+<h3 id="851-sampling-strategy">8.5.1 采样策略（Sampling Strategy）：工程核心</h3>
+<p>视频无法全量输入 LLM（Context 爆炸），如何“降维”直接决定测评结果。</p>
+<ol>
+<li><strong>Uniform Sampling (均匀采样)</strong>：最常用。将视频等分为 $N$ 段，每段取 1 帧。<ul>
+<li><em>推荐配置</em>：短视频 ($&lt;15s$) 取 8-16 帧；长视频取 32-64 帧。</li>
+</ul>
+</li>
+<li><strong>Keyframe-based (关键帧采样)</strong>：利用 OpenCV 计算帧间差分或光流，只保留变化大的帧。<ul>
+<li><em>优势</em>：去除静止画面，节省 Token。</li>
+<li><em>劣势</em>：可能丢失微小的关键运动。</li>
+</ul>
+</li>
+<li><strong>FPS 对齐</strong>：<strong>常见陷阱！</strong> 不同数据集 FPS 不同（电影 24，监控 10-30）。测评器必须将所有视频重采样到统一的时间轴，否则“第 10 帧”代表的时间点完全不同。</li>
+</ol>
+<h3 id="852-pipeline">8.5.2 评测管线架构 (Pipeline)</h3>
+<div class="codehilite"><pre><span></span><code><span class="p">[</span><span class="n">Video</span><span class="w"> </span><span class="n">File</span><span class="p">]</span><span class="w"> </span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">Decoder</span><span class="o">:</span><span class="w"> </span><span class="n">ffmpeg</span><span class="o">/</span><span class="n">decord</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">Raw</span><span class="w"> </span><span class="n">Frames</span><span class="w"> </span><span class="n">Cache</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="n">性能瓶颈点</span><span class="o">*</span>
+<span class="w">    </span><span class="o">|</span>
+<span class="w">    </span><span class="o">+-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">Sampler</span><span class="p">]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">Strategy</span><span class="o">:</span><span class="w"> </span><span class="n">Uniform</span><span class="o">/</span><span class="n">Clip</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">Selected</span><span class="w"> </span><span class="n">Frames</span><span class="p">]</span>
+<span class="w">    </span><span class="o">|</span><span class="w">                                                 </span><span class="o">|</span>
+<span class="w">    </span><span class="o">+-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">Audio</span><span class="w"> </span><span class="n">Extractor</span><span class="p">]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">Whisper</span><span class="o">/</span><span class="n">CLAP</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">Audio</span><span class="w"> </span><span class="n">Features</span><span class="p">]</span><span class="w"> </span><span class="p">(</span><span class="n">可选</span><span class="p">)</span>
+<span class="w">                                                      </span><span class="o">|</span>
+<span class="w">    </span><span class="p">[</span><span class="n">Question</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">[</span><span class="n">Prompt</span><span class="p">]</span><span class="w"> </span><span class="o">------------------------&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">VLM</span><span class="w"> </span><span class="n">Input</span><span class="w"> </span><span class="n">Generator</span><span class="p">]</span>
+<span class="w">                                                      </span><span class="o">|</span>
+<span class="w">                                                   </span><span class="p">[</span><span class="n">MLLM</span><span class="w"> </span><span class="n">Inference</span><span class="p">]</span>
+<span class="w">                                                      </span><span class="o">|</span>
+<span class="w">    </span><span class="p">[</span><span class="n">Reference</span><span class="w"> </span><span class="n">Answer</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;---------------------------</span><span class="w"> </span><span class="p">[</span><span class="n">Model</span><span class="w"> </span><span class="n">Output</span><span class="p">]</span>
+<span class="w">            </span><span class="o">|</span><span class="w">                                         </span><span class="o">|</span>
+<span class="w">            </span><span class="o">+-----------&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">Scorer</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">Judge</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;----------+</span>
+<span class="w">                              </span><span class="o">|</span>
+<span class="w">                       </span><span class="p">[</span><span class="n">Final</span><span class="w"> </span><span class="n">Report</span><span class="p">]</span>
+</code></pre></div>
+
+<h2 id="86-ablation">8.6 Ablation 与 失败分析</h2>
+<p>当模型得分下降时，如何科学地“甩锅”？</p>
+<h3 id="861-ablation">8.6.1 必做的 Ablation 实验矩阵</h3>
+<ol>
+<li><strong>Blind Test (盲测)</strong>：<ul>
+<li><em>操作</em>：输入全黑视频，只给问题。</li>
+<li><em>目的</em>：检查模型是否在靠语言偏见（Language Bias）答题。如果盲测准确率很高，说明数据集有严重 Bias。</li>
+</ul>
+</li>
+<li><strong>Shuffle Test (乱序测试)</strong>：<ul>
+<li><em>操作</em>：将输入的视频帧随机打乱顺序。</li>
+<li><em>判据</em>：如果乱序后，时序类问题（如“车是前进了还是后退了”）得分<strong>没有显著下降</strong>，说明模型<strong>根本没懂时序</strong>，只是在看静态图。</li>
+</ul>
+</li>
+<li><strong>Resolution Sweep (分辨率扫描)</strong>：<ul>
+<li><em>操作</em>：对比 224px, 336px, 448px, 672px。</li>
+<li><em>经验</em>：驾驶场景（看清远处的红绿灯）对分辨率极度敏感；动作识别（有人在跑步）对分辨率不敏感。</li>
+</ul>
+</li>
+</ol>
+<h3 id="862">8.6.2 训练数据反查</h3>
+<ul>
+<li><strong>静态与动态失衡</strong>：如果模型总是描述静态物体而忽略动作，反查训练数据中 Video-Text pair 的比例。通常视频数据应占 20%-30% 才能激发动态能力。</li>
+<li><strong>字幕作弊</strong>：WebVid 等数据集常包含硬字幕。检查模型是否只是在做 OCR。<ul>
+<li><em>验证</em>：对视频进行 Mask 遮挡字幕区域，看性能降幅。</li>
+</ul>
+</li>
+</ul>
+<h2 id="87">8.7 车舱落地：驾舱一体专项测评</h2>
+<p>本节针对车载特殊环境，设计了一套端到端的测评方案。</p>
+<h3 id="871-sentinel-mode">8.7.1 场景一：行车记录仪/哨兵模式 (Sentinel Mode)</h3>
+<ul>
+<li><strong>用户需求</strong>：“帮我看看昨晚有没有人动我的车。”</li>
+<li><strong>技术难点</strong>：长视频（8小时）+ 极稀疏事件（几秒异常）+ 隐私脱敏。</li>
+<li><strong>测评用例设计</strong>：<ol>
+<li><strong>正样本</strong>：合成一段 1 小时视频，其中包含 10 秒有人靠近窥视。要求模型输出时间戳精度在 $\pm 5s$ 内。</li>
+<li><strong>隐私合规</strong>：视频中包含清晰人脸和车牌。要求生成的描述中自动脱敏（如：“检测到一名男性”，而非“检测到张三”），且不能输出 OCR 到的车牌号（除非用户授权）。</li>
+<li><strong>低光照鲁棒性</strong>：使用夜间/红外摄像头拍摄的数据集进行回归。</li>
+</ol>
+</li>
+</ul>
+<h3 id="872-driving-assistant">8.7.2 场景二：复杂路口与险情解释 (Driving Assistant)</h3>
+<ul>
+<li><strong>用户需求</strong>：“刚才为什么突然刹车？”</li>
+<li><strong>技术难点</strong>：多视角融合（前视+侧视）、高动态、因果推理。</li>
+<li><strong>DriveLM 测评集落地</strong>：<ul>
+<li><strong>Perception</strong>: "左前方有什么车？"（必须召回遮挡严重但有碰撞风险的车辆）。</li>
+<li><strong>Prediction</strong>: "这辆自行车接下来可能怎么走？"</li>
+<li><strong>Logic</strong>: "请解释当前场景下减速的原因。"</li>
+</ul>
+</li>
+<li><strong>安全护栏 (Safety Guardrail)</strong>：<ul>
+<li>如果模型对红绿灯颜色判断错误，必须有一套传统的 CV 检测器作为 <strong>Fallback</strong> 进行纠正或置信度打分。测评时需统计 Fallback 触发率。</li>
+</ul>
+</li>
+</ul>
+<h3 id="873-edge-cloud-collaboration">8.7.3 场景三：端侧与云侧协同 (Edge-Cloud Collaboration)</h3>
+<ul>
+<li><strong>架构</strong>：端侧小模型（NPU）做筛选，云侧大模型（GPU）做推理。</li>
+<li><strong>测评指标</strong>：<ul>
+<li><strong>端侧召回率</strong>：端侧模型漏掉关键事件（False Negative）的代价是巨大的，必须 &gt; 99%。</li>
+<li><strong>云侧幻觉率</strong>：云侧模型不能对模糊的画面瞎编（如把塑料袋看成猫）。</li>
+<li><strong>全链路时延</strong>：从用户提问 -&gt; 视频切片上传 -&gt; 云端推理 -&gt; 语音下发。目标 &lt; 3s (5G环境)。</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="88">8.8 本章小结</h2>
+<ol>
+<li><strong>视频 $\neq$ 图片序列</strong>：测评必须包含乱序测试（Shuffle Test），以验证模型是否具备真正的时序推理能力。</li>
+<li><strong>采样决定上限</strong>：工程上，帧采样策略对性能的影响往往大于模型微调。务必针对长/短视频使用不同的采样参数。</li>
+<li><strong>驾驶场景特殊性</strong>：DriveLM 类数据集是核心。除了考“看到了什么”，更要考“意味着什么（预测）”和“该怎么办（规划）”。</li>
+<li><strong>指标分层</strong>：客观指标（Acc）看基础，主观指标（Judge）看体验，安全指标（Recall）看底线。</li>
+</ol>
+<h2 id="89">8.9 练习题</h2>
+<p><strong>基础题</strong></p>
+<ol>
+<li><strong>[计算]</strong> 一段 1 分钟的视频，FPS=30。如果采用 <code>Uniform Sampling</code> 抽取 16 帧，请问采样间隔是多少帧？如果采用 1 FPS 的抽取率，最终输入多少帧？</li>
+<li><strong>[判断]</strong> 为什么在评测 Video-LLM 时，直接使用 BLEU-4 分数来衡量生成的 Video Caption 是不推荐的？请列举两个原因。</li>
+<li><strong>[概念]</strong> 解释什么是 "Temporal Grounding" 任务，并给出一个具体的车载应用场景。</li>
+</ol>
+<p><strong>挑战题</strong></p>
+<ol start="4">
+<li><strong>[设计]</strong> 你需要设计一个“路怒症检测”的测评集。不仅要检测画面中的攻击性行为，还要结合音频（Audio）。请描述正负样本的构成，以及如何设计 Prompt 避免模型对正常大声说话产生误报。</li>
+<li><strong>[分析]</strong> 在 NuScenes-QA 测评中，模型在白天场景表现优异，但在雨夜场景下对“行人”的召回率下降了 40%。除了增加雨夜训练数据外，从<strong>预处理</strong>和<strong>多模态融合</strong>的角度，你可以提出哪些改进方案并如何设计对应的 Ablation？</li>
+<li><strong>[思考]</strong> 车载端侧芯片算力有限，无法运行 GPT-4V 级别的模型。请设计一个 <strong>Cascade（级联）测评方案</strong>，评估“端侧小模型过滤 + 云侧大模型精修”这一架构的综合性能（考虑精度、流量成本和延迟）。</li>
+</ol>
+<details>
+<summary>点击查看提示 (Hint)</summary>
+<ul>
+<li><strong>题 1 提示</strong>：间隔 = 总帧数 / 16。注意取整问题。</li>
+<li><strong>题 2 提示</strong>：1) 语义相同但词汇不同（"车停了" vs "车辆静止"）；2) 无法衡量逻辑因果。</li>
+<li><strong>题 3 提示</strong>：在时间轴上定位起止点。场景：用户说“把刚才差点撞车的视频剪辑出来”。</li>
+<li><strong>题 4 提示</strong>：正样本：画面有肢体冲突+声音高亢；负样本：车内KTV（声音大但在笑）。Prompt 需强调“情绪判断”和“威胁性评估”。</li>
+<li><strong>题 5 提示</strong>：预处理：伽马校正、去雨算法；多模态：引入雷达/激光雷达投影图作为额外输入通道。</li>
+<li><strong>题 6 提示</strong>：定义“关键帧召回率”作为端侧指标；定义“最终问答准确率”作为云侧指标；计算 (端侧上传帧数 * 流量单价 + 云侧推理成本) 作为经济指标。</li>
+</ul>
+</details>
+<h2 id="810-gotchas">8.10 常见陷阱与错误 (Gotchas)</h2>
+<ul>
+<li><strong>陷阱 1：视频解码器版本地狱</strong><ul>
+<li><em>问题</em>：<code>Decord</code> 和 <code>PyAV</code> 在处理变帧率（VFR）视频时，提取的帧索引可能不一致。</li>
+<li><em>后果</em>：测评时的时间戳与 Ground Truth 对不上，导致 mIoU 极低。</li>
+<li><em>对策</em>：在 Pipeline 初始化时，先运行一段校准脚本，确保 time-to-frame 的映射是单调且准确的。</li>
+</ul>
+</li>
+<li><strong>陷阱 2：内存泄漏 (OOM)</strong><ul>
+<li><em>问题</em>：视频 Tensor 极大，PyTorch 的显存经常爆。</li>
+<li><em>对策</em>：不要把所有测试视频一次性加载到 RAM。实现一个 <code>LazyLoader</code>，测一个视频解压一个，测完立即释放。</li>
+</ul>
+</li>
+<li><strong>陷阱 3：忽视 Prompt 对时序的影响</strong><ul>
+<li><em>问题</em>：Prompt 写“描述这张图片” vs “描述这段视频”，模型输出差异巨大。</li>
+<li><em>对策</em>：必须在 System Prompt 中显式强调“你正在观看一段视频，请注意时间流逝和动作变化”。</li>
+</ul>
+</li>
+</ul>
+            </article>
+            
+            <nav class="page-nav"><a href="chapter7.html" class="nav-link prev">← 第 7 章：自然图像理解与 OCR（含交通牌、扫码、天气等）</a><a href="chapter9.html" class="nav-link next">第 9 章：人头/人脸图像与视频理解（AU、Blendshape、DMS/OMS） →</a></nav>
+        </main>
+    </div>
+</body>
+</html>

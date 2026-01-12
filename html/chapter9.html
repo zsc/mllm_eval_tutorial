@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>第 9 章：人头/人脸图像与视频理解（AU、Blendshape、DMS/OMS）</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item " >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">MLLM 多模理解与生成大模型测评教程（中文）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 1 章：测评总览与能力树</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 2 章：数据、指标与统计：从“可比”到“可信”</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 3 章：评测平台工程化：统一接口、批量运行、可视化与 CI</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 4 章：ASR 测评（语音识别）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 5 章：TTS 测评（语音合成）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 6 章：音频/音乐理解与生成测评 (chapter6.md)</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 7 章：自然图像理解与 OCR（含交通牌、扫码、天气等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 8 章：视频理解（含人流、事件、时序推理、驾驶相关）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item active" >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 9 章：人头/人脸图像与视频理解（AU、Blendshape、DMS/OMS）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 10 章：GUI 截屏/录屏理解与操作评测（ScreenSuite 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 11 章：文本逻辑性、事实性与低幻觉：客观打分体系</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 12 章：RAG 评测：检索与生成的端到端客观评分</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 13 章：文字 + 语音 Role-play 的主观人评（CharacterEval 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="9-aublendshapedmsoms">第 9 章：人头/人脸图像与视频理解（AU、Blendshape、DMS/OMS）</h1>
+<h2 id="1">1. 开篇段落</h2>
+<p>在多模态大模型（MLLM）的能力版图中，人脸与人头理解不仅仅是传统的“身份识别”（Face ID），更重要的是<strong>状态理解</strong>与<strong>细粒度语义映射</strong>。本章聚焦于模型如何从像素中通过面部动作单元（Action Units, AU）、3D 表情系数（Blendshapes）、视线（Gaze）和头姿（Pose）来推断人类的意图、情绪以及生理状态（如疲劳）。</p>
+<p>对于驾舱一体化场景，这部分能力是 DMS（驾驶员监控系统）和 OMS（乘客监控系统）的核心。不同于传统的小模型检测方案，MLLM 的优势在于能够结合上下文（如“刚刚发生急刹车” + “驾驶员表情惊恐”）进行更合理的<strong>语义推理</strong>，而非简单的阈值触发。本章将详细拆解如何客观评测这些细粒度指标，以及如何设计鲁棒的实验来验证模型在极端光照和遮挡下的可靠性。</p>
+<h2 id="2">2. 测评体系论述</h2>
+<h3 id="21">2.1 任务谱系与能力分层</h3>
+<p>人脸理解任务可以从几何、语义、状态三个维度进行分层。测评时需明确模型输出的是数值（回归任务）还是自然语言描述（推理任务）。</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">+---------------------------------------------------------------+</span>
+<span class="c">|                 人脸/人头理解能力分层 (Hierarchy)               |</span>
+<span class="nb">+---------------------------------------------------------------+</span>
+<span class="c">|  L3: 状态与意图 (State &amp; Intent) </span><span class="k">[</span><span class="c">时序 </span><span class="nb">+</span><span class="c"> 上下文</span><span class="k">]</span><span class="c">                |</span>
+<span class="c">|      </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> 疲劳分级 (Fatigue Level)                              |</span>
+<span class="c">|      </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> 分心判定 (Distraction)                                |</span>
+<span class="c">|      </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> 情绪推理 (Emotion Reasoning)                          |</span>
+<span class="nb">+---------------------------------------------------------------+</span>
+<span class="c">|  L2: 语义编码 (Semantic Encoding) </span><span class="k">[</span><span class="c">帧级</span><span class="k">]</span><span class="c">                       |</span>
+<span class="c">|      </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> Action Units (AU01</span><span class="nt">,</span><span class="c"> AU04</span><span class="nt">...</span><span class="c">) </span><span class="nb">-</span><span class="c"> FACS 系统              |</span>
+<span class="c">|      </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> 离散表情分类 (Happy</span><span class="nt">,</span><span class="c"> Sad</span><span class="nt">,</span><span class="c"> Neutral)                     |</span>
+<span class="nb">+---------------------------------------------------------------+</span>
+<span class="c">|  L1: 几何特征 (Geometric Features) </span><span class="k">[</span><span class="c">像素级 </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> 3D</span><span class="k">]</span><span class="c">              |</span>
+<span class="c">|      </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> Blendshapes (52 coefficients ARKit standard)          |</span>
+<span class="c">|      </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> Gaze Vector (视线向量 pitch/yaw)                       |</span>
+<span class="c">|      </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> Head Pose (6DoF)                                      |</span>
+<span class="nb">+---------------------------------------------------------------+</span>
+</code></pre></div>
+
+<h3 id="22">2.2 核心指标与打分方法</h3>
+<h4 id="221-action-units-au">2.2.1 Action Units (AU) 与表情</h4>
+<p>AU 是面部肌肉运动的原子单位。由于 AU 在自然场景下极度不平衡（如 AU12 嘴角上扬很常见，但 AU27 张嘴极大很少见），<strong>Accuracy 是具有误导性的</strong>。</p>
+<ul>
+<li><strong>Rule-of-Thumb</strong>: 必须使用 <strong>F1-Score</strong> 或 <strong>AUC</strong> 作为主要指标。对于 MLLM，如果输出是文本（如 "AU1, AU2 present"），需要解析文本后计算 F1。</li>
+<li><strong>数据集</strong>: BP4D, DISFA, EmotioNet。</li>
+</ul>
+<h4 id="222-blendshapes-bs">2.2.2 Blendshapes (BS)</h4>
+<p>Blendshapes 通常是一组 0.0 到 1.0 的浮点数系数（例如 ARKit 的 52 个基动）。这不仅用于驱动数字人，也是 MLLM 理解细微表情的量化输出。</p>
+<ul>
+<li><strong>指标</strong>: 平均绝对误差 (MAE) 或 均方误差 (MSE)。</li>
+<li><strong>难点</strong>: 不同的 3D 模型底座（Topology）定义的 BS 可能不同。评测时必须对齐到同一标准（通常推荐 ARKit 标准）。</li>
+</ul>
+<h4 id="223-gaze-pose">2.2.3 视线 (Gaze) 与头姿 (Pose)</h4>
+<ul>
+<li><strong>指标</strong>: 角度误差（Angular Error，单位：度）。通常分别计算 Pitch（俯仰）和 Yaw（偏航）的误差，再求欧氏距离。</li>
+<li><strong>数据集</strong>: MPIIGaze, Gaze360, 300W-LP (Pose), AFLW2000-3D。</li>
+</ul>
+<h4 id="224-dmsoms">2.2.4 DMS/OMS 状态判定（疲劳/分心）</h4>
+<p>这是时序视频理解任务。</p>
+<ul>
+<li><strong>指标</strong>:<ul>
+<li><strong>事件级 Recall/Precision</strong>: 在一段 1 分钟视频中，模型是否正确标记出了“闭眼 &gt; 1.5秒”的时间段。</li>
+<li><strong>Time-to-Detect (TTD)</strong>: 从疲劳特征出现到模型报警的延迟时间。</li>
+</ul>
+</li>
+</ul>
+<h3 id="23-robustness-ablation">2.3 鲁棒性评测 (Robustness &amp; Ablation)</h3>
+<p>人脸评测最容易受环境影响，必须在测评集中设计专门的 Ablation 子集：</p>
+<ol>
+<li><strong>光照与传感器</strong>:<ul>
+<li><strong>RGB vs IR (近红外)</strong>: 车内常驻 IR 摄像头，模型在黑白/红外图上的表现通常与 RGB 差异巨大，需单独测。</li>
+<li><strong>极端光照</strong>: 侧光（阴阳脸）、逆光（过曝）、低照度。</li>
+</ul>
+</li>
+<li><strong>遮挡 (Occlusion)</strong>:<ul>
+<li>佩戴物：墨镜（透光 vs 不透光）、口罩、帽子。</li>
+<li>手部遮挡：手托腮、揉眼睛、喝水遮挡。</li>
+</ul>
+</li>
+<li><strong>视角 (Viewpoint)</strong>:<ul>
+<li>大角度侧脸（Profile view）是很多 MLLM 的盲区。</li>
+</ul>
+</li>
+</ol>
+<h3 id="24-key">2.4 训练数据反查与“以人脸为 Key”的过拟合</h3>
+<p>MLLM 常见的一个陷阱是<strong>记住“人”而不是“表情”</strong>。</p>
+<ul>
+<li><strong>反查策略</strong>: 在训练集和测试集中即使没有重叠的图片，如果存在<strong>同一个人的不同图片</strong>（Identity Leakage），测试分数也会虚高。</li>
+<li><strong>对策</strong>: 确保 Train/Test Split 是 <strong>Subject-independent</strong>（按人划分，而非按图划分）。</li>
+</ul>
+<hr />
+<h2 id="3">3. 本章小结</h2>
+<ul>
+<li><strong>几何到语义</strong>: 评测应覆盖从底层的 Blendshape 回归到高层的 DMS 状态推理。</li>
+<li><strong>指标陷阱</strong>: AU 评测避免使用 Accuracy，使用 F1；连续变量使用 MAE。</li>
+<li><strong>身份隔离</strong>: 严格执行 Subject-independent 的数据集划分，防止模型通过记住 ID 来作弊。</li>
+<li><strong>多模态价值</strong>: MLLM 的核心价值在于处理 Long-tail 场景（如“司机虽然闭眼了，但因为他在打喷嚏，而不是睡觉”），评测应包含此类逻辑推理题。</li>
+</ul>
+<hr />
+<h2 id="4">4. 练习题</h2>
+<h3 id="_1">基础题</h3>
+<ol>
+<li>
+<p><strong>概念辨析</strong>: 请简述 Action Unit (AU) 和 Blendshape 的区别。为什么在驱动 3D 数字人 avatar 时通常首选 Blendshape？
+    <details markdown="1"><summary>Hint</summary>AU 基于解剖学肌肉运动（FACS），描述的是“发生了什么动作”；Blendshape 基于几何形变，描述的是“目标形状由哪些基底合成”。BS 直接对应 3D 渲染参数。</details></p>
+</li>
+<li>
+<p><strong>指标计算</strong>: 假设测试集中有 100 张人脸图，其中只有 5 张包含 AU27（张大嘴）。模型预测这 100 张全都没有 AU27。请问 Accuracy 是多少？F1-score 是多少？这说明了什么？
+    <details markdown="1"><summary>Hint</summary>Accuracy = 95% (看似很高)；Recall = 0，Precision = 0，F1 = 0。说明 Accuracy 在类别极度不平衡时失效。</details></p>
+</li>
+<li>
+<p><strong>光照鲁棒性</strong>: 在车内环境中，为什么 RGB 模型在夜间几乎不可用？评测时应引入什么类型的图像数据？
+    <details markdown="1"><summary>Hint</summary>车内夜间无自然光，需依赖主动红外补光。必须评测 IR (Infrared) / NIR (Near-Infrared) 灰度图像。</details></p>
+</li>
+<li>
+<p><strong>视线追踪</strong>: Gaze 评测中，"Eye contact"（眼神接触）通常如何定义？它与具体的 Pitch/Yaw 角度有何关系？
+    <details markdown="1"><summary>Hint</summary>Eye contact 通常定义为视线向量落入摄像头（或特定目标区域）的一定角度锥体范围内（例如 5-10度误差内）。</details></p>
+</li>
+</ol>
+<h3 id="_2">挑战题</h3>
+<ol start="5">
+<li>
+<p><strong>DMS 逻辑推理</strong>: 设计一个评测用例，用于区分“疲劳闭眼”和“有意识闭眼（如思考或听音乐）”。MLLM 需要结合哪些上下文信息？
+    <details markdown="1"><summary>Hint</summary>需要结合：闭眼时长（微睡 vs 长闭眼）、头部动作（点头/垂头 vs 仰头）、手部动作、甚至语音输入（是否在哼歌）。</details></p>
+</li>
+<li>
+<p><strong>Blendshape 跨域问题</strong>: 你使用一个在真实人脸数据集（如 300W-LP）上微调的模型去预测二次元/卡通风格人脸的 Blendshape，结果发现误差很大。请分析原因并提出评测改进方案。
+    <details markdown="1"><summary>Hint</summary>Domain Gap。真实人脸纹理与卡通差异大，且拓扑结构不同。评测应建立风格化人脸的专用测试集（可通过 3D 引擎渲染生成 Ground Truth）。</details></p>
+</li>
+<li>
+<p><strong>隐私与评测</strong>: 在构建 OMS（乘客监控）评测集时，如何处理 GDPR 或本地隐私法规带来的限制？如何证明模型在未见过的数据上依然有效？
+    <details markdown="1"><summary>Hint</summary>使用合成数据（Synthetic Data）或经过严格脱敏（去标识化）的数据集。评测重点在于“动作/状态”而非“身份”。</details></p>
+</li>
+</ol>
+<hr />
+<h2 id="5-gotchas">5. 常见陷阱与错误 (Gotchas)</h2>
+<p>| 陷阱类型 | 描述 | 调试/规避技巧 |</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">陷阱类型</th>
+<th style="text-align: left;">描述</th>
+<th style="text-align: left;">调试/规避技巧</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Landmark $\neq$ Blendshape</strong></td>
+<td style="text-align: left;">很多初学者试图直接用 2D 关键点（Landmarks）的距离来线性计算 Blendshape，导致非线性表情（如嘴唇卷曲）丢失。</td>
+<td style="text-align: left;">必须使用 3D 标注数据或通过 3DMM 拟合获得 Ground Truth，不要手动写规则转换。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>AU 共现幻觉</strong></td>
+<td style="text-align: left;">模型预测出解剖学上不可能并存的 AU 组合（如嘴唇同时极度上扬和下撇）。</td>
+<td style="text-align: left;">在打分器中加入“解剖学约束检查（Anatomical Constraints Check）”，对不合理组合进行惩罚。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>坐标系混淆</strong></td>
+<td style="text-align: left;">视线/头姿的 Pitch/Yaw/Roll 定义不一致（左手系 vs 右手系，相机坐标系 vs 世界坐标系）。</td>
+<td style="text-align: left;"><strong>标准化预处理</strong>：所有 Ground Truth 和预测结果在评测前统一转换到同一坐标系定义。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>时间抖动</strong></td>
+<td style="text-align: left;">视频评测中，单帧预测准确，但连续帧之间数值跳变剧烈。</td>
+<td style="text-align: left;">引入 <strong>Temporal Smoothness</strong> 指标（如相邻帧预测值的二阶差分），惩罚高频抖动。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>人种/年龄偏差</strong></td>
+<td style="text-align: left;">模型在特定人种或儿童/老人脸上失效。</td>
+<td style="text-align: left;">检查测试集的分布（Demographic bias），分桶汇报指标。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6">6. 车舱落地：驾舱一体专门讨论</h2>
+<p>在智能座舱中，人头/人脸理解是连接物理世界与数字交互的纽带。评测需特别关注以下<strong>全链路交互</strong>场景：</p>
+<h3 id="61-dmsoms">6.1 DMS/OMS 触发逻辑与对话融合</h3>
+<ul>
+<li><strong>评测场景</strong>: 驾驶员打哈欠（DMS检测到）$\rightarrow$ MLLM 接收 Token $\rightarrow$ 语音助手主动询问：“检测到您有些疲劳，需要为您播放提神的音乐或导航到最近的服务区吗？”</li>
+<li><strong>关键指标</strong>:<ul>
+<li><strong>端到端延迟</strong>: 从哈欠动作结束到 TTS 声音响起的总耗时（建议 &lt; 2秒）。</li>
+<li><strong>打扰率 (False Alarm Annoyance)</strong>: 误报导致的主动打扰频率。如果用户只是在大笑被误判为哈欠，助手频繁打断会造成极差体验。</li>
+<li><strong>多模态拒绝</strong>: 如果驾驶员戴墨镜，DMS 无法判断视线，MLLM 应当知道“数据缺失”并保持静默，而不是幻觉出视线方向。</li>
+</ul>
+</li>
+</ul>
+<h3 id="62-multi-person-arbitration">6.2 多人多位置仲裁 (Multi-person Arbitration)</h3>
+<ul>
+<li><strong>OMS 场景</strong>: 后排右侧乘客说“打开车窗”。</li>
+<li><strong>技术链路</strong>: 声纹定位（VAD/DOA） + OMS 视觉定位（唇动检测/Face ID）。</li>
+<li><strong>评测重点</strong>:<ul>
+<li><strong>视听一致性 (Audio-Visual Sync)</strong>: 只有当<strong>说话人的嘴部动作</strong>与<strong>音频时间戳</strong>对齐，且<strong>位置</strong>匹配时，才执行指令。</li>
+<li><strong>测试集构建</strong>: 需要录制“一人说话，旁人张嘴不发声”或“旁人说话，目标闭嘴”的干扰样本，测试模型的抗干扰能力。</li>
+</ul>
+</li>
+</ul>
+<h3 id="63-privacy-compliance">6.3 隐私与合规 (Privacy &amp; Compliance)</h3>
+<p>车内摄像头属于高度敏感数据。</p>
+<ul>
+<li><strong>评测红线</strong>:<ul>
+<li><strong>本地闭环</strong>: 所有人脸图像必须在端侧（NPU）处理，评测需验证<strong>没有任何图像数据</strong>被上传到云端 MLLM（仅上传抽象后的语义 Token，如 <code>&lt;state&gt;drowsy&lt;/state&gt;</code>）。</li>
+<li><strong>数据遗忘</strong>: 每次熄火或行程结束，内存中的特征缓存是否被彻底清除。</li>
+</ul>
+</li>
+</ul>
+<h3 id="64">6.4 极端场景与降级策略</h3>
+<ul>
+<li><strong>低光/遮挡兜底</strong>: 当光照不足导致视觉失效时，MLLM 是否能平滑切换到纯语音交互模式，并给出合理的解释（“光线太暗，我看不清您的手势，请直接告诉我指令”）。</li>
+</ul>
+            </article>
+            
+            <nav class="page-nav"><a href="chapter8.html" class="nav-link prev">← 第 8 章：视频理解（含人流、事件、时序推理、驾驶相关）</a><a href="chapter10.html" class="nav-link next">第 10 章：GUI 截屏/录屏理解与操作评测（ScreenSuite 等） →</a></nav>
+        </main>
+    </div>
+</body>
+</html>

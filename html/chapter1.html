@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>第 1 章：测评总览与能力树</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item " >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">MLLM 多模理解与生成大模型测评教程（中文）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item active" >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 1 章：测评总览与能力树</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 2 章：数据、指标与统计：从“可比”到“可信”</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 3 章：评测平台工程化：统一接口、批量运行、可视化与 CI</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 4 章：ASR 测评（语音识别）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 5 章：TTS 测评（语音合成）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 6 章：音频/音乐理解与生成测评 (chapter6.md)</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 7 章：自然图像理解与 OCR（含交通牌、扫码、天气等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 8 章：视频理解（含人流、事件、时序推理、驾驶相关）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 9 章：人头/人脸图像与视频理解（AU、Blendshape、DMS/OMS）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 10 章：GUI 截屏/录屏理解与操作评测（ScreenSuite 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 11 章：文本逻辑性、事实性与低幻觉：客观打分体系</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 12 章：RAG 评测：检索与生成的端到端客观评分</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 13 章：文字 + 语音 Role-play 的主观人评（CharacterEval 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="1">第 1 章：测评总览与能力树</h1>
+<h2 id="11">1.1 开篇：绘制多模态能力的“地图”</h2>
+<p>欢迎进入 MLLM（多模态大语言模型）测评的系统化教程。</p>
+<p>在传统的 NLP 时代，测评主要围绕“文本进，文本出”进行。然而，当模型进化为 MLLM 时，我们面临的是一个<strong>输入输出组合呈指数级爆炸</strong>的复杂系统。一个合格的 MLLM，不仅要是一个“作家”（文本生成），还要是“观察者”（视觉理解）、“倾听者”（语音识别）、“程序员”（代码/动作生成）甚至是“决策者”（Agent）。</p>
+<p>测评 MLLM 的核心难点不在于跑几个脚本，而在于<strong>定义“什么是好”</strong>。</p>
+<ul>
+<li>一张路牌图片，OCR 识别对了文字，但没理解“禁止左转”的红圈含义，算对还是错？</li>
+<li>用户说“把那个关掉”，模型需要结合视线追踪（DMS）才知道用户看的是车窗还是空调，这该怎么测？</li>
+</ul>
+<p><strong>本章学习目标：</strong></p>
+<ol>
+<li><strong>能力解构</strong>：学会区分“原子能力”与“系统能力”，构建全维度的 I/O 矩阵。</li>
+<li><strong>测评层级</strong>：理解从感知、逻辑、安全到体验的“测评金字塔”。</li>
+<li><strong>基准设计</strong>：掌握如何选择 Baseline（SOTA、竞品、上一版本、人类基线）。</li>
+<li><strong>交付标准化</strong>：定义 Model Card、Leaderboard 和回归报告的标准格式。</li>
+<li><strong>车舱落地</strong>：建立“驾舱一体”场景下的测评全景图（端云结合、多模交互）。</li>
+</ol>
+<hr />
+<h2 id="12-mllm">1.2 MLLM 的“能力”到底指什么？</h2>
+<p>我们在讨论测评时，经常混淆两个概念：<strong>模型做题的能力</strong>（Academic Benchmarks）与<strong>模型解决问题的能力</strong>（Product Capabilities）。</p>
+<h3 id="121-atomic-capabilities">1.2.1 原子任务能力 (Atomic Capabilities)</h3>
+<p>这是指模型在单一模态、单一任务定义下的表现。通常对应学术界的公开数据集。</p>
+<ul>
+<li><strong>示例</strong>：ASR 的字错误率 (WER)、图像分类的 Top-1 Accuracy、OCR 的字符准确率。</li>
+<li><strong>特点</strong>：客观、易量化、易复现。</li>
+<li><strong>局限</strong>：高分不一定高能。ASR 听得很准，但意图理解错了，用户体验依然是 0 分。</li>
+</ul>
+<h3 id="122-system-capabilities">1.2.2 系统综合能力 (System Capabilities)</h3>
+<p>这是指模型作为 Agent，串联多个原子能力完成用户意图的表现。</p>
+<ul>
+<li><strong>示例</strong>：用户指着中控屏上的导航地图问：“这附近哪家咖啡厅能在 5 分钟内走到？”<ul>
+<li>需要能力链条：ASR（听懂） -&gt; Intent（意图识别） -&gt; Tool Use（调用地图 API 获取 POI） -&gt; Logic（筛选 &lt; 5min 步行距离） -&gt; TTS（语音回答）。</li>
+</ul>
+</li>
+<li><strong>特点</strong>：主观性强、链路长、错误会累积。</li>
+</ul>
+<blockquote>
+<p><strong>Rule of Thumb #1: 木桶效应与乘法效应</strong></p>
+<p>在 MLLM 测评中，系统能力的成功率近似于链路上各原子能力成功率的<strong>乘积</strong>。
+如果 ASR 90%，意图理解 90%，API 调用 90%，最终系统成功率只有 $0.9^3 \approx 72.9\%$。
+<strong>测评策略</strong>：原子测评用于<strong>归因分析</strong>（哪里断了），端到端测评用于<strong>验收交付</strong>（能不能用）。</p>
+</blockquote>
+<hr />
+<h2 id="13-io-matrix">1.3 多模态输入输出矩阵 (I/O Matrix)</h2>
+<p>为了不遗漏测评死角，我们需要建立一个全排列的矩阵。每一行代表输入，每一列代表输出。</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">+-------------------+---------------------------------------------------------------+</span>
+<span class="c">| 输入模态 (Source) |                      输出能力与关键测评点 (Target)             |</span>
+<span class="nb">+-------------------+---------------------------------------------------------------+</span>
+<span class="c">|                   | </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> </span><span class="k">[</span><span class="c">Text</span><span class="k">]</span><span class="c">  Captioning</span><span class="nt">,</span><span class="c"> VQA</span><span class="nt">,</span><span class="c"> OCR(文档/自然场景)</span><span class="nt">,</span><span class="c"> 幻觉检测       |</span>
+<span class="c">| 1</span><span class="nt">.</span><span class="c"> Image / Video  | </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> </span><span class="k">[</span><span class="c">Box</span><span class="k">]</span><span class="c">   Grounding (坐标定位)</span><span class="nt">,</span><span class="c"> 检测与分割</span><span class="nt">,</span><span class="c"> 计数              |</span>
+<span class="c">| (视觉感知)        | </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> </span><span class="k">[</span><span class="c">Code</span><span class="k">]</span><span class="c">  GUI 截图转 HTML/Python</span><span class="nt">,</span><span class="c"> 图表转数据 (De</span><span class="nb">-</span><span class="c">plot)        |</span>
+<span class="c">|                   | </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> </span><span class="k">[</span><span class="c">Risk</span><span class="k">]</span><span class="c">  敏感内容过滤 (涉黄/暴/隐私)                         |</span>
+<span class="nb">+-------------------+---------------------------------------------------------------+</span>
+<span class="c">|                   | </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> </span><span class="k">[</span><span class="c">Text</span><span class="k">]</span><span class="c">  ASR (长/短/流式)</span><span class="nt">,</span><span class="c"> 歌词对齐</span><span class="nt">,</span><span class="c"> 说话人分离 (Diarization)|</span>
+<span class="c">| 2</span><span class="nt">.</span><span class="c"> Audio / Music  | </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> </span><span class="k">[</span><span class="c">Attr</span><span class="k">]</span><span class="c">  情绪识别</span><span class="nt">,</span><span class="c"> 性别/年龄识别</span><span class="nt">,</span><span class="c"> 语种识别 (LID)             |</span>
+<span class="c">| (听觉感知)        | </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> </span><span class="k">[</span><span class="c">Event</span><span class="k">]</span><span class="c"> 环境声分类 (警笛/婴儿哭/玻璃碎 </span><span class="nb">-</span><span class="c"> 车载重点)          |</span>
+<span class="c">|                   | </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> </span><span class="k">[</span><span class="c">Music</span><span class="k">]</span><span class="c"> 风格分析</span><span class="nt">,</span><span class="c"> 乐理结构理解                              |</span>
+<span class="nb">+-------------------+---------------------------------------------------------------+</span>
+<span class="c">|                   | </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> </span><span class="k">[</span><span class="c">Text</span><span class="k">]</span><span class="c">  逻辑推理</span><span class="nt">,</span><span class="c"> 摘要</span><span class="nt">,</span><span class="c"> 翻译</span><span class="nt">,</span><span class="c"> 角色扮演 (Role</span><span class="nb">-</span><span class="c">play)          |</span>
+<span class="c">| 3</span><span class="nt">.</span><span class="c"> Text           | </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> </span><span class="k">[</span><span class="c">Speech</span><span class="k">]</span><span class="c"> TTS (自然度</span><span class="nt">,</span><span class="c"> 情感可控</span><span class="nt">,</span><span class="c"> 声音克隆相似度)             |</span>
+<span class="c">| (认知核心)        | </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> </span><span class="k">[</span><span class="c">Image</span><span class="k">]</span><span class="c"> 文生图 (一致性</span><span class="nt">,</span><span class="c"> 美学评分</span><span class="nt">,</span><span class="c"> 文字渲染能力)             |</span>
+<span class="c">|                   | </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> </span><span class="k">[</span><span class="c">Code</span><span class="k">]</span><span class="c">  代码生成</span><span class="nt">,</span><span class="c"> SQL 生成</span><span class="nt">,</span><span class="c"> 单元测试通过率                  |</span>
+<span class="c">|                   | </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> </span><span class="k">[</span><span class="c">Action</span><span class="k">]</span><span class="c"> Tool/API Call (JSON 格式正确性</span><span class="nt">,</span><span class="c"> 参数准确性)        |</span>
+<span class="nb">+-------------------+---------------------------------------------------------------+</span>
+<span class="c">| 4</span><span class="nt">.</span><span class="c"> Multimodal Mix | </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> </span><span class="k">[</span><span class="c">E2E</span><span class="k">]</span><span class="c">   视频</span><span class="nb">+</span><span class="c">语音问答</span><span class="nt">,</span><span class="c"> 屏幕</span><span class="nb">+</span><span class="c">指令操作</span><span class="nt">,</span><span class="c"> 驾驶场景险情描述      |</span>
+<span class="c">| (多模态融合)      | </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> </span><span class="k">[</span><span class="c">State</span><span class="k">]</span><span class="c"> 记忆更新 (用户偏好画像)</span><span class="nt">,</span><span class="c"> 上下文状态保持             |</span>
+<span class="nb">+-------------------+---------------------------------------------------------------+</span>
+</code></pre></div>
+
+<p><strong>重点关注的“隐形”模态：</strong></p>
+<ul>
+<li><strong>Time (时间)</strong>：视频和音频都有时序。模型能否理解“先...后...”、“视频第 3 秒发生了什么”。</li>
+<li><strong>Space (空间)</strong>：3D 理解。模型能否理解图片中的遮挡关系、距离远近（尤其是单目视觉下的深度估计）。</li>
+</ul>
+<hr />
+<h2 id="14">1.4 测评金字塔：分层评价体系</h2>
+<p>不要试图用一个分数概括模型。对于车舱等严肃场景，必须采用分层门禁（Gating）策略。</p>
+<div class="codehilite"><pre><span></span><code>             / \
+            /   \        Level 4: 体验与拟人 (Experience)
+           /-----\       --------------------------------
+          /       \      关键词：有趣、风格一致、多轮不烦、共情
+         /---------\     测评法：Elo Rating, 众包 Side-by-Side, 细粒度 Rubric
+        /           \
+       /-------------\   Level 3: 安全与鲁棒 (Safety &amp; Robustness)
+      /               \  -----------------------------------------
+     /-----------------\ 关键词：拒答攻击、指令注入、防甚至幻觉、隐私合规
+    /                   \ 测评法：Red Teaming (红队测试), 边界值压力测试
+   /---------------------\
+  | Level 2: 逻辑与执行   | Level 2: 逻辑与执行 (Reasoning &amp; Agency)
+  | (Logic &amp; Execution)   | -----------------------------------------
+  |                       | 关键词：多步推理、RAG 事实性、代码逻辑、工具调用
+  +-----------------------+ 测评法：GSM8K类, IFEval, 客观正确率 (Exact Match)
+  | Level 1: 基础感知     | Level 1: 基础感知 (Perception)
+  | (Perception)          | -----------------------------------------
+  +-----------------------+ 关键词：听清(WER)、看准(mAP/IoU)、读对(OCR)
+                            测评法：标准学术数据集, 自动化脚本
+  =========================
+  [ 底座约束: 时延 (Latency) | 吞吐 (Throughput) | 显存成本 (VRAM) ]
+</code></pre></div>
+
+<h3 id="141">1.4.1 分层执行策略</h3>
+<ul>
+<li><strong>Level 1 &amp; 3 (Hard Gate)</strong>：如果是车载模型，ASR 听不清指令，或者安全测试不通过（如允许用户语音打开引擎盖），<strong>直接不准上线</strong>。这两个层级适合做 CI/CD 的自动化阻断。</li>
+<li><strong>Level 2 (Soft Gate)</strong>：逻辑能力通常随模型规模提升。需要设定“基线分”，低于基线需特批。</li>
+<li><strong>Level 4 (Monitoring)</strong>：体验往往是千人千面的。通常不作为阻断项，而是作为 A/B 测试的观察指标。</li>
+</ul>
+<hr />
+<h2 id="15">1.5 评测资产与交付物</h2>
+<p>不要只给老板发一个 Excel 表格。专业的测评体系需要维护以下资产：</p>
+<h3 id="151-model-card">1.5.1 Model Card (模型身份证)</h3>
+<p>每当发布一个新模型版本，必须附带 Model Card，包含：</p>
+<ul>
+<li><strong>训练数据截止日期</strong>：防止询问“昨天的新闻”产生幻觉。</li>
+<li><strong>能力边界</strong>：明确写出“不能做”的事（例如：本模型不支持识别手写潦草字体）。</li>
+<li><strong>适用场景</strong>：推荐用于闲聊助手，不推荐用于医疗诊断。</li>
+</ul>
+<h3 id="152-leaderboard-regression-dashboard">1.5.2 Leaderboard &amp; Regression Dashboard</h3>
+<ul>
+<li><strong>纵向对比（回归）</strong>：v1.2 vs v1.1。必须计算 <strong>Win/Tie/Loss</strong> 比例。<ul>
+<li><em>警惕</em>：总分提升，但核心能力下降。例如模型变得更聪明了，但 OCR 变差了（遗忘灾难）。</li>
+</ul>
+</li>
+<li><strong>横向对比（竞品）</strong>：Compare with GPT-4o, Gemini 1.5 Pro, Qwen2-VL, etc.<ul>
+<li><em>意义</em>：确立当前模型的行业水位。</li>
+</ul>
+</li>
+</ul>
+<h3 id="153-bad-case-taxonomy">1.5.3 Bad Case Taxonomy (错误归因库)</h3>
+<p>不仅要记录错题，还要对错误进行分类（Taxonomy）：</p>
+<ol>
+<li><strong>感知错误</strong>：根本没看清图/没听清音。</li>
+<li><strong>知识缺失</strong>：看清了，但不知道那是什么（例如不认识某种新型路标）。</li>
+<li><strong>逻辑断裂</strong>：推理步骤跳跃。</li>
+<li><strong>指令遵循失败</strong>：没按要求格式输出（如要求输出 JSON 却输出了 Markdown）。</li>
+<li><strong>拒答/过度防御</strong>：本来能答的，因为安全策略误判而拒绝。</li>
+</ol>
+<hr />
+<h2 id="16-baseline">1.6 基线与对照：如何选 Baseline</h2>
+<blockquote>
+<p><strong>Rule of Thumb #2: 测评的本质是“相对论”</strong>
+绝对分数（如 85.4 分）没有意义，分数的<strong>差值</strong>（Delta）才有意义。</p>
+</blockquote>
+<p>在设计实验时，至少包含以下三类 Baseline：</p>
+<ol>
+<li><strong>SOTA (State-of-the-Art) 上限</strong>：<ul>
+<li>通常选择最强的闭源模型（如 GPT-4o）。这是用来打击自信心和寻找差距的。</li>
+</ul>
+</li>
+<li><strong>Previous Best (自研历史最佳)</strong>：<ul>
+<li>这是用来证明“我这周没白干”的。必须通过回归测试。</li>
+</ul>
+</li>
+<li><strong>Heuristic / Pipeline (非端到端基线)</strong>：<ul>
+<li><em>重要</em>：对于 RAG 或工具调用，如果不比“关键词检索 + 规则”更好，那为什么要用昂贵的 LLM？</li>
+<li>对于 OCR，如果不比传统的 PP-OCR 或 Tesseract 更好，那 MLLM 还有什么价值？</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="17">1.7 车舱落地：驾舱一体测评概览</h2>
+<p>本教程的特色在于每章末尾的“上车”环节。车舱环境是 MLLM 最复杂、最苛刻的落地场景之一。</p>
+<h3 id="171">1.7.1 驾舱一体交互链路图</h3>
+<p>在车里，MLLM 不是一个孤立的 App，它是连接人与车的<strong>中枢神经</strong>。</p>
+<div class="codehilite"><pre><span></span><code><span class="c">     </span><span class="k">[</span><span class="c">人: 驾驶员/乘客</span><span class="k">]</span><span class="c">        </span><span class="k">[</span><span class="c">环境: 路况/天气</span><span class="k">]</span><span class="c">       </span><span class="k">[</span><span class="c">云端: 知识/服务</span><span class="k">]</span>
+<span class="c">            |                        |                       |</span>
+<span class="nb">+-----------</span><span class="c">v</span><span class="nb">------------------------</span><span class="c">v</span><span class="nb">-----------------------</span><span class="c">v</span><span class="nb">-----------+</span>
+<span class="c">|                          输入层 (Sense)                                |</span>
+<span class="c">| 1</span><span class="nt">.</span><span class="c"> 舱内视觉 (IMS): DMS(疲劳/视线)</span><span class="nt">,</span><span class="c"> OMS(手势/物品)</span><span class="nt">,</span><span class="c"> Lip</span><span class="nb">-</span><span class="c">reading(唇语)   |</span>
+<span class="c">| 2</span><span class="nt">.</span><span class="c"> 舱内听觉: 麦克风阵列 (声源定位</span><span class="nt">,</span><span class="c"> 降噪</span><span class="nt">,</span><span class="c"> AEC回声消除)                  |</span>
+<span class="c">| 3</span><span class="nt">.</span><span class="c"> 车辆状态: 车速</span><span class="nt">,</span><span class="c"> 档位</span><span class="nt">,</span><span class="c"> 剩余里程</span><span class="nt">,</span><span class="c"> 故障码                              |</span>
+<span class="c">| 4</span><span class="nt">.</span><span class="c"> 舱外感知: ADAS数据 (车道线</span><span class="nt">,</span><span class="c"> 障碍物)</span><span class="nt">,</span><span class="c"> 环视摄像头</span><span class="nt">,</span><span class="c"> 天气               |</span>
+<span class="nb">+------------------------------------+-----------------------------------+</span>
+<span class="c">                                     |</span>
+<span class="nb">+------------------------------------</span><span class="c">v</span><span class="nb">-----------------------------------+</span>
+<span class="c">|                          中枢层 (Think)                                |</span>
+<span class="c">| 1</span><span class="nt">.</span><span class="c"> 仲裁 (Arbitration): 谁在说话？该听谁的？(副驾调音量 vs 主驾语音导航)|</span>
+<span class="c">| 2</span><span class="nt">.</span><span class="c"> 路由 (Routing): 端侧处理(车控/隐私) vs 云端处理(闲聊/百科)          |</span>
+<span class="c">| 3</span><span class="nt">.</span><span class="c"> 记忆 (Memory): 长期偏好(空调习惯) </span><span class="nb">+</span><span class="c"> 短期上下文(刚才提到了那家店)    |</span>
+<span class="c">| 4</span><span class="nt">.</span><span class="c"> 安全 (Safety): 驾驶分心检测</span><span class="nt">,</span><span class="c"> 危险指令拦截                           |</span>
+<span class="nb">+------------------------------------+-----------------------------------+</span>
+<span class="c">                                     |</span>
+<span class="nb">+------------------------------------</span><span class="c">v</span><span class="nb">-----------------------------------+</span>
+<span class="c">|                          输出层 (Act)                                  |</span>
+<span class="c">| 1</span><span class="nt">.</span><span class="c"> 语音 (TTS): 分区播放</span><span class="nt">,</span><span class="c"> 情感安抚</span><span class="nt">,</span><span class="c"> 紧急打断                            |</span>
+<span class="c">| 2</span><span class="nt">.</span><span class="c"> 视觉 (GUI): 中控屏卡片</span><span class="nt">,</span><span class="c"> AR</span><span class="nb">-</span><span class="c">HUD 投射</span><span class="nt">,</span><span class="c"> 仪表盘提示                     |</span>
+<span class="c">| 3</span><span class="nt">.</span><span class="c"> 车控 (Control): 空调</span><span class="nt">,</span><span class="c"> 车窗</span><span class="nt">,</span><span class="c"> 座椅</span><span class="nt">,</span><span class="c"> 氛围灯</span><span class="nt">,</span><span class="c"> 导航设点                  |</span>
+<span class="nb">+------------------------------------------------------------------------+</span>
+</code></pre></div>
+
+<h3 id="172">1.7.2 车载测评的核心挑战（相比通用测评）</h3>
+<ol>
+<li>
+<p><strong>端侧 vs 云侧的割裂</strong>：</p>
+<ul>
+<li>车机芯片算力有限（NPU）。我们需要测评“量化后的 7B/3B 模型”在端侧的表现，对比云端全精度模型的<strong>性能折损率</strong>。</li>
+<li><strong>断网测评</strong>：在无网络情况下，基础车控语音助手必须可用。</li>
+</ul>
+</li>
+<li>
+<p><strong>多模态融合触发 (Multimodal Triggering)</strong>：</p>
+<ul>
+<li><em>场景</em>：用户看向右后视镜（DMS） + 指着右边（手势） + 说“把他打开”（语音）。</li>
+<li><em>测评点</em>：模型能否对齐这三个模态的时间戳，正确识别出“打开右后视镜折叠”或“打开右侧车窗”的意图？</li>
+</ul>
+</li>
+<li>
+<p><strong>高噪声与远场环境</strong>：</p>
+<ul>
+<li>通用 ASR 测评通常在安静环境下。</li>
+<li><strong>车载必测</strong>：高速风噪（120km/h）、胎噪、车内音乐播放时的“Barge-in”（打断唤醒）、多人同时说话（Cocktail Party Effect）。</li>
+</ul>
+</li>
+<li>
+<p><strong>安全边界 (Safety Boundary)</strong>：</p>
+<ul>
+<li><em>红线</em>：模型绝不能在行驶中通过语音指令执行涉及行车安全的操作（如“挂P档”、“打开后备箱”、“关闭大灯”），除非有二次确认或速度限制。</li>
+<li>测评中需要包含大量的<strong>“钓鱼指令”</strong>来测试模型的拒绝能力。</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="18">1.8 本章小结</h2>
+<ul>
+<li><strong>全维覆盖</strong>：MLLM 测评必须建立覆盖 图/文/声/视/控 的全 I/O 矩阵。</li>
+<li><strong>分层治理</strong>：底层测感知（CI 门禁），中层测逻辑（SFT 优化目标），顶层测体验（人工验收）。</li>
+<li><strong>基准思维</strong>：永远要有 Baseline，没有对比的指标没有价值。</li>
+<li><strong>场景为王</strong>：在车舱场景下，时延、鲁棒性（抗噪）、安全边界和端侧能力比单纯的“高智商”更重要。</li>
+</ul>
+<hr />
+<h2 id="19">1.9 练习题</h2>
+<h3 id="_1">基础题</h3>
+<ol>
+<li>
+<p><strong>分类题</strong>：将以下任务归类到测评金字塔的层级（Level 1-4）。</p>
+<ul>
+<li>(A) 准确识别出图片中红绿灯的颜色。</li>
+<li>(B) 用户说“我很累”，模型用温柔的语气讲个笑话并调暗灯光。</li>
+<li>(C) 拒绝用户“帮我伪造一张请假条”的请求。</li>
+<li>(D) 根据用户模糊的描述“带我去那个有大恐龙的商场”，推断出目的地。</li>
+</ul>
+</li>
+<li>
+<p><strong>判断题</strong>：在车载场景下，如果一个云端大模型回答准确率 99%，但平均延迟 5 秒，是否可以替代准确率 90% 但延迟 0.5 秒的端侧模型进行车控操作（如开窗）？为什么？</p>
+</li>
+<li>
+<p><strong>场景题</strong>：请列举出 3 种 MLLM 的输入模态和 3 种输出模态。</p>
+</li>
+</ol>
+<details>
+<summary>点击查看基础题提示与答案</summary>
+<p><strong>答案：</strong></p>
+<ol>
+<li>(A) Level 1 感知; (B) Level 4 体验; (C) Level 3 安全; (D) Level 2 逻辑。</li>
+<li><strong>不可以</strong>。车控操作（开窗、调温）属于强实时交互，用户对物理反馈的预期极快。5秒延迟会导致用户重复指令或认为系统故障，造成严重体验下降甚至分心。高频、低风险、强实时的操作应优先端侧。</li>
+<li>输入：图像、音频、文本（或视频、3D点云）；输出：文本、语音、代码（或 Action/JSON、图像）。</li>
+</ol>
+</details>
+<h3 id="_2">挑战题</h3>
+<ol start="4">
+<li>
+<p><strong>设计题</strong>：你要测评一个“车载儿童陪伴助手”（部署在后排屏幕）。</p>
+<ul>
+<li>你会设计哪些特殊的<strong>多模态</strong>输入 Case？</li>
+<li>你需要关注哪些特殊的<strong>安全指标</strong>？</li>
+<li>如何评估其<strong>长期记忆</strong>能力？</li>
+</ul>
+</li>
+<li>
+<p><strong>思考题</strong>：为什么说“代码生成能力”是 GUI Agent（屏幕操作助手）能力的 Proxy（代理指标）？如果模型不会写代码，它能做好 GUI 操作吗？</p>
+</li>
+</ol>
+<details>
+<summary>点击查看挑战题提示与答案</summary>
+<p><strong>答案：</strong></p>
+<ol start="4">
+<li><strong>输入 Case</strong>：小孩的哭闹声（音频）、小孩拿着绘本对着摄像头（视觉OCR+TTS朗读）、小孩语无伦次的童言童语（ASR容错）。<strong>安全指标</strong>：内容过滤（恐怖/色情/暴力）、隐私保护（不收集儿童人脸ID）、引导向善（不教坏小孩）。<strong>长期记忆</strong>：隔天能否记得小孩的名字、喜欢的动画片角色。</li>
+<li><strong>原因</strong>：代码生成要求极高的逻辑严密性、符号对应能力和规划能力。GUI 操作本质上是将自然语言转化为结构化的 API 调用或 DOM 树操作序列，这在思维链路上与写代码高度同构。如果模型连 Python 的缩进和变量名都搞不定，很难指望它能准确地在复杂的 UI 树中定位元素并执行多步操作。</li>
+</ol>
+</details>
+<hr />
+<h2 id="110-gotchas">1.10 常见陷阱与错误 (Gotchas)</h2>
+<ul>
+<li><strong>陷阱 1：只测“静态”，不测“动态”</strong>。<ul>
+<li>测评只用了静态图片做 VQA，而忽略了视频流。结果模型上线后，面对 continuously changing 的驾驶画面，无法理解“刚才那辆车去哪了”。</li>
+</ul>
+</li>
+<li><strong>陷阱 2：过度依赖 GPT-4 作为 Judge</strong>。<ul>
+<li>虽然 LLM-as-a-Judge 很流行，但 GPT-4 也有偏见（喜欢长回复、喜欢某种格式）。在车舱这种短指令场景下，GPT-4 可能会把简洁准确的回答打低分。</li>
+<li><em>对策</em>：必须有人工标注的“黄金集”来校准自动打分器的相关性。</li>
+</ul>
+</li>
+<li><strong>陷阱 3：忽视 Prompt Engineering 对测评的影响</strong>。<ul>
+<li>很多时候模型测出来分低，是因为测评脚本里的 Prompt 写得太烂，或者没有遵循模型的 Chat Template。</li>
+<li><em>对策</em>：测评应使用模型官方推荐的最佳 Prompt 模板，或者进行 Few-shot 引导。</li>
+</ul>
+</li>
+</ul>
+            </article>
+            
+            <nav class="page-nav"><a href="index.html" class="nav-link prev">← MLLM 多模理解与生成大模型测评教程（中文）</a><a href="chapter2.html" class="nav-link next">第 2 章：数据、指标与统计：从“可比”到“可信” →</a></nav>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>第 7 章：自然图像理解与 OCR（含交通牌、扫码、天气等）</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item " >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">MLLM 多模理解与生成大模型测评教程（中文）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 1 章：测评总览与能力树</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 2 章：数据、指标与统计：从“可比”到“可信”</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 3 章：评测平台工程化：统一接口、批量运行、可视化与 CI</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 4 章：ASR 测评（语音识别）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 5 章：TTS 测评（语音合成）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 6 章：音频/音乐理解与生成测评 (chapter6.md)</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item active" >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 7 章：自然图像理解与 OCR（含交通牌、扫码、天气等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 8 章：视频理解（含人流、事件、时序推理、驾驶相关）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 9 章：人头/人脸图像与视频理解（AU、Blendshape、DMS/OMS）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 10 章：GUI 截屏/录屏理解与操作评测（ScreenSuite 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 11 章：文本逻辑性、事实性与低幻觉：客观打分体系</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 12 章：RAG 评测：检索与生成的端到端客观评分</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 13 章：文字 + 语音 Role-play 的主观人评（CharacterEval 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="7-ocr">第 7 章：自然图像理解与 OCR（含交通牌、扫码、天气等）</h1>
+<h2 id="1">1. 开篇与学习目标</h2>
+<p>在多模态大模型（MLLM）的能力版图中，<strong>视觉（Vision）</strong> 是信息带宽最宽的输入模态。对于“驾舱一体”的智能座舱而言，视觉能力不仅意味着让车机“看见”乘客和路况，更意味着要像人类驾驶员一样“理解”复杂的视觉语义。</p>
+<p>传统的计算机视觉（CV）往往是孤立的任务（如检测框、分类标签），而 MLLM 的核心价值在于<strong>泛化理解与逻辑推理</strong>。例如，识别出一块路牌是 CV 的任务，但结合当前时间、车辆位置和路牌上的复杂文字（如“工作日7-9点潮汐车道”）来回答“我现在能不能走这条路”，则是 MLLM 的任务。</p>
+<p>本章将系统地构建自然图像理解与 OCR 的测评体系，从基础的物体识别到复杂的场景推理，涵盖数据准备、指标设计及车舱落地实战。</p>
+<p><strong>学习目标</strong>：</p>
+<ol>
+<li><strong>构建全栈视觉测评集</strong>：涵盖 General VQA、OCR、Grounding（定位）及特定领域的交通场景数据。</li>
+<li><strong>掌握高阶评价指标</strong>：深入理解 ANLS（OCR 编辑距离）、Hallucination Rate（幻觉率）、POPE（存在性探针）等指标的计算与意义。</li>
+<li><strong>精通鲁棒性测评</strong>：学会设计针对恶劣天气、低光照、运动模糊、远距离小目标（Small Objects）的压力测试。</li>
+<li><strong>理解“端到端”价值</strong>：如何评估 MLLM 在“视觉感知 -&gt; 语义理解 -&gt; 决策建议”全链路中的表现。</li>
+</ol>
+<hr />
+<h2 id="2">2. 视觉理解能力分层与任务定义</h2>
+<p>为了科学地测评，我们将 MLLM 的视觉能力划分为四个层级，每一层级对应不同的测试重点：</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">+---------------------------------------------------------------+</span>
+<span class="c">| Layer 4: 视觉逻辑推理 (Visual Reasoning)                       |</span>
+
+<span class="c">| Layer 4: 视觉逻辑推理 (Visual Reasoning)                       |</span>
+<span class="c">| </span><span class="nb">-------------------------------------------------------------</span><span class="c"> |</span>
+<span class="c">| 任务: 解释因果、预测未来、常识推理                                |</span>
+<span class="c">| 示例: &quot;为什么要减速？&quot; </span><span class="nb">-</span><span class="nv">&gt;</span><span class="c"> &quot;因为前方路面有积冰且前车刹车灯亮了&quot;         |</span>
+
+<span class="nb">+---------------------------------------------------------------+</span>
+<span class="c">| Layer 3: 细粒度语义与 OCR (Fine</span><span class="nb">-</span><span class="c">grained Semantics &amp; OCR)       |</span>
+
+<span class="c">| Layer 3: 细粒度语义与 OCR (Fine</span><span class="nb">-</span><span class="c">grained Semantics &amp; OCR)       |</span>
+<span class="c">| </span><span class="nb">-------------------------------------------------------------</span><span class="c"> |</span>
+<span class="c">| 任务: 场景文字识别、图表理解、仪表盘读取、密集计数                    |</span>
+<span class="c">| 示例: 读取路边停车牌细则、识别二维码、读取中控屏报错代码                |</span>
+
+<span class="nb">+---------------------------------------------------------------+</span>
+<span class="c">| Layer 2: 视觉定位 (Visual Grounding / Referring)              |</span>
+
+<span class="c">| Layer 2: 视觉定位 (Visual Grounding / Referring)              |</span>
+<span class="c">| </span><span class="nb">-------------------------------------------------------------</span><span class="c"> |</span>
+<span class="c">| 任务: REC (Referring Expression Comprehension)、REG (Generation) |</span>
+<span class="c">| 示例: 输入&quot;红衣服的人在哪?&quot;</span><span class="nt">,</span><span class="c"> 输出 BBox </span><span class="k">[</span><span class="c">x1</span><span class="nt">,</span><span class="c">y1</span><span class="nt">,</span><span class="c">x2</span><span class="nt">,</span><span class="c">y2</span><span class="k">]</span><span class="c">               |</span>
+
+<span class="nb">+---------------------------------------------------------------+</span>
+<span class="c">| Layer 1: 全局感知与描述 (Global Perception &amp; Captioning)        |</span>
+
+<span class="c">| Layer 1: 全局感知与描述 (Global Perception &amp; Captioning)        |</span>
+<span class="c">| </span><span class="nb">-------------------------------------------------------------</span><span class="c"> |</span>
+<span class="c">| 任务: 图像标签、粗粒度描述、主要物体识别                           |</span>
+<span class="c">| 示例: &quot;这是一张雨天街道的照片&quot;、&quot;前面有一辆车&quot;                      |</span>
+
+<span class="nb">+---------------------------------------------------------------+</span>
+</code></pre></div>
+
+<hr />
+<h2 id="3">3. 核心测评领域与数据集选型</h2>
+<h3 id="31-general-vqa">3.1 通用图像理解 (General VQA)</h3>
+<p>这是 MLLM 的基线能力。</p>
+<ul>
+<li><strong>评测重点</strong>：对图像内容的全面理解，包括颜色、形状、动作、关系。</li>
+<li><strong>推荐数据集</strong>：<ul>
+<li><strong>MMBench</strong>: 综合性能力评测，采用选择题形式，方便自动化打分，包含逻辑、属性、细粒度感知等。</li>
+<li><strong>MME (Multimodal Evaluation)</strong>: 包含 14 个子任务，特别设计了“Yes/No”类型的指令跟随测试，用于快速回归。</li>
+<li><strong>MMMU</strong>: 侧重于多学科知识（类似考题），虽然对车载不直接相关，但能反映模型的智力上限。</li>
+</ul>
+</li>
+</ul>
+<h3 id="32-scene-text-ocr">3.2 场景文字识别 (Scene Text / OCR)</h3>
+<p><strong>车舱核心高频场景</strong>。不同于文档扫描，自然场景下的文字面临变形、遮挡、光照不均等挑战。</p>
+<ul>
+<li><strong>评测重点</strong>：<ul>
+<li><strong>多语言混合</strong>：中英文混排、特殊符号。</li>
+<li><strong>非规则排版</strong>：竖排（中文店招）、环形文字（Logo）、透视变形（地面的文字）。</li>
+<li><strong>关键信息提取 (KIE)</strong>：不仅读出来，还要结构化（如从发票中提取金额，从路牌提取限速值）。</li>
+</ul>
+</li>
+<li><strong>推荐数据集</strong>：<ul>
+<li><strong>TextVQA / ST-VQA</strong>: 针对自然图像中的文字提问。</li>
+<li><strong>OCRBench</strong>: 一个聚合了多个 OCR 任务的综合基准，包含手写、场景、文档等。</li>
+<li><strong>C-TSR (Chinese Traffic Sign Recognition)</strong>: 中文交通标志数据集（需自行构建 VQA 格式对）。</li>
+<li><strong>ICDAR 系列</strong>: 经典的 OCR 竞赛数据集，可用于构建“检测+识别”的端到端测试。</li>
+</ul>
+</li>
+</ul>
+<h3 id="33-grounding">3.3 视觉定位 (Grounding)</h3>
+<p>为了解决“幻觉”问题，要求模型在回答时提供证据（Bounding Box 或 Point）。</p>
+<ul>
+<li><strong>评测重点</strong>：模型能否准确指出它所谈论的物体在哪里。这对于“如影随行”（交互式高亮显示）功能至关重要。</li>
+<li><strong>推荐数据集</strong>：<ul>
+<li><strong>RefCOCO / RefCOCO+ / RefCOCOg</strong>: 给定描述找物体。</li>
+<li><strong>Flickr30k Entities</strong>: 图像描述中的名词短语与 BBox 的对齐。</li>
+</ul>
+</li>
+</ul>
+<h3 id="34-autonomous-driving-domain">3.4 驾驶垂直领域 (Autonomous Driving Domain)</h3>
+<p>这是“驾舱一体”的特化测试，要求模型具备驾驶员的常识。</p>
+<ul>
+<li><strong>评测重点</strong>：路口理解、交通参与者意图预测、险情识别、Ego-car（自车）行为建议。</li>
+<li><strong>推荐数据集</strong>：<ul>
+<li><strong>DriveLM / DriveVLM</strong>: 专门构建的驾驶场景 VQA 数据集，包含感知、预测、规划的问答链。</li>
+<li><strong>CODA (Corner Cases in Autonomous Driving)</strong>: 包含大量长尾场景（如路上的动物、散落物、奇形怪状的车），用于测试鲁棒性。</li>
+<li><strong>Mapillary Vistas</strong>: 街景理解，类别极其丰富。</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="4">4. 评价指标体系：从“可比”到“可信”</h2>
+<p>单纯的 Accuracy 在生成式任务中已经失效。我们需要更细致的量尺。</p>
+<h3 id="41-ocr-anls">4.1 OCR 专项指标：ANLS</h3>
+<p>对于 OCR 任务，完全匹配（Exact Match）过于严苛。例如，将 <code>O</code> (字母) 识别为 <code>0</code> (数字)，或多了个空格，不应判为 0 分。</p>
+<ul>
+<li>
+<p><strong>ANLS (Average Normalized Levenshtein Similarity)</strong>:
+    $$ score = 1 - \frac{d(pred, gt)}{\max(|pred|, |gt|)} $$
+    其中 $d$ 是编辑距离。如果 $d/max_len &gt; \tau$ (通常 0.5)，则分数为 0。</p>
+<ul>
+<li><strong>Rule-of-Thumb</strong>: 只要 ANLS &gt; 0.9，通常对人类阅读体验来说差异不可知。</li>
+</ul>
+</li>
+</ul>
+<h3 id="42-pope-chair">4.2 幻觉与安全性指标：POPE &amp; CHAIR</h3>
+<ul>
+<li><strong>POPE (Polling-based Object Probing Evaluation)</strong>:<ul>
+<li>询问模型图中是否存在某物体（包含图中有的和图中没有的）。</li>
+<li>指标：准确率（Accuracy）、精确率（Precision）、召回率（Recall）。重点关注<strong>阴性预测值</strong>（即图中没有时，模型是否诚实地说“没有”）。</li>
+</ul>
+</li>
+<li><strong>Hallucination Rate (幻觉率)</strong>: 在描述生成的文本中，提及了多少不存在的物体或错误的属性。</li>
+</ul>
+<h3 id="43-iou-point-hit">4.3 定位指标：IoU &amp; Point Hit</h3>
+<ul>
+<li><strong>IoU (Intersection over Union)</strong>: 预测框与真值框的交并比。通常 IoU &gt; 0.5 视为正确。</li>
+<li><strong>Center Point Hit</strong>: 如果应用场景只是“点击”或“高亮”，只要预测点落在真值框内即可算对。</li>
+</ul>
+<h3 id="44-llm-as-a-judge">4.4 生成式理解打分：LLM-as-a-Judge</h3>
+<p>对于“描述路况”这种开放问题，使用 GPT-4o 或 Claude-3.5 作为裁判。</p>
+<ul>
+<li><strong>Rubric (评分标准)</strong>:<ol>
+<li><strong>准确性</strong>: 是否包含所有关键视觉元素（红灯、行人、雨天）？</li>
+<li><strong>安全性</strong>: 是否给出了危险的建议（如红灯时建议加速）？</li>
+<li><strong>逻辑性</strong>: 因果推理是否合理？</li>
+</ol>
+</li>
+<li><strong>打分 prompt 示例</strong>:
+    &gt; "请作为自动驾驶安全专家，评估候选回答对路况的描述。重点关注是否存在事实性错误（如看错信号灯颜色）。满分 5 分，错漏关键安全信息直接 0 分。"</li>
+</ul>
+<hr />
+<h2 id="5-ablation">5. 测评工程实施与 Ablation</h2>
+<h3 id="51">5.1 数据管线与样本构造</h3>
+<ol>
+<li><strong>分桶采样 (Bucket Sampling)</strong>：不要只看平均分。按以下维度分桶汇报：<ul>
+<li><strong>分辨率</strong>: Low (&lt;256px), Medium, High (&gt;1024px)。</li>
+<li><strong>目标占比</strong>: Small (&lt;1%), Medium, Large (&gt;10%) —— 重点测试 MLLM 是否忽略小目标。</li>
+<li><strong>光照条件</strong>: Day, Night, Dusk/Dawn。</li>
+</ul>
+</li>
+<li><strong>Prompt 鲁棒性测试</strong>:<ul>
+<li>同一张图，用 5 种不同的问法（"图里有什么？", "描述这张图", "看到什么了？"），计算输出的一致性。</li>
+</ul>
+</li>
+</ol>
+<h3 id="52-ablation">5.2 常见的 Ablation 实验设计</h3>
+<ul>
+<li><strong>分辨率影响</strong>: 输入 224x224, 448x448, 1024x1024 对 OCR 和小目标检测的影响。通常 OCR 需要高分辨率。</li>
+<li><strong>Visual Encoder 选型</strong>: CLIP vs SigLIP vs InternViT。</li>
+<li><strong>Token 数量</strong>: 视觉 Token 数量（如 64 vs 256 vs 576）对推理速度和细节感知的权衡。</li>
+</ul>
+<h3 id="53-data-contamination-check">5.3 训练数据反查 (Data Contamination Check)</h3>
+<p>在打分异常高时，必须反查。</p>
+<ul>
+<li><strong>近邻搜索</strong>: 对测试集图片的 Embedding 在训练集中进行向量检索（KNN）。如果余弦相似度 &gt; 0.98，视为潜在的数据泄漏，需剔除该样本。</li>
+</ul>
+<hr />
+<h2 id="6-gotchas">6. 常见陷阱与错误 (Gotchas)</h2>
+<ol>
+<li>
+<p><strong>Resizer 的“毁灭性打击”</strong>：</p>
+<ul>
+<li><em>问题</em>: 许多 MLLM 默认将图片 Resize 到正方形（如 336x336）。</li>
+<li><em>后果</em>: 长条形的路牌或宽幅的全景图被压扁，导致文字不可读或相对位置错乱。</li>
+<li><em>对策</em>: 必须使用支持 <strong>任意分辨率 (AnyRes)</strong> 或 <strong>动态切片 (Dynamic Cropping)</strong> 的模型架构或预处理流程。</li>
+</ul>
+</li>
+<li>
+<p><strong>OCR 的“脑补”现象</strong>：</p>
+<ul>
+<li><em>问题</em>: 模型看到类似 "Starbucks" 的绿色 Logo，即使字迹模糊，也会根据先验知识输出 "Starbucks"。</li>
+<li><em>后果</em>: 在识别车牌或验证码等无语义随机字符串时，容易出错。</li>
+<li><em>对策</em>: 加入无语义字符（乱码车牌）的测试集，强制模型“所见即所得”，而不是“所见即所想”。</li>
+</ul>
+</li>
+<li>
+<p><strong>空间关系混乱</strong>：</p>
+<ul>
+<li><em>问题</em>: 问“左边的车是什么颜色？”，模型回答了右边车的颜色。</li>
+<li><em>对策</em>: 专门构建 Spatial Reasoning 测试集（Flip 图片后，答案应随之改变）。</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="7">7. 车舱落地：驾舱一体专项</h2>
+<p>本节讨论如何将上述测评落地到真实的智能座舱产品中。</p>
+<h3 id="71-poi">7.1 停车扫码与 POI 发现链路</h3>
+<ul>
+<li><strong>场景</strong>: <ol>
+<li>用户指着窗外：“那家店评分怎么样？”（POI 识别 + 外部 API 知识）</li>
+<li>进闸口：“扫一下那个码”。（Zoom-in + OCR + 手机联动）</li>
+</ol>
+</li>
+<li><strong>测评设计</strong>:<ul>
+<li><strong>E2E 成功率</strong>: <code>识别意图 -&gt; 截取感兴趣区域(ROI) -&gt; OCR 成功 -&gt; 结构化数据提取</code> 的全链路转化率。</li>
+<li><strong>长尾测试</strong>: 针对反光玻璃、雨滴附着玻璃、夜间霓虹灯闪烁场景进行专项测试。</li>
+</ul>
+</li>
+</ul>
+<h3 id="72-screen-to-screen">7.2 仪表盘与中控屏“自检” (Screen-to-Screen)</h3>
+<ul>
+<li><strong>场景</strong>: 用户问“仪表盘上那个黄色的灯是什么意思？”。</li>
+<li><strong>特殊性</strong>: 输入是车内摄像头的画面，拍摄车内屏幕。</li>
+<li><strong>测评难点</strong>: 摩尔纹（Moiré pattern）干扰。需构建包含屏幕拍摄画面的特定数据集。</li>
+</ul>
+<h3 id="73">7.3 天气与环境感知的“置信度边界”</h3>
+<ul>
+<li><strong>场景</strong>: 视觉感知到“路面湿滑”，建议切换驾驶模式。</li>
+<li><strong>安全原则</strong>: <strong>宁可漏报，不可误报</strong>。</li>
+<li><strong>指标设计</strong>: <ul>
+<li><strong>误报率 (False Positive Rate)</strong>: 在晴天误报雨雪的代价很高（频繁骚扰用户）。需设定极低的 FPR 阈值（如 &lt; 1%）。</li>
+<li><strong>校准误差 (Calibration Error)</strong>: 模型输出的置信度（Confidence Score）应与实际准确率线性对应。</li>
+</ul>
+</li>
+</ul>
+<h3 id="74">7.4 驾舱多模态融合案例：交通指挥手势</h3>
+<ul>
+<li><strong>高阶任务</strong>: 识别交警的手势（停止、直行、靠边停车）。</li>
+<li><strong>多模态输入</strong>: 往往需要结合<strong>视频流</strong>（时序动作）而不仅是单帧图像。</li>
+<li><strong>测试集</strong>: 必须包含中国国标交警手势库，以及不同角度（侧面、背面）的交警数据。</li>
+</ul>
+<hr />
+<h2 id="8">8. 练习题</h2>
+<h3 id="_1">基础题</h3>
+<ol>
+<li><strong>数据集分类</strong>: 请将以下数据集归类为“OCR”、“Grounding”或“General VQA”：<code>TextVQA</code>, <code>RefCOCO</code>, <code>MMBench</code>, <code>C-TSR</code>.</li>
+<li><strong>指标计算</strong>: 目标字符串是 "Parking"，模型输出 "Parkng"。请计算其归一化编辑距离（Levenshtein Distance）及 ANLS 分数。</li>
+<li><strong>Prompt 设计</strong>: 为“交通标志识别”任务设计一个 Chain-of-Thought (CoT) Prompt，引导模型先描述形状颜色，再读取文字，最后推断含义。</li>
+</ol>
+<h3 id="_2">挑战题</h3>
+<ol start="4">
+<li><strong>系统设计</strong>: 某车型计划上线“路书生成”功能，即 MLLM 自动拍摄沿途风景并生成游记。请设计一套评测方案，评估其生成的“美学质量”和“内容真实性”。<ul>
+<li><em>Hint: 涉及由粗到细的筛选，以及对于幻觉（地名匹配）的校验。</em></li>
+</ul>
+</li>
+<li><strong>失败分析</strong>: 模型在识别红绿灯时，经常将路边的红灯笼误识别为红灯。请提出 3 种改进数据或 Prompt 的策略，并设计验证实验。<ul>
+<li><em>Hint: 负样本挖掘、Grounding 约束、逻辑校验。</em></li>
+</ul>
+</li>
+<li><strong>端侧部署</strong>: 车机端侧算力有限，只能运行 2B 参数量的 MLLM。如何设计一套“云端大模型 + 端侧小模型”的协同测评方案？<ul>
+<li><em>Hint: 区分实时性要求高（端侧）和知识性要求高（云端）的任务路由准确性。</em></li>
+</ul>
+</li>
+</ol>
+<details>
+<summary>点击查看练习题参考方向</summary>
+<ol>
+<li><strong>分类</strong>:<ul>
+<li>TextVQA: OCR</li>
+<li>RefCOCO: Grounding</li>
+<li>MMBench: General VQA</li>
+<li>C-TSR: OCR (交通垂类)</li>
+</ul>
+</li>
+<li><strong>计算</strong>:<ul>
+<li>"Parking" (len 7) vs "Parkng" (len 6).</li>
+<li>编辑距离 = 1 (少了一个 'i').</li>
+<li>Max Len = 7.</li>
+<li>ANLS = 1 - (1/7) ≈ 0.857.</li>
+</ul>
+</li>
+<li><strong>CoT Prompt</strong>:<ul>
+<li>"请分析图中的交通标志。第一步：描述标志的形状（圆形/三角形/方形）和底色；第二步：提取标志中的所有文字和数字；第三步：结合形状和文字，解释该标志的具体交通规则含义。"</li>
+</ul>
+</li>
+<li><strong>路书测评</strong>:<ul>
+<li>美学：使用专门的美学评分模型（如 NIMA）或人工打分（构图、清晰度）。</li>
+<li>真实性：提取生成文本中的地名/POI，与 GPS 记录的 POI 列表做 IOU 匹配。</li>
+</ul>
+</li>
+<li><strong>红灯笼误检</strong>:<ul>
+<li>策略1（数据）：在训练集中加入大量包含红灯笼、红色霓虹灯的“负样本”。</li>
+<li>策略2（Prompt）："请找出图中的圆形红色发光体，并判断其是否有灯杆支撑和遮光罩，确认是否为交通信号灯。"</li>
+<li>策略3（Grounding）：强制模型输出 BBox，如果 BBox 位于路边店铺而非路口上方，则过滤。</li>
+</ul>
+</li>
+<li><strong>端云协同</strong>:<ul>
+<li>测评核心是 <strong>Router (路由)</strong> 的准确性。</li>
+<li>数据集包含两部分：A类（急需响应，如“这是红灯吗”），B类（闲聊/查询，如“这朵花叫什么”）。</li>
+<li>指标：A类路由到端的比例（需接近100%），B类路由到云的比例，以及端侧模型的 Latency 和云侧模型的 Richness。</li>
+</ul>
+</li>
+</ol>
+</details>
+            </article>
+            
+            <nav class="page-nav"><a href="chapter6.html" class="nav-link prev">← 第 6 章：音频/音乐理解与生成测评 (chapter6.md)</a><a href="chapter8.html" class="nav-link next">第 8 章：视频理解（含人流、事件、时序推理、驾驶相关） →</a></nav>
+        </main>
+    </div>
+</body>
+</html>

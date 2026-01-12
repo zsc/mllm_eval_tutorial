@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>第 5 章：TTS 测评（语音合成）</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item " >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">MLLM 多模理解与生成大模型测评教程（中文）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 1 章：测评总览与能力树</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 2 章：数据、指标与统计：从“可比”到“可信”</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 3 章：评测平台工程化：统一接口、批量运行、可视化与 CI</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 4 章：ASR 测评（语音识别）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item active" >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 5 章：TTS 测评（语音合成）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 6 章：音频/音乐理解与生成测评 (chapter6.md)</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 7 章：自然图像理解与 OCR（含交通牌、扫码、天气等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 8 章：视频理解（含人流、事件、时序推理、驾驶相关）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 9 章：人头/人脸图像与视频理解（AU、Blendshape、DMS/OMS）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 10 章：GUI 截屏/录屏理解与操作评测（ScreenSuite 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 11 章：文本逻辑性、事实性与低幻觉：客观打分体系</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 12 章：RAG 评测：检索与生成的端到端客观评分</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 13 章：文字 + 语音 Role-play 的主观人评（CharacterEval 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="5-tts">第 5 章：TTS 测评（语音合成）</h1>
+<h2 id="1">1. 开篇：从“能听清”到“全双工拟人交互”</h2>
+<p>在 MLLM（多模态大模型）时代，语音合成（TTS）的角色发生了质的飞跃。传统的 TTS 往往是一个独立的后端模块，仅负责“文本转语音”。而 MLLM 时代的 TTS（或 Speech Generation）往往与 LLM 深度融合，甚至是端到端（Speech-to-Speech）模型的一部分。</p>
+<p>这意味着测评不再局限于<strong>“字正腔圆”</strong>，而是扩展到了<strong>“像人一样交流”</strong>。模型需要根据上下文自动调整语气（开心、遗憾、讽刺），能够处理非言语声音（叹气、笑声、停顿），甚至需要支持流式打断。</p>
+<p><strong>本章学习目标</strong>：</p>
+<ol>
+<li><strong>全链路指标体系</strong>：掌握从信号质量、内容准确性到表现力的分层测评体系。</li>
+<li><strong>工业级稳定性测试</strong>：学会检测 MLLM 特有的“语音幻觉”、无限复读、甚至怪叫等恶性样本。</li>
+<li><strong>主观评测工程化</strong>：如何设计科学的 MOS/MUSHRA 实验，减少人员偏差。</li>
+<li><strong>车舱场景落地</strong>：深入理解车载环境下的声学挑战、管道优先级管理与多音区评测。</li>
+</ol>
+<hr />
+<h2 id="2">2. 任务拆解与能力矩阵</h2>
+<p>我们将 TTS 能力划分为四个层级，每一层级对应不同的测评重点。</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">+---------------------------------------------------------------+</span>
+<span class="c">|                    TTS Capability Pyramid                     |</span>
+<span class="nb">+---------------------------------------------------------------+</span>
+<span class="c">| </span><span class="k">[</span><span class="c">L4</span><span class="k">]</span><span class="c"> 拟人交互层 (Human</span><span class="nb">-</span><span class="c">like Interaction)                      |</span>
+<span class="c">|      </span><span class="nb">-</span><span class="c"> 情感演绎、非言语表达(笑/叹)、副语言(填充词)、口语化   |</span>
+<span class="nb">+---------------------------------------------------------------+</span>
+<span class="c">| </span><span class="k">[</span><span class="c">L3</span><span class="k">]</span><span class="c"> 风格与场景层 (Style &amp; Context)                           |</span>
+<span class="c">|      </span><span class="nb">-</span><span class="c"> 角色扮演(Roleplay)、长文本一致性、多语言Code</span><span class="nb">-</span><span class="c">Switch    |</span>
+<span class="nb">+---------------------------------------------------------------+</span>
+<span class="c">| </span><span class="k">[</span><span class="c">L2</span><span class="k">]</span><span class="c"> 语言准确层 (Linguistic Accuracy)                         |</span>
+<span class="c">|      </span><span class="nb">-</span><span class="c"> 多音字(Polyphone)、文本归一化(TN)、韵律停顿(Prosody)   |</span>
+<span class="nb">+---------------------------------------------------------------+</span>
+<span class="c">| </span><span class="k">[</span><span class="c">L1</span><span class="k">]</span><span class="c"> 基础声学层 (Acoustic Quality)                            |</span>
+<span class="c">|      </span><span class="nb">-</span><span class="c"> 清晰度、无底噪、无爆音、音色还原度、采样率             |</span>
+<span class="nb">+---------------------------------------------------------------+</span>
+</code></pre></div>
+
+<h3 id="21">2.1 核心任务类型</h3>
+<ol>
+<li><strong>标准播报 (Reading)</strong>: 新闻、有声书。要求：稳定、不累、发音极准。</li>
+<li><strong>对话交互 (Chat)</strong>: 语音助手。要求：低延迟、语气自然、短句表现力。</li>
+<li><strong>情感/风格迁移 (Style Transfer)</strong>: "用海绵宝宝的声音读财报"。要求：音色相似度、情感强度。</li>
+<li><strong>流式生成 (Streaming)</strong>: 边想边说。要求：首包延迟 (TTFA)、抗网络抖动。</li>
+</ol>
+<hr />
+<h2 id="3">3. 测评数据集与语料准备</h2>
+<p>仅仅有一堆文本是不够的。你需要构建结构化的测试集（Test Suite）。</p>
+<h3 id="31">3.1 开源数据集参考（用于微调或对比基准）</h3>
+<p>| 数据集 | 语言 | 特点 | 用途 |</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">数据集</th>
+<th style="text-align: left;">语言</th>
+<th style="text-align: left;">特点</th>
+<th style="text-align: left;">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>AISHELL-3</strong></td>
+<td style="text-align: left;">中文</td>
+<td style="text-align: left;">多说话人、高保真</td>
+<td style="text-align: left;">基础发音与多音色基准</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>LibriTTS-R</strong></td>
+<td style="text-align: left;">英文</td>
+<td style="text-align: left;">文本对齐精准、去噪处理</td>
+<td style="text-align: left;">英文基准、ASR辅助测评</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ESD / EmoV-DB</strong></td>
+<td style="text-align: left;">中/英</td>
+<td style="text-align: left;">包含明确情感标签</td>
+<td style="text-align: left;">情感控制能力测评</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WenetSpeech</strong></td>
+<td style="text-align: left;">中文</td>
+<td style="text-align: left;">包含大量真实场景噪声</td>
+<td style="text-align: left;">用于训练抗噪性或作为负样本参考</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>CSMSC (Baker)</strong></td>
+<td style="text-align: left;">中文</td>
+<td style="text-align: left;">单一女声、标注极细</td>
+<td style="text-align: left;">韵律与停顿的标准参考</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32">3.2 自建“金标准”测试集策略</h3>
+<p>工业界必须维护一套<strong>Hard Case</strong>集合（回归测试集）：</p>
+<ol>
+<li><strong>TN 专项 (Text Normalization)</strong>:<ul>
+<li><em>数值混合</em>: "长3m，重5kg"（米/千克 vs 艾姆/凯记）。</li>
+<li><em>电话与年份</em>: "1998年" vs "尾号1998"。</li>
+<li><em>算式</em>: "3/4"（四分之三）。</li>
+</ul>
+</li>
+<li><strong>多音字陷阱</strong>: "银行行长"、"给予"、"校对"。</li>
+<li><strong>专有名词</strong>: 当地地名（"六安"读 lù ān）、车企品牌、最新网络热词。</li>
+<li><strong>长文本压力</strong>: 超过 500 字的连续生成，检测音色是否会在后半段发生漂移（Timbre Drift）或甚至退化为杂音。</li>
+</ol>
+<blockquote>
+<p><strong>Rule of Thumb</strong>: <strong>测试集必须动态更新</strong>。每当线上用户反馈一个读错的 Case，必须立即加入回归测试集。</p>
+</blockquote>
+<hr />
+<h2 id="4-objective-evaluation">4. 客观测评体系 (Objective Evaluation)</h2>
+<p>客观指标旨在实现低成本、大规模的自动化监控。</p>
+<h3 id="41-intelligibility">4.1 内容准确性 (Intelligibility)</h3>
+<p>利用强大的 ASR 模型（如 Whisper-large-v3 或 商业 API）作为“判官”。</p>
+<ul>
+<li><strong>WER / CER (Word/Character Error Rate)</strong>:<ul>
+<li>公式：$ \frac{S + D + I}{N} $ (替换+删除+插入 / 总字数)。</li>
+<li><em>注意</em>：需要先对 TTS 输入文本和 ASR 输出文本做<strong>文本归一化</strong>（去除标点、统一数字格式）后再比对。</li>
+</ul>
+</li>
+<li><strong>TN 准确率 (Text Normalization Accuracy)</strong>:<ul>
+<li>针对数字、日期的专项 CER。例如 TTS 输入 "1月1日"，ASR 输出 "一月一日"，算正确；ASR 输出 "一月一号"，算语义正确但字面错误（需根据业务宽容度定义）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="42-timbre-quality">4.2 声纹与音质 (Timbre &amp; Quality)</h3>
+<ul>
+<li><strong>SECS (Speaker Embedding Cosine Similarity)</strong>:<ul>
+<li>提取生成音频与参考音频的声纹向量（如使用 ResNet-34 based d-vector 或 ECAPA-TDNN），计算余弦相似度。</li>
+<li><em>阈值</em>: 通常 &gt; 0.75 或 0.8 认为音色相似。</li>
+</ul>
+</li>
+<li><strong>MCD (Mel-Cepstral Distortion)</strong>:<ul>
+<li>计算谱距离。<strong>注意</strong>：仅适用于“非自回归”且与 Reference 严格对齐的场景。对于 MLLM 这种生成式、韵律变化大的模型，MCD <strong>不再可靠</strong>，建议弃用或仅作参考。</li>
+</ul>
+</li>
+<li><strong>UTMOS / MOSNet</strong>:<ul>
+<li>使用神经网络预测 MOS 分。虽然不如人耳准确，但可以用来筛选极差的样本（比如 MOSNet预测分 &lt; 2.0 的样本往往有严重底噪或静音）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="43-stability-glitch">4.3 稳定性与瑕疵检测 (Stability &amp; Glitch)</h3>
+<p>MLLM 生成音频最怕“发疯”。</p>
+<ul>
+<li><strong>VAD 占比 (Voice Activity Detection)</strong>:<ul>
+<li>音频总长 10s，VAD 检测人声只有 1s -&gt; 可能是<strong>静音故障</strong>。</li>
+<li>音频总长 10s，VAD 检测人声 9.9s -&gt; 可能是<strong>缺乏停顿</strong>或底噪过大。</li>
+</ul>
+</li>
+<li><strong>WER 爆炸检测</strong>:<ul>
+<li>如果某条样本 WER &gt; 80%，通常不是发音不准，而是模型输出了<strong>乱语 (Babble)</strong> 或 <strong>复读 (Repetition)</strong>。</li>
+</ul>
+</li>
+<li><strong>信号级检测</strong>:<ul>
+<li><strong>削波率 (Clipping Rate)</strong>: 统计幅值达到最大值（如 32767）的采样点比例。</li>
+<li><strong>能量方差</strong>: 检测是否有异常的忽大忽小。</li>
+</ul>
+</li>
+</ul>
+<h3 id="44-performance">4.4 性能指标 (Performance)</h3>
+<ul>
+<li><strong>RTF (Real Time Factor)</strong>: $\frac{\text{生成耗时}}{\text{音频时长}}$。需 $&lt; 1.0$ (离线) 或 $&lt; 0.5$ (流式)。</li>
+<li><strong>TTFA (Time to First Audio)</strong>: 首包延迟。流式 TTS 的核心指标。<ul>
+<li><em>优秀</em>: &lt; 200ms (接近人类反应)</li>
+<li><em>及格</em>: &lt; 500ms</li>
+<li><em>差</em>: &gt; 1s (用户会以为没反应)</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="5-subjective-evaluation">5. 主观测评工程 (Subjective Evaluation)</h2>
+<p>人耳是最终的尺度。</p>
+<h3 id="51">5.1 评测协议选择</h3>
+<ol>
+<li><strong>MOS (Mean Opinion Score)</strong>: 绝对打分 (1-5)。<ul>
+<li><em>适用</em>: 评估单个模型的整体质量。</li>
+<li><em>缺点</em>: 标注员标准不一，方差大。</li>
+</ul>
+</li>
+<li><strong>CMOS (Comparison MOS) / SBS (Side-by-Side)</strong>: 相对打分 (-3 到 +3)。<ul>
+<li><em>适用</em>: 模型迭代（V1 vs V2）。"B比A好多少？"</li>
+<li><em>优点</em>: 对微小改进更敏感。</li>
+</ul>
+</li>
+<li><strong>MUSHRA</strong>: 带锚点（Anchor）的多样本盲测。<ul>
+<li><em>配置</em>: Reference (无损录音), Anchor (低通滤波/加噪), Model A, Model B...</li>
+<li><em>适用</em>: 高保真音质的精细对比。</li>
+</ul>
+</li>
+</ol>
+<h3 id="52-the-rubric">5.2 问卷维度设计 (The Rubric)</h3>
+<p>不要只问“好不好听”，要拆解：</p>
+<ul>
+<li><strong>自然度 (Naturalness)</strong>: 像真人吗？有机械感吗？</li>
+<li><strong>韵律感 (Prosody)</strong>: 停顿、重音是否符合语义逻辑？</li>
+<li><strong>清晰度 (Articulation)</strong>: 有没有吞音、含糊不清？</li>
+<li><strong>情感符合度 (Emotion Match)</strong>: (给定提示词“愤怒”) 这个声音听起来愤怒吗？</li>
+<li><strong>音质 (Sound Quality)</strong>: 有没有电流声、爆破音？</li>
+</ul>
+<hr />
+<h2 id="6">6. 车舱落地：驾舱一体专项评测</h2>
+<p>车载环境是 TTS 最复杂的应用场景，涉及听觉与视觉的融合、多声源竞争以及安全合规。</p>
+<h3 id="61-in-cabin-acoustic-robustness">6.1 车内声学对抗测试 (In-Cabin Acoustic Robustness)</h3>
+<p>在实验室无法完全模拟车内体验，必须引入环境仿真或实车测试。</p>
+<ul>
+<li><strong>噪声叠加测试</strong>:<ul>
+<li>采集不同工况噪音：<em>胎噪 (60/120kmh)</em>、<em>风噪 (开窗)</em>、<em>空调最大档</em>、<em>雨刮器声</em>。</li>
+<li>将 TTS 输出与噪声按不同信噪比 (SNR) 混合，再进行 ASR 识别或人耳听测。</li>
+<li><strong>目标</strong>: 在 60km/h 工况下，TTS 的可懂度不应显著下降（可能需要 TTS 自动触发<strong>谱增强</strong>或<strong>响度补偿</strong>）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="62-pipeline-interaction">6.2 交互链路评测 (Pipeline &amp; Interaction)</h3>
+<ul>
+<li><strong>Barge-in (打断) 性能</strong>:<ul>
+<li>TTS 正在播报时，用户说话打断。</li>
+<li><em>指标</em>: <strong>AEC (回声消除) 残留率</strong>。如果 TTS 的声音回流到了麦克风被识别成指令（Self-trigger），是严重 Bug。</li>
+</ul>
+</li>
+<li><strong>Ducking (压低) 曲线</strong>:<ul>
+<li>当 TTS 介入时，背景音乐/收音机应平滑降低音量。</li>
+<li><em>测评点</em>: 压低是否突兀（Hard cut）？恢复是否自然？TTS 音量是否始终比背景音高出 6-12dB？</li>
+</ul>
+</li>
+</ul>
+<h3 id="63-multi-zone-spatial">6.3 多音区与空间音频 (Multi-Zone &amp; Spatial)</h3>
+<ul>
+<li><strong>独立音区隔离度</strong>:<ul>
+<li>驾驶位播报导航，副驾是否觉得吵？后排看视频，声音是否窜入驾驶位头枕音响？</li>
+<li><em>测评</em>: 使用假人录音设备（HATS）在不同座位录音，计算<strong>串音衰减 (Crosstalk Attenuation)</strong>。</li>
+</ul>
+</li>
+<li><strong>定向播报</strong>:<ul>
+<li>"请向左转" -&gt; 声音是否通过声场算法营造出从左侧发出的听感？</li>
+</ul>
+</li>
+</ul>
+<h3 id="64-hybrid-mode">6.4 离线与云端混合 (Hybrid Mode)</h3>
+<ul>
+<li><strong>无缝切换</strong>:<ul>
+<li>车辆驶入隧道（断网），云端 TTS 失败，切为端侧 TTS。</li>
+<li><em>测评点</em>: <ol>
+<li><strong>音色一致性</strong>: 端侧小模型音色是否与云端大模型差异过大？</li>
+<li><strong>拼接痕迹</strong>: 切换点是否有爆音或重复？</li>
+<li><strong>功能降级</strong>: 端侧 TTS 可能不支持复杂的 "角色扮演"，是否能平稳回退到标准播报？</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="65">6.5 安全策略</h3>
+<ul>
+<li><strong>紧急打断</strong>: 遇到 ADAS（辅助驾驶）紧急告警（如前车急刹），TTS 必须在 &lt;50ms 内被切断或压低，让位给报警音。这是<strong>红线指标</strong>。</li>
+</ul>
+<hr />
+<h2 id="7-gotchas">7. 常见陷阱与调试技巧 (Gotchas)</h2>
+<p>| 陷阱 (Pitfall) | 表现 | 调试/解决方案 |</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">陷阱 (Pitfall)</th>
+<th style="text-align: left;">表现</th>
+<th style="text-align: left;">调试/解决方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>采样率欺骗</strong></td>
+<td style="text-align: left;">看起来是 48k 音频，实际上 12k 以上全是空的。</td>
+<td style="text-align: left;">查看 <strong>Spectrogram (语谱图)</strong>。如果高频部分骤然截止（Cut-off），说明经过了上采样，音质虚高。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Text Normalization 悖论</strong></td>
+<td style="text-align: left;">只有数字读错了，其他都对。</td>
+<td style="text-align: left;">不要指望端到端模型能完美处理所有数字。<strong>必须</strong>在前端挂载基于规则的 TN 处理器（如 WeTextProcessing），哪怕是 LLM 也不如 Regex 稳定。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>神经声码器伪影</strong></td>
+<td style="text-align: left;">偶尔出现短暂的金属音或水泡声。</td>
+<td style="text-align: left;">这通常是 GAN-based Vocoder 的训练不稳定性。增加判别器训练步数，或在推理时引入 HiFi-GAN 的去噪后处理。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>首字吞音</strong></td>
+<td style="text-align: left;">句子的第一个字经常听不清或很轻。</td>
+<td style="text-align: left;">检查流式推理的 Warm-up。往往是因为 Padding 不够，导致第一个 Mel 帧生成不完整。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>过度拟人 (Over-acting)</strong></td>
+<td style="text-align: left;">导航播报时带有叹气或过度情绪，让司机烦躁。</td>
+<td style="text-align: left;">对“功能性”场景（导航、控车）强制约束情感强度，或使用专门的 Neutral 风格模型。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="8">8. 本章小结</h2>
+<p>TTS 测评已经从单一的信号处理问题，演变成了<strong>语义理解+信号处理+交互体验</strong>的综合学科。</p>
+<ol>
+<li><strong>数据要广</strong>：一定要包含日期、算式、多音字等 Corner Case。</li>
+<li><strong>客观要准</strong>：利用 ASR 和声纹识别做大规模回归，但要知道它们的边界。</li>
+<li><strong>主观要细</strong>：区分音质、自然度、情感三个维度的打分。</li>
+<li><strong>上车要严</strong>：在噪杂、多任务并发的车机环境中，稳定性与可懂度优于花哨的情感表达。</li>
+</ol>
+<hr />
+<h2 id="9">9. 练习题</h2>
+<details>
+<summary><strong>基础题 1：ASR 评分的局限性 (点击展开)</strong></summary>
+<p><strong>Q: 使用 ASR 计算 CER 来评估 TTS 时，如果发现 CER 很高，是否一定说明 TTS 效果差？</strong></p>
+<blockquote>
+<p><strong>Hint</strong>: 思考 ASR 本身的错误率以及多音字、方言的影响。</p>
+<p><strong>答案</strong>: 不一定。</p>
+<ol>
+<li>ASR 模型本身可能有误识别（尤其是生僻词、专有名词）。</li>
+<li>TTS 可能发音正确但带有口音或情感色彩（如哭腔），导致标准 ASR 识别失败。</li>
+<li>文本归一化不一致（如 TTS 读 "二零二三"，ASR 输出 "2023"），若未做预处理会导致 CER 虚高。</li>
+</ol>
+</blockquote>
+</details>
+<details>
+<summary><strong>基础题 2：RTF 计算 (点击展开)</strong></summary>
+<p><strong>Q: 某 TTS 系统生成一段 5 秒的音频，在 GPU 上耗时 0.5 秒。请问其 RTF 是多少？如果切换到 CPU 推理耗时 6 秒，此时 RTF 是多少？哪个能满足流式需求？</strong></p>
+<blockquote>
+<p><strong>Hint</strong>: RTF = 处理时间 / 音频时长。流式要求 RTF &lt; 1。</p>
+<p><strong>答案</strong>:
+GPU RTF = 0.5 / 5 = 0.1。
+CPU RTF = 6 / 5 = 1.2。
+只有 GPU 场景满足流式需求（RTF &lt; 1），CPU 场景下生成速度跟不上播放速度，会产生卡顿（Buffer Underrun）。</p>
+</blockquote>
+</details>
+<details>
+<summary><strong>挑战题 3：车机多音区干扰设计 (点击展开)</strong></summary>
+<p><strong>Q: 设计一个实验，评估驾驶位 TTS 播报对后排乘客电话会议的干扰程度。</strong></p>
+<blockquote>
+<p><strong>Hint</strong>: 涉及声压级 (SPL)、串音衰减、主观干扰评分。</p>
+<p><strong>答案</strong>:</p>
+<ol>
+<li><strong>设置</strong>: 驾驶位播放 TTS 导航（标准音量，如 70dB SPL），后排乘客位置放置 HATS (人工头) 模拟通话。</li>
+<li><strong>测量</strong>: 记录后排位置的声压级。计算 <strong>Zone Isolation (音区隔离度)</strong> = 驾驶位SPL - 后排SPL。</li>
+<li><strong>干扰测试</strong>: 在后排录音中混入 TTS 漏音，测试语音通话算法（如 Teams/Zoom 的降噪）是否能滤除漏音，或是否导致通话断续。</li>
+<li><strong>主观评分</strong>: 邀请测试员在后排进行模拟通话，对“是否听清对方”和“是否被前排打扰”进行 1-5 打分。</li>
+</ol>
+</blockquote>
+</details>
+<details>
+<summary><strong>挑战题 4：情感 TTS 的“恐怖谷”检测 (点击展开)</strong></summary>
+<p><strong>Q: MLLM 有时会生成极度夸张甚至诡异的笑声或哭声（恐怖谷效应）。如何设计一个自动化指标来预警这种情况？</strong></p>
+<blockquote>
+<p><strong>Hint</strong>: 异常的能量分布、基频 (F0) 抖动范围、情感分类置信度。</p>
+<p><strong>答案</strong>:</p>
+<ol>
+<li><strong>F0 范围检测</strong>: 统计音频的基频范围。如果 F0 变化率过大或超出人类正常发声范围（如瞬间跳变 2 个八度），标记为异常。</li>
+<li><strong>情感强度分类器</strong>: 训练一个回归模型预测“情感强度”。如果强度 &gt; 阈值（如极度歇斯底里），则结合语义检查是否合适。</li>
+<li><strong>非言语检出</strong>: 使用专门的 Audio Event Detection 模型检测“尖叫”、“怪笑”等类别，如果 Prompt 只是普通对话而检测到尖叫，则是严重 Bug。</li>
+</ol>
+</blockquote>
+</details>
+            </article>
+            
+            <nav class="page-nav"><a href="chapter4.html" class="nav-link prev">← 第 4 章：ASR 测评（语音识别）</a><a href="chapter6.html" class="nav-link next">第 6 章：音频/音乐理解与生成测评 (chapter6.md) →</a></nav>
+        </main>
+    </div>
+</body>
+</html>

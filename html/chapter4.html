@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>第 4 章：ASR 测评（语音识别）</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item " >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">MLLM 多模理解与生成大模型测评教程（中文）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 1 章：测评总览与能力树</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 2 章：数据、指标与统计：从“可比”到“可信”</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 3 章：评测平台工程化：统一接口、批量运行、可视化与 CI</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item active" >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 4 章：ASR 测评（语音识别）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 5 章：TTS 测评（语音合成）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 6 章：音频/音乐理解与生成测评 (chapter6.md)</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 7 章：自然图像理解与 OCR（含交通牌、扫码、天气等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 8 章：视频理解（含人流、事件、时序推理、驾驶相关）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 9 章：人头/人脸图像与视频理解（AU、Blendshape、DMS/OMS）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 10 章：GUI 截屏/录屏理解与操作评测（ScreenSuite 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 11 章：文本逻辑性、事实性与低幻觉：客观打分体系</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 12 章：RAG 评测：检索与生成的端到端客观评分</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 13 章：文字 + 语音 Role-play 的主观人评（CharacterEval 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="4-asr">第 4 章：ASR 测评（语音识别）</h1>
+<h2 id="41">4.1 开篇段落与学习目标</h2>
+<p>在多模态大模型（MLLM）的交互链路中，ASR（Automatic Speech Recognition）扮演着“听觉感知层”的角色。对于传统的语音助手，ASR 只是将声音转为文字；但对于 MLLM，ASR 是 <strong>Prompt 的注入接口</strong>。ASR 的微小错误（如丢失否定词、数字听错、实体名混淆）经过 LLM 的推理放大，往往会导致严重的逻辑幻觉或任务执行失败。</p>
+<p>本章不只关注“听写准确率”，更关注“语义保真度”与“端到端体验”。我们将深入探讨如何建立一个覆盖多场景、多语种、多噪声环境的自动化测评体系。</p>
+<p><strong>本章学习目标</strong>：</p>
+<ol>
+<li><strong>构建全维度的指标体系</strong>：从基础的 WER/CER 到语义一致性（Semantic WER）、流式稳定性（Flicker）及时间戳准确度。</li>
+<li><strong>掌握数据合成与增强策略</strong>：如何利用 RIR（房间冲击响应）和噪声库构建“车舱级”高难度测试集。</li>
+<li><strong>实施归一化工程</strong>：解决 ASR 测评中最大的痛点——文本格式对齐（Normalization）。</li>
+<li><strong>车舱场景深度实战</strong>：驾舱一体下的回声消除（AEC）、多音区仲裁、离线/云端混合链路测评。</li>
+</ol>
+<hr />
+<h2 id="42-asr">4.2 ASR 任务拆解与输入输出</h2>
+<p>在 MLLM 语境下，ASR 任务不再单一。根据输入音频流的特性和下游需求，需拆解为不同子任务进行独立测评。</p>
+<h3 id="421">4.2.1 任务分类矩阵</h3>
+<p>| 任务类型 | 输入特征 | 输出要求 | 典型场景 | 测评重点 |</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">任务类型</th>
+<th style="text-align: left;">输入特征</th>
+<th style="text-align: left;">输出要求</th>
+<th style="text-align: left;">典型场景</th>
+<th style="text-align: left;">测评重点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>短指令 (Command)</strong></td>
+<td style="text-align: left;">&lt; 5秒，意图单一</td>
+<td style="text-align: left;">文本，需精准匹配</td>
+<td style="text-align: left;">“打开空调”、“导航去公司”</td>
+<td style="text-align: left;"><strong>句级准确率 (SA)</strong>，拒识率</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>长音频 (Long-form)</strong></td>
+<td style="text-align: left;">&gt; 30秒，甚至数小时</td>
+<td style="text-align: left;">文本 + 标点 + 段落</td>
+<td style="text-align: left;">会议纪要、视频字幕生成</td>
+<td style="text-align: left;"><strong>WER/CER</strong>，标点召回率，幻觉率</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>流式 (Streaming)</strong></td>
+<td style="text-align: left;">实时音频流 (Chunked)</td>
+<td style="text-align: left;">增量文本 (Partial)</td>
+<td style="text-align: left;">实时对话、同声传译</td>
+<td style="text-align: left;"><strong>延迟 (Latency)</strong>，结果修正抖动</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>富信息 (Rich Meta)</strong></td>
+<td style="text-align: left;">多人对话、复杂背景</td>
+<td style="text-align: left;">文本 + 说话人ID + 时间戳</td>
+<td style="text-align: left;">多人会议、车内闲聊</td>
+<td style="text-align: left;"><strong>DER (分离错误率)</strong>，时间戳偏差</td>
+</tr>
+</tbody>
+</table>
+<h3 id="422-ascii">4.2.2 测评流水线架构 (ASCII)</h3>
+<div class="codehilite"><pre><span></span><code>               [测试集: Clean / Noisy / Far-field]
+                             ||
+                             \/
+[音频流模拟器] --&gt; (可选: 物理回放/数字加噪) --&gt; [待测模型/API]
+                                                      ||
+                                            [原始输出 (Raw Hypothesis)]
+                                                      ||
+[真值 (Ground Truth)]                              [后处理 (Post-proc)]
+        |                                             |
+[ITN: 逆文本归一化] &lt;--------- (格式对齐) --------&gt; [ITN: 逆文本归一化]
+(例: &quot;一百二十&quot; -&gt; &quot;120&quot;)                         (例: &quot;120&quot; -&gt; &quot;120&quot;)
+        |                                             |
+        +------------------&gt; [打分器] &lt;---------------+
+                                |
+             +------------------+------------------+
+             |                  |                  |
+      [WER/CER计算]      [延迟/稳定性统计]    [Badcase 聚类分析]
+</code></pre></div>
+
+<hr />
+<h2 id="43">4.3 数据集选型与合成策略</h2>
+<p>不要只信任模型在公开数据集上的跑分（那是训练集的近邻）。<strong>Rule of Thumb</strong>：自建测试集的价值远高于公开数据集。</p>
+<h3 id="431">4.3.1 开源数据集地图</h3>
+<p>建议按 <strong>L1 (基础能力)</strong> -&gt; <strong>L2 (复杂场景)</strong> -&gt; <strong>L3 (极限挑战)</strong> 分级构建：</p>
+<ul>
+<li><strong>L1 基础集（基线校准）</strong>：<ul>
+<li><strong>AISHELL-1</strong> (中文): 录音棚环境，过分干净。用于冒烟测试，CER 应 &lt; 2%。</li>
+<li><strong>LibriSpeech-Test-Clean</strong> (英文): 有声书。用于验证英文基础模型未退化。</li>
+</ul>
+</li>
+<li><strong>L2 真实场景（核心指标）</strong>：<ul>
+<li><strong>WenetSpeech (Test_Net)</strong>: 互联网视频音频，含口音、背景音、语速变化。<strong>最推荐的中文泛化性测试集</strong>。</li>
+<li><strong>GigaSpeech</strong>: 英文播客/YouTube，覆盖真实口语（犹豫、吞音）。</li>
+<li><strong>Common Voice</strong>: 多语言众包数据，口音极度丰富。</li>
+</ul>
+</li>
+<li><strong>L3 极限挑战（抗噪与远场）</strong>：<ul>
+<li><strong>CHiME 系列</strong>: 专门针对嘈杂环境（咖啡厅、街道、家庭）。</li>
+<li><strong>AISHELL-4</strong>: 会议室场景，重叠语音（Overlap）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="432">4.3.2 “车舱级”合成数据配方</h3>
+<p>车舱环境获取真值成本高，必须掌握合成技术（Data Augmentation for Eval）：</p>
+<ol>
+<li><strong>声源 (Source)</strong>: 选取干净的指令集（TTS 生成或录音棚录制）。</li>
+<li><strong>噪声库 (Noise)</strong>:<ul>
+<li><em>平稳噪声</em>: 胎噪（低频）、风噪（中高频）、引擎声。</li>
+<li><em>非平稳噪声</em>: 鸣笛、雨声、开关门声、旁人干扰声。</li>
+</ul>
+</li>
+<li><strong>空间响应 (RIR)</strong>:<ul>
+<li>使用声学仿真软件或实地录制的 <strong>Impulse Response (冲击响应)</strong>。</li>
+<li>卷积操作：<code>Noisy_Audio = (Source * RIR) + (Noise * SNR_Scale)</code></li>
+</ul>
+</li>
+<li><strong>测试矩阵构建</strong>:<ul>
+<li>SNR: 0dB, 5dB, 10dB, 20dB</li>
+<li>速度: 0km/h (静止), 60km/h (市区), 120km/h (高速)</li>
+<li>车窗: 关/开</li>
+<li><strong>产出物</strong>: 针对每个模型版本，输出一张 <code>WER Heatmap</code>（热力图），横轴为噪音声级，纵轴为指令类型。</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="44">4.4 指标体系深解</h2>
+<h3 id="441-wer">4.4.1 准确性：超越 WER</h3>
+<ul>
+<li><strong>WER/CER (Word/Character Error Rate)</strong><ul>
+<li>公式：$ \frac{S + D + I}{N} \times 100\% $</li>
+<li><strong>S (Substitution)</strong>: 替换（如 "拨打" -&gt; "波打"）。</li>
+<li><strong>D (Deletion)</strong>: 漏字（如 "打开空调" -&gt; "打开"）。</li>
+<li><strong>I (Insertion)</strong>: 多字（如 "导航" -&gt; "导航啊"）。</li>
+<li><em>注意</em>：对于中文，通常使用 CER；对于英文及代码混杂，使用 WER。</li>
+</ul>
+</li>
+<li><strong>Keyword Spotting Rate (KWS)</strong><ul>
+<li>针对指令（如“调整温度到25度”），只关注“温度”和“25”是否正确。</li>
+<li><strong>Entity-WER</strong>: 仅计算命名实体（地点、人名、歌曲名）的错误率。这对车载导航至关重要。</li>
+</ul>
+</li>
+<li><strong>Semantic Accuracy (语义准确率)</strong><ul>
+<li>利用 LLM 作为 Judge。</li>
+<li>Prompt: <em>“文本A是‘我想听周杰伦的歌’，文本B是‘我想听周结伦的歌’。请判断B是否保留了A的核心意图？”</em></li>
+<li>解决同音字导致的 WER 虚高问题。</li>
+</ul>
+</li>
+</ul>
+<h3 id="442-latency">4.4.2 延迟 (Latency) 与 体验</h3>
+<ul>
+<li><strong>RTF (Real Time Factor)</strong>: $\frac{\text{处理耗时}}{\text{音频时长}}$。离线模型需 RTF &lt; 0.3 才能保证体验。</li>
+<li><strong>First Token Latency (FTL)</strong>: 用户说完第一个字，到屏幕显示第一个字的时间差。</li>
+<li><strong>Final Latency</strong>: VAD 判定用户说完，到整句最终结果定格的时间。</li>
+<li><strong>Flicker Rate (闪烁率)</strong>:<ul>
+<li>流式识别中，后续结果修正前面已显示结果的频率。</li>
+<li>高 Flicker 会让用户眼花缭乱，体验极差。</li>
+<li>指标：平均每句修正字符数 / 句子长度。</li>
+</ul>
+</li>
+</ul>
+<h3 id="443">4.4.3 稳定性与鲁棒性</h3>
+<ul>
+<li><strong>Hallucination Rate (幻觉率)</strong>: 在静音段（VAD 未截断时）模型输出无意义文本（如“谢谢观看”、“字幕组”）的概率。Whisper 类模型常见问题。</li>
+<li><strong>Time-Stamp Drift</strong>: 词级时间戳与真实时间的平均偏差（ms）。这对口型同步（Lip-sync）至关重要。</li>
+</ul>
+<hr />
+<h2 id="45-text-normalization">4.5 工程化：文本归一化 (Text Normalization)</h2>
+<p><strong>这是 ASR 测评中最大的“坑”。</strong> 90% 的“模型错误”其实是“格式不匹配”。</p>
+<h3 id="451-normalization-pipeline">4.5.1 归一化流水线 (Normalization Pipeline)</h3>
+<p>在计算 WER 之前，<strong>必须</strong>对 Truth 和 Hypothesis 同时执行以下操作：</p>
+<ol>
+<li><strong>全半角转换</strong>: 统一将 <code>，。！？</code> 转为半角或全角，或直接移除标点（如果只测文字）。</li>
+<li><strong>数字转写 (ITN)</strong>:<ul>
+<li>规则：<code>一千二百</code> -&gt; <code>1200</code>；<code>两点半</code> -&gt; <code>2:30</code>。</li>
+<li>工具：推荐使用 <code>WeTextProcessing</code> 或 <code>Nemo</code> 的 ITN 模块。</li>
+</ul>
+</li>
+<li><strong>语气词过滤</strong>: 移除 <code>嗯</code>、<code>啊</code>、<code>呃</code> 等（除非评测对象是逐字记录）。</li>
+<li><strong>英文大小写</strong>: 统一转小写。</li>
+<li><strong>空格处理</strong>: 中文汉字间去空格，英文单词间留单空格。</li>
+</ol>
+<h3 id="452-fuzzy-matching">4.5.2 模糊匹配 (Fuzzy Matching)</h3>
+<p>对于车机特定术语，建立同义词表（Alias List）：</p>
+<ul>
+<li>Hypothesis: "打开 <strong>氛围</strong> 灯"</li>
+<li>Truth: "打开 <strong>气氛</strong> 灯"</li>
+<li>如果在同义词表中 <code>氛围 == 气氛</code>，则判定 S=0。</li>
+</ul>
+<hr />
+<h2 id="46">4.6 错误分析与训练数据反查</h2>
+<h3 id="461-taxonomy">4.6.1 错误分类学 (Taxonomy)</h3>
+<p>| 错误类型 | 现象描述 | 可能原因 | 解决方向 |</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">错误类型</th>
+<th style="text-align: left;">现象描述</th>
+<th style="text-align: left;">可能原因</th>
+<th style="text-align: left;">解决方向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>截断 (Cut-off)</strong></td>
+<td style="text-align: left;">句首/句尾丢字</td>
+<td style="text-align: left;">VAD 阈值太高，Endpointing 太激进</td>
+<td style="text-align: left;">调整 VAD 参数，增加 padding</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>拼接 (Merge)</strong></td>
+<td style="text-align: left;">两句话粘连，中间无标点</td>
+<td style="text-align: left;">VAD 未切分，LM 偏向长句</td>
+<td style="text-align: left;">检查解码器最大长度惩罚</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>热词丢失</strong></td>
+<td style="text-align: left;">专名（如“小鹏”）识别错</td>
+<td style="text-align: left;">语言模型中该词概率低</td>
+<td style="text-align: left;">增加 Hotword boosting / Contextual biasing</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>幻觉</strong></td>
+<td style="text-align: left;">纯静音输出文本</td>
+<td style="text-align: left;">训练数据中存在未清洗的字幕</td>
+<td style="text-align: left;">增加静音样本训练，惩罚重复生成</td>
+</tr>
+</tbody>
+</table>
+<h3 id="462-ablation">4.6.2 Ablation 实验设计</h3>
+<ul>
+<li><strong>Context Ablation</strong>: 调整送入 MLLM 的音频 Context 长度，观察是“听得更准”还是“幻觉更多”。</li>
+<li><strong>Prompt Engineering</strong>: 针对 Whisper 等模型，测试不同 Prompt（如 "以下是关于汽车导航的指令"）对 WER 的影响。</li>
+<li><strong>Beam Size</strong>: 测试 Beam=1 (Greedy) vs Beam=5 的精度与延时 Trade-off。</li>
+</ul>
+<hr />
+<h2 id="47">4.7 车舱落地：驾舱一体专项测评</h2>
+<p>车舱环境具有<strong>强噪声、多声源、弱网、高安全要求</strong>的特征。</p>
+<h3 id="471">4.7.1 必测场景清单</h3>
+<ol>
+<li><strong>AEC (Acoustic Echo Cancellation) 回声消除</strong>:<ul>
+<li><strong>测试法</strong>: 车机以 30%, 60%, 80% 音量播放音乐/新闻，人声发出指令。</li>
+<li><strong>关键指标</strong>: <strong>WERR (WER Reduction)</strong>。即 <code>(无AEC错误率 - 有AEC错误率) / 无AEC错误率</code>。</li>
+<li><strong>Barge-in (打断) 成功率</strong>: 在播报 TTS 时，用户插话打断的召回率。</li>
+</ul>
+</li>
+<li><strong>多音区锁定与仲裁 (Multi-zone &amp; Arbitration)</strong>:<ul>
+<li><strong>测试配置</strong>: 4麦/6麦阵列录制。</li>
+<li><strong>干扰测试</strong>: 主驾说指令，副驾/后排同时闲聊。模型应只识别主驾（如果主驾唤醒）。</li>
+<li><strong>串音漏报率</strong>: 别人说话，系统误以为是主驾指令的概率。</li>
+</ul>
+</li>
+<li><strong>离线/在线混合链路 (Hybrid ASR)</strong>:<ul>
+<li><strong>一致性测评</strong>: 同样的音频，分别送入离线引擎和云端引擎。</li>
+<li><strong>Diff 分析</strong>: 离线模型通常参数小，需重点评估其在 <strong>泛化指令</strong> 上的退化程度。如果离线听不懂，是否能正确拒识（Reject）而不是乱猜。</li>
+</ul>
+</li>
+<li><strong>端到端时延预算</strong>:<ul>
+<li>从 VAD End 到 NLU 意图输出，车规级要求通常 &lt; <strong>500ms</strong>。ASR 部分通常只有 200-300ms 预算。</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="48">4.8 本章小结</h2>
+<p>ASR 测评是 MLLM 语音交互的基石。一个优秀的测评体系不仅要算得准 WER，还要能模拟真实世界的糟糕声学环境，并能通过语义指标和归一化手段还原模型的真实能力。对于车舱场景，<strong>AEC 性能、多音区抗干扰、以及极速的端侧响应</strong>是评测的三大核心支柱。</p>
+<hr />
+<h2 id="49">4.9 练习题</h2>
+<h3 id="_1">基础题</h3>
+<ol>
+<li><strong>WER 计算实战</strong>:<ul>
+<li>Ref: "play music please"</li>
+<li>Hyp: "play magic"</li>
+<li><strong>Hint</strong>: 计算 S, D, I。注意 token 数量。</li>
+<li><details markdown="1"><summary>答案</summary>Ref 长度 3。Hyp 长度 2。"music" -&gt; "magic" (S=1), "please" -&gt; deleted (D=1)。WER = (1+1)/3 = 66.7%。</details></li>
+</ul>
+</li>
+<li><strong>归一化陷阱</strong>:<ul>
+<li>为什么在评测前必须做“中文转阿拉伯数字”？</li>
+<li><strong>Hint</strong>: 思考 "一千" 和 "1000" 的字面差异。</li>
+</ul>
+</li>
+<li><strong>RTF 计算</strong>:<ul>
+<li>处理 10 秒音频耗时 1 秒，RTF 是多少？</li>
+<li><details markdown="1"><summary>答案</summary>0.1。非常快。</details></li>
+</ul>
+</li>
+</ol>
+<h3 id="_2">挑战题</h3>
+<ol start="4">
+<li><strong>AEC 评测设计</strong>:<ul>
+<li>你需要评估一套新的 AEC 算法。请设计一个包含“双讲（Double Talk）”场景的测试用例，并说明如何标注真值。</li>
+<li><strong>Hint</strong>: 参考信号（音乐）+ 目标信号（人声）。真值是人声的内容。评估指标不仅是 WER，还有残余噪声等级。</li>
+</ul>
+</li>
+<li><strong>流式修正的代价</strong>:<ul>
+<li>如果一个流式模型的最终 WER 很低，但 Flicker Rate 极高（用户看到的字一直在变），这在车载导航场景下会有什么安全隐患？</li>
+<li><strong>Hint</strong>: 驾驶员分心。如果屏幕上的字一直在跳变，驾驶员会不自觉地盯着屏幕确认，导致视线离开路面。</li>
+</ul>
+</li>
+<li><strong>多模态幻觉调试</strong>:<ul>
+<li>用户输入语音“这个怎么卖”，同时摄像头拍了一张苹果的照片。ASR 识别成了“这个怎么迈”。请问这是 ASR 的锅还是 MLLM 的锅？如何设计实验定位？</li>
+<li><strong>Hint</strong>: 单独测 ASR 的输出。如果 ASR 输出确实是“迈”，那就是 ASR 错误。如果 ASR 输出是“卖”，但最终回答奇怪，那就是 MLLM 的图文对齐问题。</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="410-gotchas">4.10 常见陷阱与错误 (Gotchas)</h2>
+<ol>
+<li><strong>采样率不匹配</strong>: 训练用 16k，测评用 8k 或 48k 重采样，导致性能断崖式下跌。<strong>务必检查采样率一致性。</strong></li>
+<li><strong>时间戳错位</strong>: 在计算 Latency 时，客户端录音时间和服务器接收时间存在网络抖动（Jitter）。<strong>建议在音频中嵌入不可听的高频水印用于对齐，或基于本地录音回环测试。</strong></li>
+<li><strong>过拟合测试集</strong>: 许多开源模型已经见过 LibriSpeech 的 Test-clean。<strong>必须使用自建的、Out-of-domain 的数据（如车内实录）做最终验收。</strong></li>
+<li><strong>忽视 VAD 丢字</strong>: 有时候 WER 高不是识别错了，而是 VAD 把头尾切掉了。<strong>听一下 Badcase 的切片音频往往能发现真相。</strong></li>
+</ol>
+            </article>
+            
+            <nav class="page-nav"><a href="chapter3.html" class="nav-link prev">← 第 3 章：评测平台工程化：统一接口、批量运行、可视化与 CI</a><a href="chapter5.html" class="nav-link next">第 5 章：TTS 测评（语音合成） →</a></nav>
+        </main>
+    </div>
+</body>
+</html>
