@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>第 14 章：代码生成能力评测（作为逻辑性与 Agent 能力 Proxy）</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item " >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">MLLM 多模理解与生成大模型测评教程（中文）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 1 章：测评总览与能力树</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 2 章：数据、指标与统计：从“可比”到“可信”</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 3 章：评测平台工程化：统一接口、批量运行、可视化与 CI</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 4 章：ASR 测评（语音识别）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 5 章：TTS 测评（语音合成）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 6 章：音频/音乐理解与生成测评 (chapter6.md)</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 7 章：自然图像理解与 OCR（含交通牌、扫码、天气等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 8 章：视频理解（含人流、事件、时序推理、驾驶相关）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 9 章：人头/人脸图像与视频理解（AU、Blendshape、DMS/OMS）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 10 章：GUI 截屏/录屏理解与操作评测（ScreenSuite 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 11 章：文本逻辑性、事实性与低幻觉：客观打分体系</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 12 章：RAG 评测：检索与生成的端到端客观评分</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 13 章：文字 + 语音 Role-play 的主观人评（CharacterEval 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item active" >
+                        <a href="chapter14.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 14 章：代码生成能力评测（作为逻辑性与 Agent 能力 Proxy）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter15.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 15 章：Agent 能力评测（ReAct、工具调用、长任务、记忆）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter16.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 16 章：GUI→代码 + 端到端驾舱一体基准（系统集成/回归/反查）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="14-agent-proxy">第 14 章：代码生成能力评测（作为逻辑性与 Agent 能力 Proxy）</h1>
+<h2 id="1">1. 开篇：代码——逻辑的终极形式</h2>
+<p>在 MLLM（多模态大模型）的评测体系中，<strong>代码生成（Code Generation）</strong> 往往被狭隘地理解为“辅助程序员编程”的垂直功能。然而，在通用的智能体（Agent）视角下，代码生成具有远超其字面意义的战略价值。</p>
+<p>代码是<strong>逻辑的终极形式</strong>。与自然语言的歧义性不同，代码具有严格的语法约束、确定的执行路径和不可妥协的因果关系。如果一个模型无法生成逻辑严密、可执行的代码，它就很难在复杂的 Agent 场景中进行长链路规划、工具调用或数学推理。</p>
+<p>本章将重新定义代码评测：它不仅是软件工程能力的度量，更是模型<strong>逻辑推理（Reasoning）</strong>、<strong>指令遵循（Instruction Following）</strong> 以及 <strong>外部世界交互（Tool Use）</strong> 能力的最佳<strong>代理指标（Proxy Metric）</strong>。</p>
+<p><strong>本章学习目标</strong>：</p>
+<ol>
+<li><strong>理解代理机制</strong>：为何代码生成能力强弱直接映射了 Agent 的 ReAct 规划与工具调用水平。</li>
+<li><strong>掌握评测全貌</strong>：从单元测试（Unit Test）到仓库级（Repo-level）理解，再到沙箱执行（Sandbox Execution）的全链路设计。</li>
+<li><strong>精通指标体系</strong>：深入理解 <code>pass@k</code> 的统计学原理及其在避免“运气成分”中的作用。</li>
+<li><strong>驾舱一体实战</strong>：学习如何在车机端侧环境评测 DSL（领域特定语言）生成、API 编排与自动化配置脚本的安全性。</li>
+</ol>
+<hr />
+<h2 id="2-agent-proxy">2. 核心论点：为什么代码是 Agent 能力的强 Proxy？</h2>
+<h3 id="21-vs-cot-vs-pot">2.1 文本推理 vs. 代码推理 (CoT vs. PoT)</h3>
+<p>在解决复杂逻辑问题（如数学应用题、时序规划）时，传统的 <strong>思维链（Chain-of-Thought, CoT）</strong> 使用自然语言进行推理。然而，大模型容易出现计算错误或逻辑跳跃。
+<strong>程序思维（Program-of-Thought, PoT）</strong> 则要求模型将推理过程转化为代码（通常是 Python）。</p>
+<ul>
+<li><strong>评测意义</strong>：如果模型能写出正确的求解方程代码，说明它不仅“懂”了题意，还具备了形式化建模的能力。代码评测实际上是在测模型的<strong>形式化建模（Formal Modeling）</strong> 能力。</li>
+</ul>
+<h3 id="22">2.2 工具调用即函数生成</h3>
+<p>在 Agent 语境下，模型调用一个外部工具（如“查询天气”或“控制车窗”），本质上就是生成一段<strong>函数调用代码</strong>（Function Call）。</p>
+<ul>
+<li><strong>映射关系</strong>：<ul>
+<li>API 文档 $\approx$ 函数定义与 Docstring。</li>
+<li>用户意图 $\approx$ 需求描述。</li>
+<li>Tool Argument Filling $\approx$ 代码参数赋值。</li>
+</ul>
+</li>
+<li><strong>结论</strong>：一个连 Python 函数参数都填不对的模型，绝对无法成为一个可靠的 Agent。</li>
+</ul>
+<h3 id="23">2.3 逻辑闭环的唯一性</h3>
+<p>自然语言的回答往往难以自动验证真伪（需要昂贵的 Model-based Judge），而代码的验证成本极低且极其客观——<strong>编译器不骗人</strong>。代码评测提供了大规模、低成本、高置信度的自动化逻辑评估手段。</p>
+<hr />
+<h2 id="3">3. 评测基准与数据集地图</h2>
+<p>为了全面评估，我们需要构建分级的评测数据集：</p>
+<h3 id="31-l1-functional-correctness">3.1 L1: 算法与功能级（Functional Correctness）</h3>
+<ul>
+<li><strong>任务</strong>：输入 Docstring 或问题描述，输出函数体。</li>
+<li><strong>经典基准</strong>：<ul>
+<li><strong>HumanEval / MBPP</strong>：事实上的工业标准。主要测试基础 Python 语法和标准库使用。</li>
+<li><strong>HumanEval+ / MBPP+</strong>：增强了测试用例的基准，防止模型“背题”或针对性过拟合。</li>
+</ul>
+</li>
+<li><strong>关键点</strong>：必须使用<strong>Canonical Solutions</strong>（标准答案）来生成测试用例，确保题目本身无误。</li>
+</ul>
+<h3 id="32-l2-data-science-libraries">3.2 L2: 数据科学与库使用（Data Science &amp; Libraries）</h3>
+<ul>
+<li><strong>任务</strong>：使用 Pandas, Matplotlib, NumPy 等第三方库处理数据。</li>
+<li><strong>基准参考</strong>：DS-1000, PandasEval。</li>
+<li><strong>评测价值</strong>：这是 MLLM 进行“文档对话”、“表格分析”能力的底层支撑。主要考察模型对<strong>API 生态</strong>的熟练度。</li>
+</ul>
+<h3 id="33-l3-repo-level-context">3.3 L3: 仓库级与长上下文（Repo-level &amp; Context）</h3>
+<ul>
+<li><strong>任务</strong>：给定一个完整的 GitHub 仓库，要求修复 Bug 或添加新 Feature。</li>
+<li><strong>基准参考</strong>：SWE-bench。</li>
+<li><strong>评测价值</strong>：考察 <strong>跨文件推理（Cross-file Reasoning）</strong>、依赖分析以及在长上下文（Long Context）中定位关键定义的能力。</li>
+</ul>
+<h3 id="34-l4-visual-to-code">3.4 L4: 多模态转代码（Visual-to-Code）</h3>
+<ul>
+<li><strong>任务</strong>：输入一张 UI 截图或图表，输出复现该 UI 的 HTML/CSS 或绘图代码。</li>
+<li><strong>评测价值</strong>：视觉理解与代码生成的融合，详见第 16 章，但其核心执行引擎评测属于本章范畴。</li>
+</ul>
+<hr />
+<h2 id="4">4. 评测系统架构与方法论</h2>
+<h3 id="41-static-analysis">4.1 静态分析 (Static Analysis) —— 快速筛选</h3>
+<p>在不运行代码的情况下进行检查。</p>
+<ul>
+<li><strong>AST 解析</strong>：检查代码是否存在语法错误（Syntax Error）。</li>
+<li><strong>Linter 检查</strong>：使用 Flake8/Pylint 检查未定义变量、未使用的导入等。</li>
+<li><strong>局限性</strong>：无法检测逻辑错误（Logic Error），如算法写反了但语法是对的。仅作为“冒烟测试”。</li>
+</ul>
+<h3 id="42-dynamic-execution-sandbox">4.2 动态执行沙箱 (Dynamic Execution Sandbox) —— 核心引擎</h3>
+<p>这是代码评测的“心脏”。必须构建一个<strong>高隔离、无状态</strong>的执行环境。</p>
+<div class="codehilite"><pre><span></span><code>[ 评测控制器 (Controller) ]
+       | 分发任务
+       v
+[ 容器池 (Docker/gVisor Pool) ]
+   +---------------------------+
+   | 沙箱实例 (Instance)       |
+   |  [ 代码注入 (Injector) ]  |---&gt; 写入 generated_code.py
+   |  [ 测试运行器 (Runner) ]  |---&gt; 运行 pytest / unittests
+   |  [ 资源监视器 (Monitor) ] |---&gt; 监控 CPU/RAM/Time
+   +---------------------------+
+       | 返回结果 (Exit Code, Stdout, Stderr)
+       v
+[ 结果聚合与清洗 (Aggregator) ]
+</code></pre></div>
+
+<ul>
+<li><strong>隔离技术</strong>：推荐使用 gVisor 或 Firecracker microVM，比标准 Docker 更安全，防止恶意代码逃逸。</li>
+<li><strong>网络策略</strong>：默认<strong>断网</strong>（除非评测 Agent 联网能力），防止模型试图从互联网下载答案或攻击内网。</li>
+<li><strong>资源熔断</strong>：<ul>
+<li><strong>Time Limit</strong>：防止 <code>while True</code> 死循环。</li>
+<li><strong>Memory Limit</strong>：防止内存泄漏或恶意占用。</li>
+<li><strong>Disk Limit</strong>：防止填满磁盘。</li>
+</ul>
+</li>
+</ul>
+<h3 id="43-passk">4.3 核心指标：深入 Pass@k</h3>
+<p>单纯的准确率（Accuracy）在生成式任务中是有误导性的。我们使用 <code>pass@k</code>。</p>
+<ul>
+<li><strong>定义</strong>：针对同一 Prompt，采样生成 $n$ 个代码样本 ($n \ge k$)，计算其中至少有一个样本通过所有单元测试的概率。</li>
+<li>
+<p><strong>无偏估计公式</strong>：
+    $$ \text{pass}@k = 1 - \frac{\binom{n-c}{k}}{\binom{n}{k}} $$
+    其中 $n$ 是采样总数，$c$ 是通过测试的样本数。</p>
+</li>
+<li>
+<p><strong>解读</strong>：</p>
+<ul>
+<li><strong>Pass@1</strong>：代表模型“一次做对”的能力，反映了模型的<strong>置信度与精确性</strong>（适合低延迟场景）。</li>
+<li><strong>Pass@10</strong>：代表模型的<strong>潜在上限</strong>，即在有外部重试机制或人工辅助筛选下的能力（适合辅助编程或离线 Agent 规划）。</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="5-ablation">5. Ablation 与 归因分析</h2>
+<p>当代码评测分数下降时，需要通过 Ablation 实验定位原因：</p>
+<ol>
+<li>
+<p><strong>指令遵循 vs. 编码能力</strong>：</p>
+<ul>
+<li>模型是没看懂需求（Instruction Following 差），还是看懂了但写不对算法（Coding 差）？</li>
+<li><em>测试方法</em>：提供伪代码或详细步骤，看分数是否提升。</li>
+</ul>
+</li>
+<li>
+<p><strong>上下文依赖</strong>：</p>
+<ul>
+<li>代码是否因为找不到依赖库而失败？</li>
+<li><em>测试方法</em>：在 Prompt 中显式提供 <code>import</code> 语句或环境描述。</li>
+</ul>
+</li>
+<li>
+<p><strong>格式遵循 (Formatting)</strong>：</p>
+<ul>
+<li>模型是否在代码块中夹杂了 Markdown 说明导致解析失败？</li>
+<li><em>测试方法</em>：优化后处理（Post-processing）正则提取逻辑，对比 Raw 输出。</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="6">6. 车舱落地：驾舱一体中的代码生成</h2>
+<p>在智能座舱中，代码生成不是为了写 App，而是为了实现<strong>极致的自动化与个性化</strong>。这是一类特殊的 <strong>DSL（Domain Specific Language）</strong> 生成任务。</p>
+<h3 id="61">6.1 典型场景评测设计</h3>
+<ol>
+<li>
+<p><strong>自然语言转车控 DSL</strong>：</p>
+<ul>
+<li><em>场景</em>：“如果后座有人且温度高于 28 度，就打开后排空调并播放轻音乐。”</li>
+<li><em>评测难点</em>：逻辑嵌套（If-Then）、多模态状态感知（DMS 信号）、多域控制（空调+媒体）。</li>
+<li><em>构建基准</em>：定义一套虚拟的车辆控制 API（如 <code>Vehicle.Zone.Rear.AC.set(On)</code>），评测模型生成调用链的准确性。</li>
+<li><em>Metric</em>：<strong>AST Match Rate</strong>（生成的抽象语法树与真值是否一致），比纯文本匹配更鲁棒。</li>
+</ul>
+</li>
+<li>
+<p><strong>复杂查询构造 (Query Generation)</strong>：</p>
+<ul>
+<li><em>场景</em>：“找一下这附近 5 公里内评分 4.5 以上且现在营业的火锅店。”</li>
+<li><em>任务</em>：模型需要生成针对地图/POI 引擎的结构化查询对象（JSON 或 SQL-like）。</li>
+<li><em>评测</em>：Mock 地图服务，检查查询参数（Filter 条件、Sort 键值、Range 限制）的正确性。</li>
+</ul>
+</li>
+<li>
+<p><strong>Ambiguity Resolution (歧义消除)</strong>：</p>
+<ul>
+<li><em>场景</em>：用户说“打开窗户”。</li>
+<li><em>任务</em>：模型生成的代码不应直接操作，而应包含“查询当前窗户状态”-&gt;“判断哪扇窗”-&gt;“操作”或“反问”的逻辑。</li>
+<li><em>评测</em>：<strong>Defensive Coding Score</strong>（防御性编程得分）。</li>
+</ul>
+</li>
+</ol>
+<h3 id="62-safety-guardrails">6.2 端侧安全与沙箱 (Safety Guardrails)</h3>
+<p>车载环境对代码执行有极高的安全红线。</p>
+<ul>
+<li>
+<p><strong>只读沙箱 (Read-Only Logic)</strong>：</p>
+<ul>
+<li>评测模型是否能在“模拟模式”下运行。即代码生成只产生“Plan”，而不直接执行“Action”。</li>
+<li><em>Checklist</em>：生成的代码必须返回一个 Action List，而不是直接调用底层硬件驱动。</li>
+</ul>
+</li>
+<li>
+<p><strong>资源预算 (Compute Budget)</strong>：</p>
+<ul>
+<li>车载芯片（如高通 8295）的 CPU 资源宝贵。</li>
+<li><em>评测指标</em>：<strong>Token Efficiency</strong>（完成任务所需的代码 token 数）和 <strong>Cyclomatic Complexity</strong>（圈复杂度）。过于复杂的生成代码应被扣分，因为这会增加端侧推理和执行的延迟。</li>
+</ul>
+</li>
+<li>
+<p><strong>死循环与阻塞检测</strong>：</p>
+<ul>
+<li>严格评测模型是否会生成阻塞主线程的代码（如 <code>time.sleep()</code> 在 UI 线程）。</li>
+<li><em>测试集</em>：对抗性 Prompt（如“一直等到温度下降”），看模型是否生成 <code>while</code> 循环（Bad）还是注册回调事件（Good）。</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="7">7. 本章小结</h2>
+<ul>
+<li><strong>Code is Logic</strong>：代码评测是衡量 MLLM 逻辑推理和形式化建模能力的“硬通货”。</li>
+<li><strong>Dynamic is King</strong>：必须建立基于沙箱的动态执行环境，静态文本相似度指标在代码评测中基本无效。</li>
+<li><strong>Agent 基础</strong>：Tool Use 本质上是 Function Calling 代码生成。高 <code>pass@k</code> 的代码模型是强 Agent 的必要条件。</li>
+<li><strong>车载特殊性</strong>：驾舱一体场景下，代码评测侧重于 DSL 转换准确率、API 参数填充正确性以及端侧执行的安全性与低时延。</li>
+</ul>
+<hr />
+<h2 id="8">8. 练习题</h2>
+<h3 id="50">基础题 (50%)</h3>
+<ol>
+<li><strong>概念理解</strong>：解释为什么在代码评测中，<code>Pass@1</code> 比 <code>Accuracy</code>（准确率）更科学？<ul>
+<li><em>Hint：考虑大模型生成的随机性以及单一采样的偶然性。</em></li>
+</ul>
+</li>
+<li><strong>指标计算</strong>：如果在 10 次采样中，有 2 次通过了测试，计算 <code>pass@1</code> 的无偏估计值。<ul>
+<li><em>Hint：套用 $1 - \frac{n-c}{n}$ 的简化思路（当 k=1 时）。</em></li>
+</ul>
+</li>
+<li><strong>沙箱机制</strong>：简述为什么不能直接在评测服务器的宿主机 Shell 中运行模型生成的代码？列举两个具体风险。<ul>
+<li><em>Hint：<code>rm -rf</code>, 环境变量泄露，挖矿脚本。</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="50_1">挑战题 (50%)</h3>
+<ol start="4">
+<li><strong>评测设计（Agent 方向）</strong>：设计一个评测任务，测试模型使用“计算器工具”和“日历工具”解决问题的能力。输入是“我出生在 1990 年 5 月 1 日，今天我活了多少天？”。<ul>
+<li><em>Hint：模型需要生成两段代码/调用：1. 获取今天日期；2. 日期减法计算。如何评测这两步的依赖关系？</em></li>
+</ul>
+</li>
+<li><strong>车舱场景分析</strong>：在车机端，用户指令是“把空调调得像春天一样”。模型生成了一段代码将温度设为 22 度，风速设为柔和。如何设计客观指标来评价这段代码的“合理性”而不是“唯一正确性”？<ul>
+<li><em>Hint：引入 Fuzzy Match（模糊匹配）或 Range Check（范围检查），而不是 Exact Match。</em></li>
+</ul>
+</li>
+<li><strong>Fail Case 分析</strong>：模型生成的代码在 Python 3.10 上运行通过，但在 Python 3.6 上报错。这属于什么类型的错误？在工程化评测中如何规避？<ul>
+<li><em>Hint：环境依赖错误。Docker 镜像版本锁定。</em></li>
+</ul>
+</li>
+</ol>
+<details>
+<summary>点击查看答案解析</summary>
+<ol>
+<li><strong>Pass@1 vs Accuracy</strong>：Accuracy 通常指贪婪解码（Greedy）下的单次结果，但代码生成往往需要探索（Temperature &gt; 0）。Pass@1 是统计意义上的期望，且通过无偏估计公式可以纠正采样方差。</li>
+<li><strong>计算</strong>：当 k=1 时，公式简化为 $c/n$ 的期望。在无偏估计公式中，pass@1 = $1 - \frac{8}{10} = 0.2$ (20%)。</li>
+<li><strong>风险</strong>：1. 文件系统破坏（删除关键数据）；2. 网络攻击（将宿主机作为跳板攻击内网）；3. 资源耗尽（Fork 炸弹）。</li>
+<li><strong>Agent 设计</strong>：评测重点在于 <strong>依赖链（Dependency Chain）</strong>。如果第一步（获取日期）错了，第二步逻辑再对也是错。评测应支持 Mock 第一步的返回，单独测试第二步的逻辑；同时也测试端到端正确性。</li>
+<li><strong>合理性评测</strong>：定义一个“春天参数集”真值范围（如 Temp $\in [20, 24]$, Wind $\in [Low, Medium]$）。只要生成的参数落在此区间内即判为 Pass。</li>
+<li><strong>环境问题</strong>：这是<strong>兼容性/版本依赖错误</strong>。对策：评测基准必须明确指定 Python 版本和依赖库版本（requirements.txt），并在 Dockerfile 中固化。</li>
+</ol>
+</details>
+<hr />
+<h2 id="9-gotchas">9. 常见陷阱与错误 (Gotchas)</h2>
+<ol>
+<li>
+<p><strong>Eval Harness 的隐藏 Bug</strong>：</p>
+<ul>
+<li><em>陷阱</em>：评测框架自身的测试用例写错了，或者测试用例太弱（比如只测了 <code>add(1,1)=2</code>，没测 <code>add(-1, -1)</code>），导致模型虚高。</li>
+<li><em>对策</em>：定期人工抽检 Passed 的样本，使用 Mutation Testing（变异测试）评估测试用例的质量。</li>
+</ul>
+</li>
+<li>
+<p><strong>Prompt 泄露与过拟合</strong>：</p>
+<ul>
+<li><em>陷阱</em>：模型输出了 HumanEval 题目中独有的变量名（如 <code>bf</code> 代表 <code>brute_force</code>），但 Prompt 里没给。说明模型训练数据污染。</li>
+<li><em>对策</em>：使用 <strong>Decontamination</strong>（去污染）流程，或者使用类似 LiveCodeBench 这种基于最新 GitHub 代码构建的动态基准。</li>
+</ul>
+</li>
+<li>
+<p><strong>非确定性行为 (Nondeterminism)</strong>：</p>
+<ul>
+<li><em>陷阱</em>：涉及 <code>dict.keys()</code> 遍历或集合操作的代码，在不同 Python 版本或哈希种子下顺序不同，导致测试失败。</li>
+<li><em>对策</em>：在测试断言中，对列表输出先 <code>sort()</code> 再比较，或使用集合比较。</li>
+</ul>
+</li>
+<li>
+<p><strong>车机 API 的幻觉</strong>：</p>
+<ul>
+<li><em>陷阱</em>：模型生造了一个不存在的 API，如 <code>Vehicle.set_driver_mood("happy")</code>。</li>
+<li><em>对策</em>：引入 <strong>Linter for DSL</strong>。在执行前，先用 API Schema 校验生成的代码，所有函数名和参数必须在白名单内。</li>
+</ul>
+</li>
+</ol>
+            </article>
+            
+            <nav class="page-nav"><a href="chapter13.html" class="nav-link prev">← 第 13 章：文字 + 语音 Role-play 的主观人评（CharacterEval 等）</a><a href="chapter15.html" class="nav-link next">第 15 章：Agent 能力评测（ReAct、工具调用、长任务、记忆） →</a></nav>
+        </main>
+    </div>
+</body>
+</html>

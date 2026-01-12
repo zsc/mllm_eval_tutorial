@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="./">
+    <title>第 16 章：GUI→代码 + 端到端驾舱一体基准（系统集成/回归/反查）</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/highlight.css">
+    <script src="assets/script.js" defer></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: false,
+                packages: {'[+]': ['noerrors', 'ams']}
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            loader: {
+                load: ['[tex]/noerrors', '[tex]/ams']
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>目录</h3>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="sidebar-search-input" placeholder="搜索..." autocomplete="off">
+            </div>
+            <div id="tree-container">
+                <nav class="tree-nav" role="tree">
+                    <div class="tree-item " >
+                        <a href="index.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">MLLM 多模理解与生成大模型测评教程（中文）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter1.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 1 章：测评总览与能力树</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter2.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 2 章：数据、指标与统计：从“可比”到“可信”</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter3.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 3 章：评测平台工程化：统一接口、批量运行、可视化与 CI</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter4.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 4 章：ASR 测评（语音识别）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter5.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 5 章：TTS 测评（语音合成）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter6.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 6 章：音频/音乐理解与生成测评 (chapter6.md)</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter7.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 7 章：自然图像理解与 OCR（含交通牌、扫码、天气等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter8.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 8 章：视频理解（含人流、事件、时序推理、驾驶相关）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter9.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 9 章：人头/人脸图像与视频理解（AU、Blendshape、DMS/OMS）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter10.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 10 章：GUI 截屏/录屏理解与操作评测（ScreenSuite 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter11.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 11 章：文本逻辑性、事实性与低幻觉：客观打分体系</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter12.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 12 章：RAG 评测：检索与生成的端到端客观评分</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter13.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 13 章：文字 + 语音 Role-play 的主观人评（CharacterEval 等）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter14.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 14 章：代码生成能力评测（作为逻辑性与 Agent 能力 Proxy）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="chapter15.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 15 章：Agent 能力评测（ReAct、工具调用、长任务、记忆）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item active" >
+                        <a href="chapter16.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">第 16 章：GUI→代码 + 端到端驾舱一体基准（系统集成/回归/反查）</span>
+                        </a>
+                    </div>
+                
+                    <div class="tree-item " >
+                        <a href="CLAUDE.html" class="tree-link">
+                            <span class="tree-icon">📄</span>
+                            <span class="tree-title">Untitled</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </nav>
+        
+        <main class="content">
+            <article>
+                <h1 id="16-gui">第 16 章：GUI→代码 + 端到端驾舱一体基准（系统集成/回归/反查）</h1>
+<h2 id="161">16.1 开篇：从“单点优异”到“系统可用”</h2>
+<p>在前十五章中，我们分别对 ASR、TTS、视觉理解、RAG、逻辑推理等模块进行了独立的“体检”。然而，智能座舱（Smart Cockpit）不是零件的堆砌，而是一个有机的整体。用户的指令往往是模糊的、跨模态的，且发生在驾驶这一高风险、高认知负荷的场景下。</p>
+<p>一个在 MMLU（文本逻辑）上跑分很高的模型，可能会在车速 120km/h 时因为输出了 500 字的冗长回答而导致严重的体验事故；一个在静态 VQA（视觉问答）上表现出色的模型，可能会因为无法处理车载摄像头的鱼眼畸变或夜间眩光而产生由于“误看”导致的“误操作”。</p>
+<p><strong>本章核心目标</strong>：</p>
+<ol>
+<li><strong>GUI → 代码（Generative UI）评测</strong>：测评模型能否理解 UI 设计稿或自然语言意图，直接生成适配车机的前端代码（HTML/QML/Android XML），实现“所见即所得”的动态交互。</li>
+<li><strong>端到端驾舱一体集成评测</strong>：构建“数字孪生”级的仿真基准，涵盖多模态冲突仲裁、安全边界守护、时延预算控制。</li>
+<li><strong>闭环反查体系</strong>：建立从系统级故障（System Failure）自动追溯到训练数据源头（Data Origin）的调试链路。</li>
+</ol>
+<p><strong>学习目标</strong>：</p>
+<ul>
+<li>掌握 GUI 生成任务中“结构相似度”与“渲染一致性”的客观打分方法。</li>
+<li>设计覆盖 Level 1（指令）到 Level 3（复杂博弈）的端到端测试场景库。</li>
+<li>理解车载环境下的特殊约束：多音区仲裁、驾驶分心规避、离线/在线混合架构测评。</li>
+<li>学会利用 Vector Retrieval 和 Influence Analysis 进行训练数据污染反查。</li>
+</ul>
+<hr />
+<h2 id="162-gui">16.2 GUI → 代码能力评测：动态界面的生成与还原</h2>
+<p>智能座舱的演进方向是 <strong>Generative UI（生成式界面）</strong>。传统的车机界面是写死的，而 MLLM 赋能的车机可以根据用户需求即时生成临时组件（Widget）。例如，当用户说“对比一下这三家充电站的停车费和快充功率”时，系统不应只是朗读，而应实时生成一个对比表格卡片。</p>
+<h3 id="1621">16.2.1 任务定义与输入输出</h3>
+<ul>
+<li><strong>输入 (Input)</strong>：<ul>
+<li><strong>视觉模态</strong>：UI 设计稿（Figma 导出图）、手绘草图、或现有的屏幕截图（用于 UI 修改任务）。</li>
+<li><strong>文本模态</strong>：自然语言指令（如“把背景改成深色模式，按钮放大”）、UI 描述文档（DSL）。</li>
+<li><strong>约束条件</strong>：车机屏幕分辨率（e.g., 2560x1440）、特定设计规范（Design Token，如字体大小限制）。</li>
+</ul>
+</li>
+<li><strong>输出 (Output)</strong>：<ul>
+<li>可执行代码：HTML/Tailwind/React，或车载专用的 QML / Android Declarative XML。</li>
+<li>资源引用：图标、图片的占位符或真实链接。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1622">16.2.2 数据集构建策略</h3>
+<p>由于车机 UI 属于垂直领域，公开数据集（如 WebSight）往往不够用，需自建：</p>
+<ol>
+<li><strong>逆向工程法</strong>：从现有的车机系统（Android Automotive）中提取布局文件（XML）和对应的渲染截图，构建 &lt;截图, 代码&gt; 对。</li>
+<li><strong>组件化合成</strong>：利用 Playwright 或 Selenium，基于一套 UI 组件库自动随机生成数万种布局组合，保存截图和 DOM 树作为真值。</li>
+<li><strong>设计稿转译</strong>：收集设计师的 Figma 稿，人工清洗图层结构，导出为“清洁”的代码作为 Ground Truth。</li>
+</ol>
+<h3 id="1623">16.2.3 核心指标体系</h3>
+<p>评测不仅仅看代码能不能跑，核心在于<strong>“长得像不像”（视觉）</strong>和<strong>“能不能用”（交互）</strong>。</p>
+<h4 id="a-visual-consistency">A. 视觉一致性 (Visual Consistency)</h4>
+<ol>
+<li><strong>Pixel-Level (像素级)</strong>：<ul>
+<li><strong>RMSE / SSIM</strong>：计算渲染图与真值图的差异。</li>
+<li><em>局限性</em>：若生成的按钮仅仅向右偏移了 2px，SSIM 会下降，但对用户体验影响极小。</li>
+</ul>
+</li>
+<li><strong>Perceptual-Level (感知级)</strong>：<ul>
+<li><strong>LPIPS / DreamSim</strong>：利用深度特征（如 VGG/CLIP）计算图像距离，判断“风格”和“结构”是否一致，对微小像素偏移不敏感。</li>
+</ul>
+</li>
+<li><strong>OCR 辅助验证</strong>：<ul>
+<li>对渲染图进行 OCR，检查文字内容是否正确、是否存在乱码或幻觉文本。</li>
+</ul>
+</li>
+</ol>
+<h4 id="b-structural-code-quality">B. 结构与代码质量 (Structural &amp; Code Quality)</h4>
+<ol>
+<li><strong>DOM Tree Match (Tree Edit Distance)</strong>：<ul>
+<li>将生成的 HTML/XML 解析为树结构，计算将其转换为真值树所需的最少编辑操作（增删改）。</li>
+<li><em>Rule of Thumb</em>：这是衡量 UI 逻辑正确性的<strong>金标准</strong>。</li>
+</ul>
+</li>
+<li><strong>Element Recall (元素召回率)</strong>：<ul>
+<li>关键组件（如“确认”按钮、导航栏、价格文本）是否存在。漏掉功能性组件是严重错误。</li>
+</ul>
+</li>
+<li><strong>Box Alignment (布局对齐)</strong>：<ul>
+<li>检查父子元素的包含关系（IoU）和兄弟元素的相对位置（Relative Position）。</li>
+</ul>
+</li>
+</ol>
+<h4 id="c-automotive-specifics">C. 车载专项指标 (Automotive Specifics)</h4>
+<ol>
+<li><strong>Glanceability (易瞥性)</strong>：<ul>
+<li>自动计算文本对比度是否符合 WCAG AAA 标准（车载要求更高）。</li>
+<li>检查字体物理尺寸（需结合 DPI 计算）是否满足最小可视标准（如 &gt;6mm）。</li>
+</ul>
+</li>
+<li><strong>Touch Target Size (触控热区)</strong>：<ul>
+<li>分析代码中的 padding/margin 和元素大小，确保可点击区域大于 44x44dp（防止驾驶误触）。</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="163-e2e-cockpit-benchmark">16.3 端到端驾舱一体基准 (E2E Cockpit Benchmark)</h2>
+<p>这是将本书前 15 章内容串联起来的“终极考试”。我们需要构建一个<strong>虚拟仿真器（Simulator）</strong>，模拟真实世界的驾驶、网络波动和用户行为。</p>
+<h3 id="1631">16.3.1 评测架构设计：仿真与拦截</h3>
+<p>不依赖真车的离线评测架构（Hardware-in-the-Loop 或 Pure Software Simulation）：</p>
+<div class="codehilite"><pre><span></span><code><span class="k">[ 场景控制器 (Scenario Conductor) ]</span>
+<span class="w">       </span><span class="na">| 控制天气、路况、GPS、车辆信号</span>
+<span class="w">       </span><span class="na">v</span>
+<span class="k">[ 仿真环境 (Simulator) ] ----&gt; [ 信号注入 (Signal Injection) ]</span>
+<span class="w">       </span><span class="na">|                                   |</span>
+<span class="w">       </span><span class="na">|-- 视频流 (DMS/OMS/ADAS) -----------&gt; [ 待测 MLLM 系统 ]</span>
+<span class="w">       </span><span class="na">|-- 音频流 (模拟麦克风阵列) ----------&gt; [ (SUT) ]</span>
+<span class="w">       </span><span class="na">|-- CAN 总线 (车速/档位/电量) --------&gt; |</span>
+<span class="w">                                           </span><span class="na">|</span>
+<span class="w">       </span><span class="na">&lt;------- [ 动作拦截 (Action Trap) ] &lt;---|</span>
+<span class="w">                </span><span class="na">|-- TTS 音频输出</span>
+<span class="w">                </span><span class="na">|-- 屏幕 UI 更新 (DOM/Screenshot)</span>
+<span class="w">                </span><span class="na">|-- 车控指令 (API Calls)</span>
+<span class="w">                </span><span class="na">|</span>
+<span class="w">       </span><span class="na">v</span>
+<span class="k">[ 自动裁判 (The Judge / Oracle) ]</span>
+</code></pre></div>
+
+<h3 id="1632-the-scenario-pyramid">16.3.2 场景库分级 (The Scenario Pyramid)</h3>
+<p>测试用例应按复杂度分层，确保既能测出基础能力，又能测出系统边界。</p>
+<p>| 等级 | 场景类型 | 示例 | 考核点 |</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">等级</th>
+<th style="text-align: left;">场景类型</th>
+<th style="text-align: left;">示例</th>
+<th style="text-align: left;">考核点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>L1</strong></td>
+<td style="text-align: left;"><strong>原子指令</strong></td>
+<td style="text-align: left;">“打开主驾车窗”、“导航到天安门”</td>
+<td style="text-align: left;">意图分类、槽位填充、API 映射准确率</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>L2</strong></td>
+<td style="text-align: left;"><strong>多轮与上下文</strong></td>
+<td style="text-align: left;">“帮我找个加油站” -&gt; “太远了” -&gt; “这就去”</td>
+<td style="text-align: left;">指代消解、上下文记忆、意图漂移检测</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>L3</strong></td>
+<td style="text-align: left;"><strong>跨模态融合</strong></td>
+<td style="text-align: left;">手指窗外问“那个红色的楼是什么？”</td>
+<td style="text-align: left;">视觉定位（Gaze+Object Det）、地图 POI 融合、知识检索</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>L4</strong></td>
+<td style="text-align: left;"><strong>多音区冲突仲裁</strong></td>
+<td style="text-align: left;">后排：“太吵了”；副驾：“声音大点”</td>
+<td style="text-align: left;">声源定位、优先级策略、多意图理解</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>L5</strong></td>
+<td style="text-align: left;"><strong>长链路 Agent</strong></td>
+<td style="text-align: left;">“规划一条去西藏的路线，沿途要有充电桩和宠物友好的酒店”</td>
+<td style="text-align: left;">复杂规划、多工具调用（地图+充电+酒店APP）、长时记忆</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1633-arbitration-evaluation">16.3.3 关键仲裁机制评测 (Arbitration Evaluation)</h3>
+<p>在车内，多个模态的输入可能冲突，系统必须依据<strong>置信度</strong>和<strong>优先级</strong>做出裁决。</p>
+<ul>
+<li><strong>测试案例</strong>：<ul>
+<li><em>输入</em>：语音指令“关闭车窗”（ASR 置信度 0.8），同时手势指令“挥手打开车窗”（视觉置信度 0.9）。</li>
+<li><em>预期</em>：通常设定物理交互（手势/触控）优先级高于语音，或系统反问“您是想打开还是关闭？”</li>
+</ul>
+</li>
+<li><strong>评测方法</strong>：构造冲突样本对（Pairwise Conflict），检查系统的决策日志是否符合预设的 Priority Matrix。</li>
+</ul>
+<hr />
+<h2 id="164-safety-human-factors">16.4 安全、人因与鲁棒性 (Safety &amp; Human Factors)</h2>
+<p>在驾舱环境下，<strong>安全性</strong>和<strong>不打扰</strong>是最高优先级。</p>
+<h3 id="1641-cognitive-load">16.4.1 认知负荷控制 (Cognitive Load)</h3>
+<ul>
+<li><strong>速度敏感性测试</strong>：<ul>
+<li><em>场景</em>：询问“特斯拉的股价走势”。</li>
+<li><em>Condition A（静止）</em>：允许展示详细 K 线图，TTS 详细播报。</li>
+<li><em>Condition B（车速 80km/h）</em>：<strong>只能</strong>简短语音播报当前价格，屏幕仅显示大号数字，禁止复杂图表。</li>
+<li><em>评测指标</em>：不同车速下的输出文本长度、UI 信息密度（Information Density）。</li>
+</ul>
+</li>
+<li><strong>交互轮次限制</strong>：<ul>
+<li>高风险操作（如修改系统设置）在行车中应被强制阻断或简化为“一步操作”。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1642-safety-critical-hallucination">16.4.2 幻觉与误导 (Safety Critical Hallucination)</h3>
+<ul>
+<li><strong>车辆状态诚实性</strong>：<ul>
+<li>断开 CAN 信号连接，问模型“现在电量多少？”</li>
+<li><em>Pass</em>：“抱歉，当前无法获取车辆数据。”</li>
+<li><em>Fail</em>：“当前电量 80%。”（瞎编数据在驾驶场景是致命的）。</li>
+</ul>
+</li>
+<li><strong>外部知识边界</strong>：<ul>
+<li>询问交通法规、急救知识。模型必须引用权威数据或拒答，严禁似是而非的建议。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1643-robustness-fallback">16.4.3 鲁棒性与兜底 (Robustness &amp; Fallback)</h3>
+<ul>
+<li><strong>网络弱网/断网测试</strong>：<ul>
+<li>模拟隧道场景（丢包率 50% 或完全断网）。</li>
+<li><em>预期</em>：本地车控（打开空调）必须 100% 成功；在线查询（天气）应优雅降级提示，不应卡死 Loading。</li>
+</ul>
+</li>
+<li><strong>ASR 噪声注入</strong>：<ul>
+<li>叠加 80dB 的胎噪和风噪，测试指令唤醒率和误触发率（False Positive）。</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="165-ablation-traceback">16.5 系统级 Ablation 与数据反查 (Traceback)</h2>
+<p>当端到端指标（如“任务成功率”）下降时，必须有一套工程化的方法快速定位“锅”在哪个模块，并追溯到是哪批数据导致的。</p>
+<h3 id="1651-module-attribution">16.5.1 模块归因分析 (Module Attribution)</h3>
+<p>利用 <strong>Oracle Injection（上帝注入）</strong> 方法进行消融实验：</p>
+<ol>
+<li><strong>定位 ASR 问题</strong>：将真实的 ASR 识别结果替换为“完美人工转写文本”。若系统成功率大幅提升，说明瓶颈在 ASR。</li>
+<li><strong>定位 RAG 问题</strong>：在 Context 中强制注入正确的知识片段。若生成质量提升，说明是 Retriever（检索）失效。</li>
+<li><strong>定位 Planner 问题</strong>：给定完美意图和知识，若模型仍无法调用正确的 API，说明是 Agent/Planner 逻辑能力不足。</li>
+</ol>
+<h3 id="1652-data-traceback-workflow">16.5.2 训练数据反查工作流 (Data Traceback Workflow)</h3>
+<p>发现严重 Bad Case（如模型学会了带有攻击性的回复，或对某个指令总是理解反了）时，如何修？</p>
+<ol>
+<li><strong>Embedding Retrieval (向量检索)</strong>：<ul>
+<li>将 Bad Case 的 Prompt 编码为向量。</li>
+<li>在 SFT 数据集和 Pre-train 数据索引中检索 Top-K 相似样本。</li>
+<li><em>目的</em>：找出是否有标注错误的样本直接“教坏”了模型。</li>
+</ul>
+</li>
+<li><strong>Influence Functions (影响函数)</strong>：<ul>
+<li>计算训练集中哪些样本对当前 Bad Case 的 Loss 梯度贡献最大。</li>
+<li><em>目的</em>：找出那些语义不相似但梯度方向导致模型跑偏的隐蔽样本（如某些含有毒性模式的数据）。</li>
+</ul>
+</li>
+<li><strong>元数据审计 (Metadata Audit)</strong>：<ul>
+<li>检查检索出的“有毒样本”来源：是哪个供应商标注的？是哪天的爬虫数据？</li>
+<li><em>行动</em>：将该来源/批次的数据全部隔离重审，进行“数据回滚”。</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="166-deliverables">16.6 交付物与上车标准 (Deliverables)</h2>
+<p>在模型 OTA 推送给用户之前，必须产出标准化的交付物。</p>
+<h3 id="1661-model-card">16.6.1 车载 Model Card</h3>
+<p>除了常规的模型参数，还需包含：</p>
+<ul>
+<li><strong>适用工况</strong>：支持的方言列表、支持的噪声分贝上限。</li>
+<li><strong>安全声明</strong>：已知的幻觉类型、已通过的红队测试（Red Teaming）场景。</li>
+<li><strong>硬件需求</strong>：NPU 算力需求（TOPS）、内存峰值（Peak Memory）、量化精度（INT4/INT8）。</li>
+</ul>
+<h3 id="1662-regression-gate">16.6.2 回归门禁 (Regression Gate)</h3>
+<p>建立包含 1000+ 个核心场景的自动化回归集（Golden Set）：</p>
+<ul>
+<li><strong>高频车控</strong>（空调、车窗、座椅）：通过率必须 <strong>100%</strong>。</li>
+<li><strong>法律法规</strong>（不系安全带提示）：必须准确触发。</li>
+<li><strong>性能指标</strong>：首字延迟（TTFT）不得高于上一版本的 5%。</li>
+</ul>
+<hr />
+<h2 id="167">16.7 本章小结</h2>
+<p>第 16 章是全书的总结。我们从单点能力的测评走向了系统的<strong>整体性、安全性与工程化</strong>。</p>
+<ul>
+<li><strong>GUI→代码</strong>不仅要看像素，更要看 DOM 结构和车载适配性（字号、热区）。</li>
+<li><strong>端到端测评</strong>不仅要看准确率，更要看多模态仲裁、认知负荷控制和降级策略。</li>
+<li><strong>数据反查</strong>是 MLLM 开发闭环中最关键的一环，它赋予了我们面对黑盒模型时的调试能力。</li>
+</ul>
+<p>至此，您已掌握了从模型选型、单项调优到系统集成上车的全套 MLLM 测评方法论。</p>
+<hr />
+<h2 id="168">16.8 练习题</h2>
+<h3 id="_1">基础题</h3>
+<ol>
+<li><strong>GUI 指标</strong>：为什么在评测车载 UI 生成时，需要特别关注“Text Contrast”（文本对比度）和“Touch Target Size”（触控热区）？</li>
+<li><strong>场景分级</strong>：请设计一个 Level 4（多音区冲突）的测试用例，并描述理想的系统行为。</li>
+<li><strong>Ablation</strong>：在 E2E 测试中，发现“打开天窗”的指令执行失败。请列出至少 3 个可能的故障环节（从输入到执行）。</li>
+</ol>
+<h3 id="_2">挑战题</h3>
+<ol start="4">
+<li><strong>实验设计</strong>：设计一个针对“后排遗留儿童检测（OMS）+ 语音告警”的端到端评测方案。你需要考虑到哪些具体的 Corner Case（极端情况）？如何量化“误报带来的骚扰度”？</li>
+<li><strong>反查策略</strong>：如果模型在回答“如何开启自动驾驶”时，错误地引用了另一款车型的操作步骤。请描述你如何利用 RAG 的中间结果和训练数据索引来定位问题根源。</li>
+<li><strong>思考题</strong>：在未来的完全自动驾驶（L4/L5）场景下，座舱 MLLM 的测评重点会发生什么变化？（提示：从驾驶辅助转向娱乐/办公/生活空间）。</li>
+</ol>
+<blockquote>
+<p><strong>Hint 4</strong>: 极端情况包括：大件行李像人、宠物狗、极度黑暗环境。误报度量可以用“每千公里误报次数”结合用户手动取消告警的比例。
+<strong>Hint 5</strong>: 检查 RAG 召回的文档块是否包含了错误车型的文档（检索错误）；如果文档正确，检查 SFT 数据中是否有类似的“张冠李戴”的问答对（模型生成错误）。</p>
+</blockquote>
+<details>
+<summary>点击查看练习题答案思路</summary>
+<ol>
+<li><strong>GUI 指标</strong>：车载环境光线变化剧烈，高对比度保证可视性；驾驶中操作不稳定，大热区保证盲操安全。</li>
+<li><strong>Level 4 案例</strong>：<ul>
+<li><em>输入</em>：主驾说“导航去公司”，后排说“我要看动画片”。</li>
+<li><em>理想行为</em>：系统识别出两个声源。主驾屏开启导航（优先级高），后排屏播放动画片（分区独立）。若只有一个屏幕，则主驾导航优先，后排需求挂起或仅音频满足。</li>
+</ul>
+</li>
+<li><strong>故障环节</strong>：<ul>
+<li>ASR 识别错误（听成“打开天窗” vs “打开天窗帘”）。</li>
+<li>NLU 意图分类错误（识别为 Search intent 而非 Control intent）。</li>
+<li>Slot Filling 错误（没识别出是对“天窗”操作）。</li>
+<li>车控 API 映射错误（调用了错误的 Function ID）。</li>
+<li>执行端失败（硬件故障或条件不满足，如雨天自动锁死）。</li>
+</ul>
+</li>
+<li><strong>OMS 评测</strong>：<ul>
+<li><em>Corner Cases</em>：玩偶/抱枕误检、后排乘客睡觉不动（类似遗留）、地库全黑环境。</li>
+<li><em>误报量化</em>：FP Rate（单位时间内误报数）；Interruption Cost（用户打断/关闭提示的耗时）。</li>
+</ul>
+</li>
+<li><strong>反查策略</strong>：<ul>
+<li>第一步：检查 Retrieval 阶段召回的 Chunks。如果是召回了错误车型的说明书，则是 Embedding 区分度不够或元数据过滤失效。</li>
+<li>第二步：如果召回正确，检查生成模型。检索 SFT 数据中关于“自动驾驶开启”的样本，看是否存在类似的错误关联。</li>
+</ul>
+</li>
+<li><strong>L4/L5 变化</strong>：<ul>
+<li><strong>安全性</strong>：对驾驶干扰的限制降低，允许沉浸式体验。</li>
+<li><strong>任务类型</strong>：从“车辆控制/导航”转向“会议助理/沉浸式娱乐/购物”。</li>
+<li><strong>多模态</strong>：更多手势、视线交互，甚至脑机接口。</li>
+</ul>
+</li>
+</ol>
+</details>
+<hr />
+<h2 id="169-gotchas">16.9 常见陷阱与错误 (Gotchas)</h2>
+<ol>
+<li><strong>“真值”的陷阱</strong>：在 GUI 代码生成评测中，直接对比 HTML 字符串（String Match）是毫无意义的。因为 <code>div class="a b"</code> 和 <code>div class="b a"</code> 功能相同但字符串不同。<strong>必须对比渲染树或渲染图</strong>。</li>
+<li><strong>忽视状态机</strong>：端到端评测不能只看单轮。很多车控功能依赖状态机（State Machine）。例如，“调整后视镜”的前提是“选中了左/右后视镜”。如果评测脚本没有先置状态，会导致大量 False Negative。</li>
+<li><strong>云端依赖症</strong>：很多开发者在办公室网络环境下测评，一切完美。到了地下车库（弱网），系统连唤醒都做不到。<strong>必须在 CI/CD 中强制加入断网/丢包测试环节</strong>。</li>
+<li><strong>过拟合 Golden Set</strong>：如果回归测试集（Golden Set）长期不变，模型可能会通过“背题”来刷高分。必须引入<strong>动态测试集</strong>，定期变换说法、更换槽位实体（如把“打开空调”变为“打开AC”、“开启制冷”）。</li>
+</ol>
+            </article>
+            
+            <nav class="page-nav"><a href="chapter15.html" class="nav-link prev">← 第 15 章：Agent 能力评测（ReAct、工具调用、长任务、记忆）</a><a href="CLAUDE.html" class="nav-link next">Untitled →</a></nav>
+        </main>
+    </div>
+</body>
+</html>
